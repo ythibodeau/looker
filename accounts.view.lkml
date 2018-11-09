@@ -397,6 +397,14 @@ view: accounts {
     drill_fields: [detail*]
   }
 
+  measure: confirmed {
+    type: count
+    filters: {
+      field: state
+      value: "confirmed"
+    }
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [

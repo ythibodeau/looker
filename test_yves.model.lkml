@@ -40,6 +40,11 @@ explore: pati__appointments {
     relationship: many_to_one
     sql_on: ${pati__reasons.group_id} = ${groups.id};;
   }
+  join: pati__providers {
+    type: inner
+    relationship: one_to_one
+    sql_on: ${groups.id} = ${pati__providers.group_id} ;;
+  }
 }
 
 explore: _absence_changes {
@@ -103,6 +108,7 @@ explore: _change_request_flags {}
 explore: _change_request_options {}
 
 explore: _change_requests {
+  label: "Change Requests"
   join: groups {
     type: left_outer
     sql_on: ${_change_requests.group_id} = ${groups.parent_group_id} ;;
@@ -1161,10 +1167,28 @@ explore: comments {
     relationship: many_to_one
   }
 
+  join: recipients {
+    type: inner
+    sql_on: ${recipients.discussion_id} = ${discussions.id} ;;
+    relationship: one_to_one
+  }
+
   join: accounts {
     type: left_outer
     sql_on: ${comments.account_id} = ${accounts.id} ;;
     relationship: many_to_one
+  }
+
+  join: account_kinds {
+    type: inner
+    sql_on: ${accounts.kind_id} = ${account_kinds.id} ;;
+    relationship: one_to_one
+  }
+
+  join: specialties {
+    type: inner
+    sql_on: ${accounts.specialty_id} = ${specialties.id} ;;
+    relationship: one_to_one
   }
 
   join: groups {
@@ -1396,6 +1420,12 @@ explore: discussions {
     sql_on: ${groups.location_id} = ${locations.id} ;;
     relationship: many_to_one
   }
+
+  join: recipients {
+    type: inner
+    sql_on: ${recipients.discussion_id} = ${discussions.id} ;;
+    relationship: one_to_one
+  }
 }
 
 explore: distribution_lists {}
@@ -1546,6 +1576,43 @@ explore: groups {
     sql_on: ${groups.timezone_id} = ${timezones.id} ;;
     relationship: many_to_one
   }
+
+  join: specialties {
+    type: left_outer
+    sql_on: ${groups.specialty_id} = ${specialties.id} ;;
+    relationship: one_to_one
+  }
+
+  join: groups_pricing_plans {
+    type: inner
+    sql_on: ${groups_pricing_plans.group_id} = ${groups.id} ;;
+    relationship: many_to_one
+  }
+
+  join: pricing_plans {
+    type: inner
+    sql_on: ${groups_pricing_plans.plan_id} = ${pricing_plans.id} ;;
+    relationship: many_to_one
+  }
+
+  join: pricing_suites {
+    type: inner
+    sql_on: ${pricing_plans.suite_id} =  ${pricing_suites.id};;
+    relationship: many_to_one
+  }
+
+  join: memberships {
+    type: inner
+    sql_on: ${memberships.group_id} = ${groups.id} ;;
+    relationship: many_to_one
+  }
+
+  join: accounts {
+    type: inner
+    sql_on: ${memberships.account_id} = ${accounts.id} ;;
+    relationship: many_to_one
+  }
+
 }
 
 explore: groups_pricing_plans {
@@ -2626,6 +2693,12 @@ explore: pati__subscriptions {
   join: accounts {
     type: left_outer
     sql_on: ${pati__subscriptions.account_id} = ${accounts.id} ;;
+    relationship: many_to_one
+  }
+
+  join: pati__patients {
+    type: left_outer
+    sql_on: ${pati__subscriptions.patient_id} = ${pati__patients.id} ;;
     relationship: many_to_one
   }
 
