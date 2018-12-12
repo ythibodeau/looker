@@ -392,17 +392,110 @@ view: accounts {
     sql: ${TABLE}.zendesk_in_sync ;;
   }
 
+  dimension: last_active_30_days {
+    type: yesno
+    sql: ${last_active_date} BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE()  ;;
+  }
+
+  dimension_group: first_comment {
+    type: time
+    timeframes: [
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${account_first_comment.first_comment} ;;
+  }
+
+  dimension_group: last_comment {
+    type: time
+    timeframes: [
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: MAX(${comments.created_raw}) ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [detail*]
   }
 
-  measure: confirmed {
+  measure: count_unique {
+    type: count_distinct
+    sql: ${id} ;;
+  }
+
+  measure: confirmed_count {
+    label: "Confirmed Count"
     type: count
     filters: {
       field: state
       value: "confirmed"
     }
+  }
+
+  measure: count_unique_confirmed {
+    type: count_distinct
+    filters: {
+      field: state
+      value: "confirmed"
+    }
+    sql: ${id} ;;
+  }
+
+  measure: activated_count {
+    label: "Activated Count"
+    type: count
+    filters: {
+      field: state
+      value: "activated"
+    }
+  }
+
+  measure: count_unique_activated {
+    type: count_distinct
+    filters: {
+      field: state
+      value: "activated"
+    }
+    sql: ${id} ;;
+  }
+
+  measure: count_last_active_30_days {
+    type: count
+    filters: {
+      field: last_active_30_days
+      value: "Yes"
+    }
+  }
+
+  measure: cumulative_confirmed {
+    type: running_total
+    sql: ${state} = "confirmed" ;;
+  }
+
+  dimension: days_since_user_signup {
+    hidden: yes
+    type: number
+    sql: DATEDIFF(now(), ${confirmed_date});;
+  }
+
+  dimension: months_since_user_signup {
+    type: number
+    sql: FLOOR(${days_since_user_signup}/(30)) ;;
+  }
+
+  dimension: months_since_user_signup_tier {
+    type: tier
+    tiers: [1,3,6,12,24]
+    style: integer
+    sql: ${months_since_user_signup} ;;
   }
 
   # ----- Sets of fields for drilling ------

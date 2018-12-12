@@ -172,6 +172,11 @@ view: pati__subscriptions {
     drill_fields: [detail*]
   }
 
+  measure: last_subscription_date {
+    type: date
+    sql: max(${created_date}) ;;
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [

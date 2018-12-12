@@ -1,20 +1,10 @@
-view: pati__providers {
-  sql_table_name: petalmd_development.pati__providers ;;
+view: sche__plans {
+  sql_table_name: petalmd_development.sche__plans ;;
 
   dimension: id {
     primary_key: yes
     type: number
     sql: ${TABLE}.id ;;
-  }
-
-  dimension: adapterable_id {
-    type: number
-    sql: ${TABLE}.adapterable_id ;;
-  }
-
-  dimension: adapterable_type {
-    type: string
-    sql: SUBSTRING_INDEX(${TABLE}.adapterable_type,"::", -1) ;;
   }
 
   dimension_group: created {
@@ -31,10 +21,9 @@ view: pati__providers {
     sql: ${TABLE}.created_at ;;
   }
 
-  dimension: group_id {
+  dimension: period_id {
     type: number
-    # hidden: yes
-    sql: ${TABLE}.group_id ;;
+    sql: ${TABLE}.period_id ;;
   }
 
   dimension_group: updated {
@@ -53,6 +42,6 @@ view: pati__providers {
 
   measure: count {
     type: count
-    drill_fields: [id, groups.name, groups.parent_group_id]
+    drill_fields: [id]
   }
 }

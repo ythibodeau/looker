@@ -153,6 +153,7 @@ view: pati__patients {
   dimension: state {
     type: number
     sql: ${TABLE}.state ;;
+    #drill_fields: [email]
   }
 
   dimension: timezone_id {
@@ -180,20 +181,38 @@ view: pati__patients {
     sql: ${TABLE}.updated_at ;;
   }
 
+  # TEST
+  dimension: last_subscription {
+    type: yesno
+    sql: MAX(${pati__subscriptions.sharing_consent}) ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [detail*]
   }
 
+  measure: count_confirmed {
+    label: "Confirmed Patients Count"
+    type: count
+    filters: {
+      field: state
+      value: "3"
+    }
+
+  }
+
+  measure: running_total_confirmed {
+    label: "Running Total Confirmed Count"
+    type: running_total
+    sql: ${count_confirmed} ;;
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
-      id,
-      last_name,
-      first_name,
-      middle_name,
-      timezones.id,
-      profiles.id
+      groups.name,
+      count
     ]
   }
 }

@@ -153,6 +153,86 @@ view: pati__appointments {
     drill_fields: [details*]
   }
 
+  ####### DIMENSIONS FOR ACCOUNT MANAGEMENT LANDING PAGE
+#   dimension: is_walkin {
+#     type: yesno
+#     sql: ${pati__offerings.code} = "WALK_IN";;
+#   }
+#
+#   ####### MEASURE FOR ACCOUNT MANAGEMENT LANDING PAGE
+#   measure: count_regular_patient {
+#     label: "Regular Appointment Patient Count"
+#     type: count
+#     filters: {
+#       field: cancelled
+#       value: "0"
+#     }
+#     filters: {
+#       field: is_walkin
+#       value: "0"
+#     }
+#     filters: {
+#       field: created_by_type
+#       value: "Patient::Patient"
+#     }
+#   }
+#
+#   measure: count_regular_all {
+#     label: "Regular Appointment Count"
+#     type: count
+#     filters: {
+#       field: cancelled
+#       value: "0"
+#     }
+#     filters: {
+#       field: is_walkin
+#       value: "0"
+#     }
+#   }
+#
+#   measure: count_walkin_patient {
+#     label: "Walk-in Patient Count"
+#     type: count
+#     filters: {
+#       field: cancelled
+#       value: "0"
+#     }
+#     filters: {
+#       field: is_walkin
+#       value: "1"
+#     }
+#     filters: {
+#       field: created_by_type
+#       value: "Patient::Patient"
+#     }
+#   }
+#
+#   measure: count_walkin_all {
+#     label: "Walk-in Count"
+#     type: count
+#     filters: {
+#       field: cancelled
+#       value: "0"
+#     }
+#     filters: {
+#       field: is_walkin
+#       value: "1"
+#     }
+#   }
+
+  measure: patient_count {
+    label: "All Appointments Patients Count"
+    type: count
+    filters: {
+      field: cancelled
+      value: "0"
+    }
+    filters: {
+      field: created_by_type
+      value: "Patient::Patient"
+    }
+  }
+
   set: details {
     fields: [id,created_date,pati__reasons.description_en,groups.name]
   }

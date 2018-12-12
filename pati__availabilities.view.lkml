@@ -174,4 +174,27 @@ view: pati__availabilities {
     type: count
     drill_fields: [id]
   }
+
+  measure: count_patient_visible_availabilities {
+    label: "Patient Visible Count"
+    type: count
+    filters: {
+      field: visibility
+      value: "0"
+    }
+    filters: {
+      field: state
+      value: "0"
+    }
+  }
+
+  measure: count_all_availabilities {
+    label: "Total Visible Count"
+    type: count
+    filters: {
+      field: visibility
+      value: "0"
+    }
+  }
+
 }

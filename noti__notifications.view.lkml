@@ -113,4 +113,9 @@ view: noti__notifications {
     type: count
     drill_fields: [id]
   }
+
+  measure: number_of_unique_appointments {
+    type: count_distinct
+    sql: ${context_id} ;;
+  }
 }

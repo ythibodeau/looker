@@ -379,6 +379,11 @@ view: memberships {
     drill_fields: [detail*]
   }
 
+  measure: number_of_unique_accounts {
+    type: count_distinct
+    sql: ${account_id} ;;
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [

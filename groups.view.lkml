@@ -323,20 +323,22 @@ view: groups {
     sql: ${TABLE}.next_period_end_date ;;
   }
 
-  dimension_group: next_period_start {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}.next_period_start_date ;;
-  }
+  #dimension_group: next_period_start {
+  #  type: time
+  #  timeframes: [
+  #    raw,
+  #    date,
+  #    week,
+  #    month,
+  #    quarter,
+  #    year
+  #  ]
+  #  convert_tz: no
+  #  datatype: date
+  #  sql: ${TABLE}.next_period_start_date ;;
+  #}
+
+  dimension: current_period {}
 
   dimension: patient_confirmation_configuration {
     type: number

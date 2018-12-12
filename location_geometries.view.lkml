@@ -23,6 +23,12 @@ view: location_geometries {
     sql: ${TABLE}.longitude ;;
   }
 
+  dimension: group_location {
+    type: location
+    sql_latitude: ${latitude} ;;
+    sql_longitude: ${longitude} ;;
+  }
+
   dimension: pt {
     type: string
     sql: ${TABLE}.pt ;;
