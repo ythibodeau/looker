@@ -1,6 +1,6 @@
 view: date_series_table {
   derived_table: {
-    sql_trigger_value: GETDATE() ;;
+    sql_trigger_value: SELECT CURDATE() ;;
     sql:
  SELECT
  (@row_number:=@row_number + 1) AS num,

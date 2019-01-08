@@ -22,17 +22,55 @@ view: account_comments_activity {
     sql: ${TABLE}.account_id ;;
   }
 
-  dimension_group: latest_comment_date {
+  dimension_group: latest_comment {
     type: time
     sql: ${TABLE}.latest_comment_date ;;
   }
 
-  dimension_group: previous_comment_date {
+  dimension_group: previous_comment {
     type: time
     sql: ${TABLE}.previous_comment_date ;;
   }
 
+  # CURRENT if Yes
+  # SLEEPING if No
+  dimension: current {
+    type: yesno
+    sql: extract(year_month from ${latest_comment_date}) = extract(year_month from curdate()) ;;
+  }
+
+  # resuscitated if Yes
+  dimension: resuscitated {
+    type: yesno
+    sql: extract(year_month from ${latest_comment_date}) = extract(year_month from curdate())
+AND timestampdiff(month, ${previous_comment_date}, ${latest_comment_date}) > 1 ;;
+  }
+
+  measure: current_total {
+    type: count
+    filters: {
+      field: current
+      value: "Yes"
+    }
+  }
+
+  measure: sleeping_total {
+    type: count
+    filters: {
+      field: current
+      value: "No"
+    }
+  }
+
+  measure: resuscitated_total {
+    type: count
+    filters: {
+      field: resuscitated
+      value: "yes"
+    }
+  }
+
   set: detail {
-    fields: [account_id, latest_comment_date_time, previous_comment_date_time]
+    fields: [account_id, latest_comment_time, previous_comment_time]
   }
 }
