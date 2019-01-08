@@ -560,6 +560,11 @@ view: groups {
     sql: ${TABLE}.zendesk_in_sync ;;
   }
 
+  dimension: last_period_id {
+    type: number
+    sql: MAX(${sche__periods.id}) ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [detail*]
