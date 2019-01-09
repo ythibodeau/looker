@@ -1439,6 +1439,15 @@ explore: monthly_activity_comments {
   }
 }
 
+explore: account_comments_activity {
+  group_label: "Petal Message"
+  join: accounts {
+    type: inner
+    sql_on: ${account_comments_activity.account_id} = ${accounts.id} ;;
+    relationship: one_to_many
+  }
+}
+
 explore: active_users {
   join: accounts {
     type: left_outer
