@@ -1,6 +1,6 @@
 view: active_users {
   derived_table: {
-    sql_trigger_value: GETDATE();;
+    sql_trigger_value: SELECT CURDATE();;
     indexes: ["xdate"]
     sql: SELECT daily_use.account_id,
        wd.date as xdate,
