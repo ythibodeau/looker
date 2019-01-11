@@ -384,6 +384,14 @@ view: memberships {
     sql: ${account_id} ;;
   }
 
+  measure: activated_count {
+    type: count
+    filters: {
+      field: activated
+      value: "Yes"
+    }
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
