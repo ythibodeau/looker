@@ -77,6 +77,7 @@ view: sche__tasks {
 
   measure: count {
     type: count
+    sql: COUNT(${id}) ;;
     drill_fields: [id]
   }
 }

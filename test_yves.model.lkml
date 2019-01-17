@@ -14,6 +14,58 @@ persist_with: test_yves_default_datagroup
 # Global
 #####################################################################
 
+explore: group_last_periods {
+  group_label: "Global"
+
+  join: groups {
+    type: inner
+    sql_on: ${groups.id} = ${group_last_periods.group_id} ;;
+    relationship: one_to_one
+  }
+
+  join: memberships {
+    type: inner
+    sql_on: ${memberships.group_id} = ${groups.id} ;;
+    relationship: many_to_one
+  }
+
+  join: specialties {
+    type: inner
+    sql_on: ${specialties.id} = ${groups.specialty_id} ;;
+    relationship: one_to_one
+  }
+
+  join: groups_pricing_plans {
+    type: inner
+    sql_on: ${groups_pricing_plans.group_id} = ${groups.id} ;;
+    relationship: many_to_one
+  }
+
+  join: pricing_plans {
+    type: inner
+    sql_on: ${groups_pricing_plans.plan_id} = ${pricing_plans.id} ;;
+    relationship: many_to_one
+  }
+
+  join: pricing_suites {
+    type: inner
+    sql_on: ${pricing_plans.suite_id} =  ${pricing_suites.id};;
+    relationship: many_to_one
+  }
+
+  join: sche__tasks {
+    type: inner
+    sql_on:  ${sche__tasks.period_id} = ${group_last_periods.period_id};;
+    relationship: many_to_one
+  }
+
+  join: holidays {
+    type: left_outer
+    sql_on: ${holidays.group_id} = ${groups.id} ;;
+    relationship: many_to_one
+  }
+}
+
 explore: account_locations {
   group_label: "Global"
   join: accounts {
