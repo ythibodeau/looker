@@ -14,6 +14,10 @@ persist_with: test_yves_default_datagroup
 # Global
 #####################################################################
 
+explore: implementation_monitoring  {
+  group_label: "Global"
+}
+
 explore: group_last_periods {
   group_label: "Global"
 
@@ -1505,6 +1509,12 @@ explore: active_users {
     type: left_outer
     sql_on: ${active_users.account_id} = ${accounts.id} ;;
     relationship: many_to_one
+  }
+
+  join: account_kinds {
+    type: inner
+    sql_on: ${accounts.kind_id} = ${account_kinds.id} ;;
+    relationship: one_to_one
   }
 
   join: account_first_comment {
