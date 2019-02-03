@@ -167,6 +167,12 @@ view: accounts {
     sql: ${TABLE}.first_name ;;
   }
 
+  #TODO: Vitalité Hack- À supprimer
+  dimension: vitalite_name {
+    type: string
+    sql: CASE WHEN ${kind_id} = 1 THEN CONCAT("Docteur ", ${first_name}, " ", ${last_name}) ELSE CONCAT(${first_name}, " ", ${last_name}) END ;;
+  }
+
   dimension_group: forgot_password {
     type: time
     timeframes: [
@@ -253,6 +259,11 @@ view: accounts {
   dimension: locale {
     type: string
     sql: ${TABLE}.locale ;;
+  }
+
+  dimension: locale_fr {
+    type: string
+    sql: CASE WHEN ${TABLE}.locale = "fr_CA" THEN "Français" ELSE "Anglais" END ;;
   }
 
   dimension: middle_name {
@@ -496,6 +507,71 @@ view: accounts {
     tiers: [1,3,6,12,24]
     style: integer
     sql: ${months_since_user_signup} ;;
+  }
+
+  dimension: is_scheduled {
+    type: yesno
+    #sql: SUM(CASE WHEN ${memberships.is_scheduled} = 1 then 1 else 0 end) > 0 ;;
+    sql: EXISTS(SELECT ${memberships.id} FROM ${memberships.SQL_TABLE_NAME} WHERE ${id} = ${memberships.id} AND ${memberships.is_scheduled} = 1;;
+  }
+
+  dimension: simplified_kind {
+    type: string
+    sql: CASE
+          WHEN ${kind_id} IN (1,14,17) THEN "Doctor"
+          WHEN ${kind_id} IN (2, 9, 11, 12, 13, 15, 16) THEN "Resident"
+          WHEN ${kind_id} = 7  THEN "Other Healthcare Professional"
+          WHEN ${kind_id} = 5 THEN "Assistant"
+          ELSE "Other"
+          END ;;
+  }
+
+  measure: count_doctors_only {
+    type: count
+    filters: {
+      field: kind_id
+      value: "1,14,17"
+    }
+  }
+
+  measure: count_residents_only {
+    type: count
+    filters: {
+      field: kind_id
+      value: "2, 9, 11, 12, 13, 15, 16"
+    }
+  }
+
+  measure: count_assistants_only {
+    type: count
+    filters: {
+      field: kind_id
+      value: "5"
+    }
+  }
+
+  measure: count_hcps_only {
+    type: count
+    filters: {
+      field: kind_id
+      value: "7"
+    }
+  }
+
+  measure: scheduled_count {
+    type: count
+    filters: {
+      field: is_scheduled
+      value: "Yes"
+    }
+  }
+
+  measure: not_scheduled_count {
+    type: count
+    filters: {
+      field: is_scheduled
+      value: "No"
+    }
   }
 
   # ----- Sets of fields for drilling ------

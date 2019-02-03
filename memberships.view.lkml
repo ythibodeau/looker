@@ -392,6 +392,14 @@ view: memberships {
     }
   }
 
+  measure: is_scheduled_count {
+    type: count_distinct
+    filters: {
+      field: is_scheduled
+      value: "Yes"
+    }
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [

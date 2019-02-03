@@ -23,6 +23,12 @@ view: date_series_table {
     sql: ${TABLE}.date ;;
   }
 
+  dimension: week {
+    type: date_week
+    sql: ${TABLE}.date ;;
+  }
+
+
   measure: count {
     type: count
   }

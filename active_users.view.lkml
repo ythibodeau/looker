@@ -5,7 +5,7 @@ view: active_users {
     sql: SELECT daily_use.account_id,
        wd.date as xdate,
        MIN(DATEDIFF(wd.date, daily_use.comment_date)) as days_since_last_action
-FROM date_series_table as wd
+FROM ${date_series_table.SQL_TABLE_NAME} as wd
 LEFT JOIN (
 SELECT DISTINCT c.account_id, DATE_FORMAT(c.created_at, '%Y-%m-%d') as comment_date
 FROM comments c

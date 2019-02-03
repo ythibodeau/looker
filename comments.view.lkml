@@ -157,6 +157,69 @@ view: comments {
     }
   }
 
+  # CURRENT if Yes
+  # SLEEPING if No
+  dimension: current {
+    type: yesno
+    sql: ${account_id} IN (SELECT ${account_id} FROM ${TABLE} WHERE ${created_month} = ${year_month_table.year_month})
+         AND
+         ${account_id} IN (SELECT ${account_id} FROM ${TABLE} WHERE TIMESTAMPDIFF(MONTH, ${year_month_table.year_month}, ${created_month}) = 1) ;;
+  }
+
+  dimension: sleeping {
+    type: yesno
+    sql: ${account_id} NOT IN (SELECT ${account_id} FROM ${TABLE} WHERE ${created_month} = ${year_month_table.year_month})
+         AND
+         ${account_id} IN (SELECT ${account_id} FROM ${TABLE} WHERE TIMESTAMPDIFF(MONTH, ${year_month_table.year_month}, ${created_month}) >= 1) ;;
+  }
+
+  # resuscitated if Yes
+  dimension: resuscitated {
+    type: yesno
+    sql: ${account_id} IN (SELECT ${account_id} FROM ${TABLE} WHERE ${created_month} = ${year_month_table.year_month})
+    AND
+    ${account_id} IN (SELECT ${account_id} FROM ${TABLE} WHERE TIMESTAMPDIFF(MONTH, ${year_month_table.year_month}, ${created_month}) > 1) ;;
+  }
+
+  dimension: new {
+    type: yesno
+    sql: ${account_id} IN (SELECT ${account_id} FROM ${TABLE} WHERE ${created_month} = ${year_month_table.year_month})
+         AND
+         ${account_id} NOT IN (SELECT ${account_id} FROM ${TABLE} WHERE TIMESTAMPDIFF(MONTH, ${year_month_table.year_month}, ${created_month}) >= 1) ;;
+  }
+
+  measure: current_total {
+    type: count
+    filters: {
+      field: current
+      value: "Yes"
+    }
+  }
+
+  measure: sleeping_total {
+    type: count
+    filters: {
+      field: sleeping
+      value: "Yes"
+    }
+  }
+
+  measure: resuscitated_total {
+    type: count
+    filters: {
+      field: resuscitated
+      value: "yes"
+    }
+  }
+
+  measure: new_total {
+    type: count
+    filters: {
+      field: new
+      value: "yes"
+    }
+  }
+
   measure: classification  {
     type: number
     sql: ${regular_count} ;;
