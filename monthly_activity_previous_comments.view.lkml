@@ -1,9 +1,10 @@
 view: monthly_activity_previous_comments {
   derived_table: {
     sql_trigger_value: SELECT CURDATE() ;;
+    indexes: ["mapc_key"]
     sql: SELECT
-         CONCAT(date_format(MAC.comment_month, '%Y-%m'), "-", MAC.account_id) as mapc_key
-         date_format(MAC.comment_month, '%Y-%m') as comment_month
+          CONCAT(date_format(MAC.comment_month, '%Y-%m'), "-", CAST(MAC.account_id as CHAR)) as mapc_key
+        , date_format(MAC.comment_month, '%Y-%m') as comment_month
         , MAC.account_id as account_id
         , MAC.monthly_comments
         , date_format(max(months_with_comments.month_with_comment), '%Y-%m') as previous_comment_month
@@ -20,6 +21,7 @@ view: monthly_activity_previous_comments {
           ) months_with_comments
           on MAC.account_id = months_with_comments.account_id
           and extract(year_month from MAC.comment_month) > extract(year_month from months_with_comments.month_with_comment)
+          WHERE MAC.comment_month IS NOT NULL
       GROUP BY
         comment_month, account_id, monthly_comments
        ;;
@@ -30,10 +32,10 @@ view: monthly_activity_previous_comments {
     drill_fields: [detail*]
   }
 
-  dimension: compound_primary_key {
+  dimension: mapc_key {
     primary_key: yes
     type: string
-    sql: CONCAT(${account_id}, ${comment_month}) ;;
+    sql: ${TABLE}.mapc_key;;
   }
 
   dimension: comment_month {

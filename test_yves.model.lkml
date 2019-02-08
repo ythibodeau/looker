@@ -16,11 +16,11 @@ persist_with: test_yves_default_datagroup
 
 explore: year_month_accounts
  {
-    join: monthly_activity_previous_comments {
-      type: left_outer
-      sql_on: ${year_month_accounts.compound_primary_key} = ${monthly_activity_previous_comments.compound_primary_key} ;;
-      relationship: one_to_one
-    }
+#     join: monthly_activity_previous_comments {
+#       type: left_outer
+#       sql_on: ${year_month_accounts.compound_primary_key} = ${monthly_activity_previous_comments.compound_primary_key} ;;
+#       relationship: one_to_one
+#     }
  }
 
 explore: year_month_table {
@@ -170,11 +170,29 @@ explore: accounts {
     relationship: one_to_many
   }
 
+#   join: memberships {
+#     view_label: "Scheduled Memberships"
+#     type: left_outer
+#     sql_on: ${accounts.id} = ${memberships.account_id} AND ${memberships.is_scheduled} = 1 ;;
+#     relationship: one_to_many
+#   }
+
   join: memberships {
-    view_label: "Scheduled Memberships"
     type: left_outer
-    sql_on: ${accounts.id} = ${memberships.account_id} AND ${memberships.is_scheduled} = 1 ;;
+    sql_on: ${accounts.id} = ${memberships.account_id};;
     relationship: one_to_many
+  }
+
+  join: groups {
+    type: inner
+    sql_on: ${memberships.group_id} = ${groups.id} ;;
+    relationship: one_to_one
+  }
+
+  join: centres {
+    type: inner
+    sql_on: ${groups.centre_id} = ${centres.id} ;;
+    relationship: many_to_one
   }
 }
 
@@ -1473,7 +1491,7 @@ explore: noti__notifications {}
 
 #explore: custom_tokens {}
 
-#explore: centres {}
+explore: centres {}
 
 #explore: attendee_answers {}
 
@@ -1567,6 +1585,30 @@ explore: monthly_activity_comments {
     relationship: many_to_one
   }
 
+  join: account_kinds {
+    type: inner
+    sql_on: ${accounts.kind_id} = ${account_kinds.id} ;;
+    relationship: one_to_many
+  }
+
+  join: memberships {
+    type: left_outer
+    sql_on: ${accounts.id} = ${memberships.account_id} ;;
+    relationship: one_to_many
+  }
+
+  join: groups {
+    type: inner
+    sql_on: ${memberships.group_id} = ${groups.id} ;;
+    relationship: one_to_one
+  }
+
+  join: centres {
+    type: left_outer
+    sql_on: ${groups.centre_id} = ${centres.id} ;;
+    relationship: one_to_one
+  }
+
   join: account_first_comment {
     type: left_outer
     sql_on: ${accounts.id} = ${account_first_comment.account_id} ;;
@@ -1586,12 +1628,35 @@ explore: monthly_activity_comments {
   }
 }
 
-explore: account_comments_activity {
-  group_label: "Petal Message"
+explore: comments_retention_lifecycle {
   join: accounts {
     type: inner
-    sql_on: ${account_comments_activity.account_id} = ${accounts.id} ;;
+    sql_on: ${comments_retention_lifecycle.account_id} = ${accounts.id} ;;
+    relationship: many_to_one
+  }
+
+  join: account_kinds {
+    type: inner
+    sql: ${accounts.kind_id} = ${account_kinds.id} ;;
+    relationship: one_to_one
+  }
+
+  join: memberships {
+    type: left_outer
+    sql_on: ${accounts.id} = ${memberships.account_id} ;;
     relationship: one_to_many
+  }
+
+  join: groups {
+    type: inner
+    sql_on: ${memberships.group_id} = ${groups.id} ;;
+    relationship: one_to_one
+  }
+
+  join: centres {
+    type: left_outer
+    sql_on: ${groups.centre_id} = ${centres.id} ;;
+    relationship: one_to_one
   }
 }
 
@@ -1906,7 +1971,7 @@ explore: comments {
 
   join: centres {
     type: left_outer
-    sql_on: ${groups.centre_id} = ${centres.parent_centre_id} ;;
+    sql_on: ${groups.centre_id} = ${centres.id} ;;
     relationship: many_to_one
   }
 
@@ -3160,7 +3225,7 @@ explore: weekly_comments {
 explore: date_series_table {
   join:pati__appointments {
     type: left_outer
-    sql_on: ${date_series_table.date} = ${pati__appointments.created_date} ;;
+    sql_on: ${date_series_table.date_date} = ${pati__appointments.created_date} ;;
   }
 
   join: pati__availabilities {
@@ -3195,7 +3260,20 @@ explore: date_series_table {
 
   join: appointment_reminders  {
     type: left_outer
-    sql_on: ${date_series_table.date} = ${appointment_reminders.sent_date} ;;
+    sql_on: ${date_series_table.date_date} = ${appointment_reminders.sent_date_date} ;;
+  }
+
+  join: accounts {
+    view_label: "Confirmed accounts"
+    type: left_outer
+    sql_on: ${date_series_table.date_date} = ${accounts.confirmed_date} ;;
+    relationship: one_to_many
+  }
+
+  join: comments {
+    type: left_outer
+    sql_on: ${accounts.id} = ${comments.account_id} ;;
+    relationship: one_to_many
   }
 
 }
@@ -3280,6 +3358,42 @@ explore: appointment_reminders {
       sql_on: ${appointment_reminders.context_id} = ${pati__appointments.id} ;;
       relationship: many_to_one
     }
+
+  join: pati__availabilities {
+    view_label: "Availabilities"
+    type: inner
+    relationship: one_to_one
+    sql_on: ${pati__availabilities.id} = ${pati__appointments.availability_id} ;;
+  }
+
+  join: pati__account_tasks {
+    type: inner
+    relationship: many_to_one
+    sql_on: ${pati__availabilities.account_task_id} = ${pati__account_tasks.id};;
+  }
+
+  join: pati__tasks {
+    type: inner
+    relationship: many_to_one
+    sql_on: ${pati__account_tasks.task_id} = ${pati__tasks.id};;
+  }
+  join: pati__reasons {
+    type: inner
+    relationship: many_to_one
+    sql_on: ${pati__tasks.reason_id} = ${pati__reasons.id};;
+  }
+  join: pati__offerings {
+    type: inner
+    relationship: many_to_one
+    sql_on: ${pati__reasons.offering_id} = ${pati__offerings.id};;
+  }
+  join: clinics {
+    type: inner
+    relationship: many_to_one
+    sql_on: ${pati__reasons.group_id} = ${clinics.id};;
+  }
+
+
   }
 
 explore: pati__account_tasks {
@@ -3319,7 +3433,7 @@ explore: pati__appointment_check_ins {
     group_label: "Petal Patient"
     join: groups {
       type: left_outer
-      sql_on: ${pati__appointment_check_ins.group_id} = ${groups.parent_group_id} ;;
+      sql_on: ${pati__appointment_check_ins.group_id} = ${groups.id} ;;
       relationship: many_to_one
     }
 

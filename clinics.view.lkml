@@ -43,4 +43,9 @@ view: clinics {
   dimension: adapterable_type {
     label: "EMR Adapterable Type"
   }
+
+  measure: count {
+    type: count_distinct
+    sql: ${TABLE}.id ;;
+  }
 }

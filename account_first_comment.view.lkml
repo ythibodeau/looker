@@ -17,6 +17,7 @@ view: account_first_comment {
   }
 
   dimension: account_id {
+    primary_key: yes
     type: number
     sql: ${TABLE}.account_id ;;
   }

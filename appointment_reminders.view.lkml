@@ -27,7 +27,7 @@ view: appointment_reminders {
       }
       filters: {
         field: noti__notifications.status
-        value: "1"
+        value: "1 OR 2"
       }
     }
   }
@@ -54,8 +54,14 @@ view: appointment_reminders {
   dimension: method {
     type: number
   }
-  dimension: sent_date {
-    type: date
+  dimension_group: sent_date {
+    type: time
+    timeframes: [
+      date,
+      month,
+      week,
+      day_of_week
+    ]
   }
   dimension: status {
     type: number

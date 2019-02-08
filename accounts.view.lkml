@@ -469,6 +469,15 @@ view: accounts {
     }
   }
 
+  measure: deactivated_count {
+    label: "Deactivated Count"
+    type: count
+    filters: {
+      field: state
+      value: "deactivated"
+    }
+  }
+
   measure: count_unique_activated {
     type: count_distinct
     filters: {
@@ -526,6 +535,11 @@ view: accounts {
           END ;;
   }
 
+  dimension: concatenated_name {
+    type: string
+    sql: GROUP_CONCAT(${groups.name}) ;;
+  }
+
   measure: count_doctors_only {
     type: count
     filters: {
@@ -572,6 +586,11 @@ view: accounts {
       field: is_scheduled
       value: "No"
     }
+  }
+
+  measure: at_least_one_group_count {
+    type: count
+    sql: COUNT(${memberships.id}) > 0 ;;
   }
 
   # ----- Sets of fields for drilling ------
