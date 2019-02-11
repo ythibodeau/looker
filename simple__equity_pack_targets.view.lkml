@@ -1,5 +1,5 @@
 view: simple__equity_pack_targets {
-  sql_table_name: petalmd_development.simple__equity_pack_targets ;;
+  sql_table_name: petalmd.simple__equity_pack_targets ;;
 
   dimension: id {
     primary_key: yes

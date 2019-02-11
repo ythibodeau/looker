@@ -1,5 +1,5 @@
 view: weekly_comments {
-  sql_table_name: petalmd_development.weekly_comments ;;
+  sql_table_name: petalmd.weekly_comments ;;
 
   dimension: id {
     primary_key: yes

@@ -1,5 +1,5 @@
 view: community_posts {
-  sql_table_name: petalmd_development.community_posts ;;
+  sql_table_name: petalmd.community_posts ;;
 
   dimension: id {
     primary_key: yes

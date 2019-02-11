@@ -1,5 +1,5 @@
 view: admi__roles_admi__users {
-  sql_table_name: petalmd_development.admi__roles_admi__users ;;
+  sql_table_name: petalmd.admi__roles_admi__users ;;
 
   dimension_group: created {
     type: time

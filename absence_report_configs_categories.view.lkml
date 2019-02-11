@@ -1,5 +1,5 @@
 view: absence_report_configs_categories {
-  sql_table_name: petalmd_development.absence_report_configs_categories ;;
+  sql_table_name: petalmd.absence_report_configs_categories ;;
 
   dimension: id {
     primary_key: yes

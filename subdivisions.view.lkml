@@ -1,5 +1,5 @@
 view: subdivisions {
-  sql_table_name: petalmd_development.subdivisions ;;
+  sql_table_name: petalmd.subdivisions ;;
 
   dimension: id {
     primary_key: yes

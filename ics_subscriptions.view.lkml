@@ -1,5 +1,5 @@
 view: ics_subscriptions {
-  sql_table_name: petalmd_development.ics_subscriptions ;;
+  sql_table_name: petalmd.ics_subscriptions ;;
 
   dimension: id {
     primary_key: yes

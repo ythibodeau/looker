@@ -1,5 +1,5 @@
 view: schema_migrations {
-  sql_table_name: petalmd_development.schema_migrations ;;
+  sql_table_name: petalmd.schema_migrations ;;
 
   dimension: version {
     type: string

@@ -1,5 +1,5 @@
 view: simple__assignments {
-  sql_table_name: petalmd_development.simple__assignments ;;
+  sql_table_name: petalmd.simple__assignments ;;
 
   dimension: id {
     primary_key: yes

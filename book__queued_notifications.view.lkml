@@ -1,5 +1,5 @@
 view: book__queued_notifications {
-  sql_table_name: petalmd_development.book__queued_notifications ;;
+  sql_table_name: petalmd.book__queued_notifications ;;
 
   dimension: id {
     primary_key: yes

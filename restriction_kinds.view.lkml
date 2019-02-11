@@ -1,5 +1,5 @@
 view: restriction_kinds {
-  sql_table_name: petalmd_development.restriction_kinds ;;
+  sql_table_name: petalmd.restriction_kinds ;;
 
   dimension: id {
     primary_key: yes

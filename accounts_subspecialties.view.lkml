@@ -1,5 +1,5 @@
 view: accounts_subspecialties {
-  sql_table_name: petalmd_development.accounts_subspecialties ;;
+  sql_table_name: petalmd.accounts_subspecialties ;;
 
   dimension: account_id {
     type: number

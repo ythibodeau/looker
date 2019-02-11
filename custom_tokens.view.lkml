@@ -1,5 +1,5 @@
 view: custom_tokens {
-  sql_table_name: petalmd_development.custom_tokens ;;
+  sql_table_name: petalmd.custom_tokens ;;
 
   dimension: id {
     primary_key: yes

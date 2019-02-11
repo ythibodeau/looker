@@ -1,5 +1,5 @@
 view: comments {
-  sql_table_name: petalmd_development.comments ;;
+  sql_table_name: petalmd.comments ;;
 
   dimension: id {
     primary_key: yes

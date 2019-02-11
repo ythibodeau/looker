@@ -1,5 +1,5 @@
 view: trackings {
-  sql_table_name: petalmd_development.trackings ;;
+  sql_table_name: petalmd.trackings ;;
 
   dimension: id {
     primary_key: yes

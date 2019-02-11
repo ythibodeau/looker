@@ -1,5 +1,5 @@
 view: pati__provider_changed_items {
-  sql_table_name: petalmd_development.pati__provider_changed_items ;;
+  sql_table_name: petalmd.pati__provider_changed_items ;;
 
   dimension: id {
     primary_key: yes

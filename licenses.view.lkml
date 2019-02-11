@@ -1,5 +1,5 @@
 view: licenses {
-  sql_table_name: petalmd_development.licenses ;;
+  sql_table_name: petalmd.licenses ;;
 
   dimension: id {
     primary_key: yes

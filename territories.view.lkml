@@ -1,5 +1,5 @@
 view: territories {
-  sql_table_name: petalmd_development.territories ;;
+  sql_table_name: petalmd.territories ;;
 
   dimension: id {
     primary_key: yes

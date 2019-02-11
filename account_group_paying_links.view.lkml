@@ -1,5 +1,5 @@
 view: account_group_paying_links {
-  sql_table_name: petalmd_development.account_group_paying_links ;;
+  sql_table_name: petalmd.account_group_paying_links ;;
 
   dimension: id {
     primary_key: yes

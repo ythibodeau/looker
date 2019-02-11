@@ -1,5 +1,5 @@
 view: admi__group_period_details {
-  sql_table_name: petalmd_development.admi__group_period_details ;;
+  sql_table_name: petalmd.admi__group_period_details ;;
 
   dimension: id {
     primary_key: yes

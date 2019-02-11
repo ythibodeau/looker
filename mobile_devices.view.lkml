@@ -1,5 +1,5 @@
 view: mobile_devices {
-  sql_table_name: petalmd_development.mobile_devices ;;
+  sql_table_name: petalmd.mobile_devices ;;
 
   dimension: id {
     primary_key: yes

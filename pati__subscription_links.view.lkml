@@ -1,5 +1,5 @@
 view: pati__subscription_links {
-  sql_table_name: petalmd_development.pati__subscription_links ;;
+  sql_table_name: petalmd.pati__subscription_links ;;
 
   dimension: id {
     primary_key: yes

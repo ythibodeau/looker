@@ -1,5 +1,5 @@
 view: meeting_billing_codes {
-  sql_table_name: petalmd_development.meeting_billing_codes ;;
+  sql_table_name: petalmd.meeting_billing_codes ;;
 
   dimension: id {
     primary_key: yes

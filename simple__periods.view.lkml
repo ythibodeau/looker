@@ -1,5 +1,5 @@
 view: simple__periods {
-  sql_table_name: petalmd_development.simple__periods ;;
+  sql_table_name: petalmd.simple__periods ;;
 
   dimension: id {
     primary_key: yes

@@ -1,5 +1,5 @@
 view: absence_unit_combinations {
-  sql_table_name: petalmd_development.absence_unit_combinations ;;
+  sql_table_name: petalmd.absence_unit_combinations ;;
 
   dimension: id {
     primary_key: yes

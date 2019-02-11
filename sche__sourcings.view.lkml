@@ -1,5 +1,5 @@
 view: sche__sourcings {
-  sql_table_name: petalmd_development.sche__sourcings ;;
+  sql_table_name: petalmd.sche__sourcings ;;
 
   dimension: id {
     primary_key: yes

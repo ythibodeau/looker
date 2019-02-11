@@ -1,5 +1,5 @@
 view: pape__versions {
-  sql_table_name: petalmd_development.pape__versions ;;
+  sql_table_name: petalmd.pape__versions ;;
 
   dimension: id {
     primary_key: yes

@@ -1,5 +1,5 @@
 view: community_likes {
-  sql_table_name: petalmd_development.community_likes ;;
+  sql_table_name: petalmd.community_likes ;;
 
   dimension: id {
     primary_key: yes

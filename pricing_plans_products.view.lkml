@@ -1,5 +1,5 @@
 view: pricing_plans_products {
-  sql_table_name: petalmd_development.pricing_plans_products ;;
+  sql_table_name: petalmd.pricing_plans_products ;;
 
   dimension: id {
     primary_key: yes

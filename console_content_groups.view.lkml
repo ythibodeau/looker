@@ -1,5 +1,5 @@
 view: console_content_groups {
-  sql_table_name: petalmd_development.console_content_groups ;;
+  sql_table_name: petalmd.console_content_groups ;;
 
   dimension: id {
     primary_key: yes

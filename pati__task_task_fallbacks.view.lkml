@@ -1,5 +1,5 @@
 view: pati__task_task_fallbacks {
-  sql_table_name: petalmd_development.pati__task_task_fallbacks ;;
+  sql_table_name: petalmd.pati__task_task_fallbacks ;;
 
   dimension: id {
     primary_key: yes

@@ -1,5 +1,5 @@
 view: mask_data {
-  sql_table_name: petalmd_development.mask_data ;;
+  sql_table_name: petalmd.mask_data ;;
 
   dimension: id {
     primary_key: yes

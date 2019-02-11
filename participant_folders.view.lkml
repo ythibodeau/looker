@@ -1,5 +1,5 @@
 view: participant_folders {
-  sql_table_name: petalmd_development.participant_folders ;;
+  sql_table_name: petalmd.participant_folders ;;
 
   dimension: id {
     primary_key: yes

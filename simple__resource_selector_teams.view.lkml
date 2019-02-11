@@ -1,5 +1,5 @@
 view: simple__resource_selector_teams {
-  sql_table_name: petalmd_development.simple__resource_selector_teams ;;
+  sql_table_name: petalmd.simple__resource_selector_teams ;;
 
   dimension: id {
     primary_key: yes

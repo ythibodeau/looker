@@ -1,5 +1,5 @@
 view: absence_notifications {
-  sql_table_name: petalmd_development.absence_notifications ;;
+  sql_table_name: petalmd.absence_notifications ;;
 
   dimension: id {
     primary_key: yes

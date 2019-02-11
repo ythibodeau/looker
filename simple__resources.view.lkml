@@ -1,5 +1,5 @@
 view: simple__resources {
-  sql_table_name: petalmd_development.simple__resources ;;
+  sql_table_name: petalmd.simple__resources ;;
 
   dimension: id {
     primary_key: yes

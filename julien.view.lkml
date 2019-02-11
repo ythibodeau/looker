@@ -1,5 +1,5 @@
 view: julien {
-  sql_table_name: petalmd_development.julien ;;
+  sql_table_name: petalmd.julien ;;
 
   dimension: account {
     type: number

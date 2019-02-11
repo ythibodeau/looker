@@ -1,5 +1,5 @@
 view: validation_tokens {
-  sql_table_name: petalmd_development.validation_tokens ;;
+  sql_table_name: petalmd.validation_tokens ;;
 
   dimension: id {
     primary_key: yes

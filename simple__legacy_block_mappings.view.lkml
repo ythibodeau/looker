@@ -1,5 +1,5 @@
 view: simple__legacy_block_mappings {
-  sql_table_name: petalmd_development.simple__legacy_block_mappings ;;
+  sql_table_name: petalmd.simple__legacy_block_mappings ;;
 
   dimension: id {
     primary_key: yes

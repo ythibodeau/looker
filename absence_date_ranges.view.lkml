@@ -1,5 +1,5 @@
 view: absence_date_ranges {
-  sql_table_name: petalmd_development.absence_date_ranges ;;
+  sql_table_name: petalmd.absence_date_ranges ;;
 
   dimension: id {
     primary_key: yes

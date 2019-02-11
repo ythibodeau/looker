@@ -1,5 +1,5 @@
 view: specialties_territories {
-  sql_table_name: petalmd_development.specialties_territories ;;
+  sql_table_name: petalmd.specialties_territories ;;
 
   dimension_group: created {
     type: time

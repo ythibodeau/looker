@@ -1,5 +1,5 @@
 view: holidays {
-  sql_table_name: petalmd_development.holidays ;;
+  sql_table_name: petalmd.holidays ;;
 
   dimension: id {
     primary_key: yes

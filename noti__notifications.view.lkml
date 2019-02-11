@@ -1,5 +1,5 @@
 view: noti__notifications {
-  sql_table_name: petalmd_development.noti__notifications ;;
+  sql_table_name: petalmd.noti__notifications ;;
 
   dimension: id {
     primary_key: yes

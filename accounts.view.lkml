@@ -1,5 +1,5 @@
 view: accounts {
-  sql_table_name: petalmd_development.accounts ;;
+  sql_table_name: petalmd.accounts ;;
 
   dimension: id {
     primary_key: yes

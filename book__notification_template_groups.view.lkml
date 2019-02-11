@@ -1,5 +1,5 @@
 view: book__notification_template_groups {
-  sql_table_name: petalmd_development.book__notification_template_groups ;;
+  sql_table_name: petalmd.book__notification_template_groups ;;
 
   dimension: id {
     primary_key: yes

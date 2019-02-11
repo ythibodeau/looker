@@ -1,5 +1,5 @@
 view: pati__attachments {
-  sql_table_name: petalmd_development.pati__attachments ;;
+  sql_table_name: petalmd.pati__attachments ;;
 
   dimension: id {
     primary_key: yes

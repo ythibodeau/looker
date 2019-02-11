@@ -1,5 +1,5 @@
 view: admi__trackings {
-  sql_table_name: petalmd_development.admi__trackings ;;
+  sql_table_name: petalmd.admi__trackings ;;
 
   dimension: id {
     primary_key: yes

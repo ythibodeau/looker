@@ -1,5 +1,5 @@
 view: countries {
-  sql_table_name: petalmd_development.countries ;;
+  sql_table_name: petalmd.countries ;;
 
   dimension: id {
     primary_key: yes

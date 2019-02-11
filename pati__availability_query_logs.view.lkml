@@ -1,5 +1,5 @@
 view: pati__availability_query_logs {
-  sql_table_name: petalmd_development.pati__availability_query_logs ;;
+  sql_table_name: petalmd.pati__availability_query_logs ;;
 
   dimension: id {
     primary_key: yes

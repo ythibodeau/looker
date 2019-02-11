@@ -1,5 +1,5 @@
 view: ip_ranges {
-  sql_table_name: petalmd_development.ip_ranges ;;
+  sql_table_name: petalmd.ip_ranges ;;
 
   dimension: id {
     primary_key: yes

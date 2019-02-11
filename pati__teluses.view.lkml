@@ -1,5 +1,5 @@
 view: pati__teluses {
-  sql_table_name: petalmd_development.pati__teluses ;;
+  sql_table_name: petalmd.pati__teluses ;;
 
   dimension: id {
     primary_key: yes

@@ -1,5 +1,5 @@
 view: membership_kinds {
-  sql_table_name: petalmd_development.membership_kinds ;;
+  sql_table_name: petalmd.membership_kinds ;;
 
   dimension: id {
     primary_key: yes

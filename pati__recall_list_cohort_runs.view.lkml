@@ -1,5 +1,5 @@
 view: pati__recall_list_cohort_runs {
-  sql_table_name: petalmd_development.pati__recall_list_cohort_runs ;;
+  sql_table_name: petalmd.pati__recall_list_cohort_runs ;;
 
   dimension: id {
     primary_key: yes

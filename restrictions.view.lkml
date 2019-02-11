@@ -1,5 +1,5 @@
 view: restrictions {
-  sql_table_name: petalmd_development.restrictions ;;
+  sql_table_name: petalmd.restrictions ;;
 
   dimension: id {
     primary_key: yes

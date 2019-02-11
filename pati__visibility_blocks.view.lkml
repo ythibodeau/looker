@@ -1,5 +1,5 @@
 view: pati__visibility_blocks {
-  sql_table_name: petalmd_development.pati__visibility_blocks ;;
+  sql_table_name: petalmd.pati__visibility_blocks ;;
 
   dimension: id {
     primary_key: yes

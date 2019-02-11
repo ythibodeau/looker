@@ -1,5 +1,5 @@
 view: settings {
-  sql_table_name: petalmd_development.settings ;;
+  sql_table_name: petalmd.settings ;;
 
   dimension: id {
     primary_key: yes

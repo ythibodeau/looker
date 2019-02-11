@@ -1,5 +1,6 @@
 view: implementation_monitoring {
   derived_table: {
+    sql_trigger_value: SELECT CURDATE() ;;
     sql:  SELECT G.id,
                 G.acronym,
                 G.name,

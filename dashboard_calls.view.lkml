@@ -1,5 +1,5 @@
 view: dashboard_calls {
-  sql_table_name: petalmd_development.dashboard_calls ;;
+  sql_table_name: petalmd.dashboard_calls ;;
 
   dimension: id {
     primary_key: yes

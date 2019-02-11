@@ -1,5 +1,5 @@
 view: progress_monitors {
-  sql_table_name: petalmd_development.progress_monitors ;;
+  sql_table_name: petalmd.progress_monitors ;;
 
   dimension: id {
     primary_key: yes

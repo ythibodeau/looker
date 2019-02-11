@@ -1,5 +1,5 @@
 view: simple__requirements {
-  sql_table_name: petalmd_development.simple__requirements ;;
+  sql_table_name: petalmd.simple__requirements ;;
 
   dimension: id {
     primary_key: yes

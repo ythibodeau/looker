@@ -1,5 +1,5 @@
 view: category_slots_values {
-  sql_table_name: petalmd_development.category_slots_values ;;
+  sql_table_name: petalmd.category_slots_values ;;
 
   dimension: id {
     primary_key: yes

@@ -1,5 +1,5 @@
 view: pati__subscriptions_authorized_accounts {
-  sql_table_name: petalmd_development.pati__subscriptions_authorized_accounts ;;
+  sql_table_name: petalmd.pati__subscriptions_authorized_accounts ;;
 
   dimension: account_id {
     type: number

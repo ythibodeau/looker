@@ -1,5 +1,5 @@
 view: pati__template_kinds {
-  sql_table_name: petalmd_development.pati__template_kinds ;;
+  sql_table_name: petalmd.pati__template_kinds ;;
 
   dimension: id {
     primary_key: yes

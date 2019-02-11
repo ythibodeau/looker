@@ -1,5 +1,5 @@
 view: recipients {
-  sql_table_name: petalmd_development.recipients ;;
+  sql_table_name: petalmd.recipients ;;
 
   dimension: id {
     primary_key: yes

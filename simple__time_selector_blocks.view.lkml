@@ -1,5 +1,5 @@
 view: simple__time_selector_blocks {
-  sql_table_name: petalmd_development.simple__time_selector_blocks ;;
+  sql_table_name: petalmd.simple__time_selector_blocks ;;
 
   dimension: id {
     primary_key: yes

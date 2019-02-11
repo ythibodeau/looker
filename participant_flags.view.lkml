@@ -1,5 +1,5 @@
 view: participant_flags {
-  sql_table_name: petalmd_development.participant_flags ;;
+  sql_table_name: petalmd.participant_flags ;;
 
   dimension: id {
     primary_key: yes

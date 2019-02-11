@@ -1,5 +1,5 @@
 view: pati__recall_list_patients {
-  sql_table_name: petalmd_development.pati__recall_list_patients ;;
+  sql_table_name: petalmd.pati__recall_list_patients ;;
 
   dimension: id {
     primary_key: yes

@@ -1,5 +1,5 @@
 view: schedule_ineligibility_date_ranges {
-  sql_table_name: petalmd_development.schedule_ineligibility_date_ranges ;;
+  sql_table_name: petalmd.schedule_ineligibility_date_ranges ;;
 
   dimension: id {
     primary_key: yes

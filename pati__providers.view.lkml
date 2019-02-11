@@ -1,5 +1,5 @@
 view: pati__providers {
-  sql_table_name: petalmd_development.pati__providers ;;
+  sql_table_name: petalmd.pati__providers ;;
 
   dimension: id {
     primary_key: yes
