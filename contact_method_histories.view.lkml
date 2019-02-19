@@ -1,5 +1,5 @@
 view: contact_method_histories {
-  sql_table_name: petalmd_development.contact_method_histories ;;
+  sql_table_name: petalmd.contact_method_histories ;;
 
   dimension: id {
     primary_key: yes

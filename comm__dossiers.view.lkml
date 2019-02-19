@@ -1,5 +1,5 @@
 view: comm__dossiers {
-  sql_table_name: petalmd_development.comm__dossiers ;;
+  sql_table_name: petalmd.comm__dossiers ;;
 
   dimension: id {
     primary_key: yes

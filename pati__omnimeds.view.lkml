@@ -1,5 +1,5 @@
 view: pati__omnimeds {
-  sql_table_name: petalmd_development.pati__omnimeds ;;
+  sql_table_name: petalmd.pati__omnimeds ;;
 
   dimension: id {
     primary_key: yes

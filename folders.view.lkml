@@ -1,5 +1,5 @@
 view: folders {
-  sql_table_name: petalmd_development.folders ;;
+  sql_table_name: petalmd.folders ;;
 
   dimension: id {
     primary_key: yes

@@ -1,5 +1,5 @@
 view: pati__waiting_rooms {
-  sql_table_name: petalmd_development.pati__waiting_rooms ;;
+  sql_table_name: petalmd.pati__waiting_rooms ;;
 
   dimension: id {
     primary_key: yes

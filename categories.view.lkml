@@ -1,5 +1,5 @@
 view: categories {
-  sql_table_name: petalmd_development.categories ;;
+  sql_table_name: petalmd.categories ;;
 
   dimension: id {
     primary_key: yes

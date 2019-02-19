@@ -1,5 +1,5 @@
 view: sche__step_results {
-  sql_table_name: petalmd_development.sche__step_results ;;
+  sql_table_name: petalmd.sche__step_results ;;
 
   dimension: id {
     primary_key: yes

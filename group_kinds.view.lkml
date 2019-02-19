@@ -1,5 +1,5 @@
 view: group_kinds {
-  sql_table_name: petalmd_development.group_kinds ;;
+  sql_table_name: petalmd.group_kinds ;;
 
   dimension: id {
     primary_key: yes

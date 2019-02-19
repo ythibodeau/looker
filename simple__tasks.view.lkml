@@ -1,5 +1,5 @@
 view: simple__tasks {
-  sql_table_name: petalmd_development.simple__tasks ;;
+  sql_table_name: petalmd.simple__tasks ;;
 
   dimension: id {
     primary_key: yes

@@ -1,5 +1,5 @@
 view: schedule_events {
-  sql_table_name: petalmd_development.schedule_events ;;
+  sql_table_name: petalmd.schedule_events ;;
 
   dimension: id {
     primary_key: yes

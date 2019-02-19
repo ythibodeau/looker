@@ -1,5 +1,5 @@
 view: simple__blocks {
-  sql_table_name: petalmd_development.simple__blocks ;;
+  sql_table_name: petalmd.simple__blocks ;;
 
   dimension: id {
     primary_key: yes

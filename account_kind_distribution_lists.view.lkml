@@ -1,5 +1,5 @@
 view: account_kind_distribution_lists {
-  sql_table_name: petalmd_development.account_kind_distribution_lists ;;
+  sql_table_name: petalmd.account_kind_distribution_lists ;;
 
   dimension: id {
     primary_key: yes

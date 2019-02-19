@@ -1,5 +1,5 @@
 view: deliveries {
-  sql_table_name: petalmd_development.deliveries ;;
+  sql_table_name: petalmd.deliveries ;;
 
   dimension: id {
     primary_key: yes

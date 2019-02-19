@@ -1,5 +1,5 @@
 view: mess__messages {
-  sql_table_name: petalmd_development.mess__messages ;;
+  sql_table_name: petalmd.mess__messages ;;
 
   dimension: id {
     primary_key: yes

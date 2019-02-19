@@ -1,5 +1,5 @@
 view: centres {
-  sql_table_name: petalmd_development.centres ;;
+  sql_table_name: petalmd.centres ;;
 
   dimension: parent_centre_id {
     primary_key: yes

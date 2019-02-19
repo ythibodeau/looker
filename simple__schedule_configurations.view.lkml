@@ -1,5 +1,5 @@
 view: simple__schedule_configurations {
-  sql_table_name: petalmd_development.simple__schedule_configurations ;;
+  sql_table_name: petalmd.simple__schedule_configurations ;;
 
   dimension: id {
     primary_key: yes

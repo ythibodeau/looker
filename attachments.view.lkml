@@ -1,5 +1,5 @@
 view: attachments {
-  sql_table_name: petalmd_development.attachments ;;
+  sql_table_name: petalmd.attachments ;;
 
   dimension: id {
     primary_key: yes

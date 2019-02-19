@@ -1,5 +1,5 @@
 view: assistant_notes {
-  sql_table_name: petalmd_development.assistant_notes ;;
+  sql_table_name: petalmd.assistant_notes ;;
 
   dimension: id {
     primary_key: yes

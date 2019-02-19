@@ -1,5 +1,5 @@
 view: sche__assignments {
-  sql_table_name: petalmd_development.sche__assignments ;;
+  sql_table_name: petalmd.sche__assignments ;;
 
   dimension: id {
     primary_key: yes

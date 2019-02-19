@@ -1,5 +1,5 @@
 view: managed_deployments {
-  sql_table_name: petalmd_development.managed_deployments ;;
+  sql_table_name: petalmd.managed_deployments ;;
 
   dimension: id {
     primary_key: yes

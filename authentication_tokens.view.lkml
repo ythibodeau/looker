@@ -1,5 +1,5 @@
 view: authentication_tokens {
-  sql_table_name: petalmd_development.authentication_tokens ;;
+  sql_table_name: petalmd.authentication_tokens ;;
 
   dimension: id {
     primary_key: yes

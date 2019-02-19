@@ -1,5 +1,5 @@
 view: trials {
-  sql_table_name: petalmd_development.trials ;;
+  sql_table_name: petalmd.trials ;;
 
   dimension: id {
     primary_key: yes

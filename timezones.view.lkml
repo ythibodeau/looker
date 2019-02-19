@@ -1,5 +1,5 @@
 view: timezones {
-  sql_table_name: petalmd_development.timezones ;;
+  sql_table_name: petalmd.timezones ;;
 
   dimension: id {
     primary_key: yes

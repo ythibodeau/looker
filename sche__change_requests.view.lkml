@@ -1,5 +1,5 @@
 view: sche__change_requests {
-  sql_table_name: petalmd_development.sche__change_requests ;;
+  sql_table_name: petalmd.sche__change_requests ;;
 
   dimension: id {
     primary_key: yes

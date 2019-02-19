@@ -1,5 +1,5 @@
 view: comm__documents {
-  sql_table_name: petalmd_development.comm__documents ;;
+  sql_table_name: petalmd.comm__documents ;;
 
   dimension: id {
     primary_key: yes

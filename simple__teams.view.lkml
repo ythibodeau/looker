@@ -1,5 +1,5 @@
 view: simple__teams {
-  sql_table_name: petalmd_development.simple__teams ;;
+  sql_table_name: petalmd.simple__teams ;;
 
   dimension: id {
     primary_key: yes

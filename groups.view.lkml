@@ -1,5 +1,5 @@
 view: groups {
-  sql_table_name: petalmd_development.groups ;;
+  sql_table_name: petalmd.groups ;;
 
   dimension: parent_group_id {
     primary_key: yes

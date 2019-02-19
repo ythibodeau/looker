@@ -1,5 +1,5 @@
 view: group_analytics_reports {
-  sql_table_name: petalmd_development.group_analytics_reports ;;
+  sql_table_name: petalmd.group_analytics_reports ;;
 
   dimension: id {
     primary_key: yes

@@ -1,5 +1,5 @@
 view: pati__form_questions {
-  sql_table_name: petalmd_development.pati__form_questions ;;
+  sql_table_name: petalmd.pati__form_questions ;;
 
   dimension: id {
     primary_key: yes

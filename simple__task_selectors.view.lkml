@@ -1,5 +1,5 @@
 view: simple__task_selectors {
-  sql_table_name: petalmd_development.simple__task_selectors ;;
+  sql_table_name: petalmd.simple__task_selectors ;;
 
   dimension: id {
     primary_key: yes

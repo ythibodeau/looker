@@ -1,5 +1,5 @@
 view: simple__time_selector_periods {
-  sql_table_name: petalmd_development.simple__time_selector_periods ;;
+  sql_table_name: petalmd.simple__time_selector_periods ;;
 
   dimension: id {
     primary_key: yes

@@ -1,5 +1,5 @@
 view: pati__standalones {
-  sql_table_name: petalmd_development.pati__standalones ;;
+  sql_table_name: petalmd.pati__standalones ;;
 
   dimension: id {
     primary_key: yes

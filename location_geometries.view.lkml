@@ -1,5 +1,5 @@
 view: location_geometries {
-  sql_table_name: petalmd_development.location_geometries ;;
+  sql_table_name: petalmd.location_geometries ;;
 
   dimension: id {
     primary_key: yes

@@ -1,5 +1,5 @@
 view: contact_methods {
-  sql_table_name: petalmd_development.contact_methods ;;
+  sql_table_name: petalmd.contact_methods ;;
 
   dimension: id {
     primary_key: yes

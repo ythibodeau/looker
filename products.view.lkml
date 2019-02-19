@@ -1,5 +1,5 @@
 view: products {
-  sql_table_name: petalmd_development.products ;;
+  sql_table_name: petalmd.products ;;
 
   dimension: id {
     primary_key: yes

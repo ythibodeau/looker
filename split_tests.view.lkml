@@ -1,5 +1,5 @@
 view: split_tests {
-  sql_table_name: petalmd_development.split_tests ;;
+  sql_table_name: petalmd.split_tests ;;
 
   dimension: id {
     primary_key: yes

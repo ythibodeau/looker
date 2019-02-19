@@ -1,5 +1,5 @@
 view: attendee_answers {
-  sql_table_name: petalmd_development.attendee_answers ;;
+  sql_table_name: petalmd.attendee_answers ;;
 
   dimension: id {
     primary_key: yes

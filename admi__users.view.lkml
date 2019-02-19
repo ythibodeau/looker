@@ -1,5 +1,5 @@
 view: admi__users {
-  sql_table_name: petalmd_development.admi__users ;;
+  sql_table_name: petalmd.admi__users ;;
 
   dimension: id {
     primary_key: yes

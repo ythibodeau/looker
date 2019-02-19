@@ -1,5 +1,5 @@
 view: admi__account_import_lines {
-  sql_table_name: petalmd_development.admi__account_import_lines ;;
+  sql_table_name: petalmd.admi__account_import_lines ;;
 
   dimension: id {
     primary_key: yes

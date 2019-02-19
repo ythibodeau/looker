@@ -1,5 +1,5 @@
 view: pati__purkinjes {
-  sql_table_name: petalmd_development.pati__purkinjes ;;
+  sql_table_name: petalmd.pati__purkinjes ;;
 
   dimension: id {
     primary_key: yes

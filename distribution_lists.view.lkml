@@ -1,5 +1,5 @@
 view: distribution_lists {
-  sql_table_name: petalmd_development.distribution_lists ;;
+  sql_table_name: petalmd.distribution_lists ;;
 
   dimension: id {
     primary_key: yes

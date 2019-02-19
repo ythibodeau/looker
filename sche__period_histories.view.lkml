@@ -1,5 +1,5 @@
 view: sche__period_histories {
-  sql_table_name: petalmd_development.sche__period_histories ;;
+  sql_table_name: petalmd.sche__period_histories ;;
 
   dimension: id {
     primary_key: yes

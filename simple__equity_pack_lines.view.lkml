@@ -1,5 +1,5 @@
 view: simple__equity_pack_lines {
-  sql_table_name: petalmd_development.simple__equity_pack_lines ;;
+  sql_table_name: petalmd.simple__equity_pack_lines ;;
 
   dimension: id {
     primary_key: yes

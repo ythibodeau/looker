@@ -1,5 +1,5 @@
 view: account_kinds {
-  sql_table_name: petalmd_development.account_kinds ;;
+  sql_table_name: petalmd.account_kinds ;;
 
   dimension: id {
     primary_key: yes

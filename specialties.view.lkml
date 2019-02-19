@@ -1,5 +1,5 @@
 view: specialties {
-  sql_table_name: petalmd_development.specialties ;;
+  sql_table_name: petalmd.specialties ;;
 
   dimension: id {
     primary_key: yes

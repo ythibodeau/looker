@@ -1,5 +1,5 @@
 view: specialties_subspecialties {
-  sql_table_name: petalmd_development.specialties_subspecialties ;;
+  sql_table_name: petalmd.specialties_subspecialties ;;
 
   dimension_group: created {
     type: time

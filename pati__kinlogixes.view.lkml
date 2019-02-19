@@ -1,5 +1,5 @@
 view: pati__kinlogixes {
-  sql_table_name: petalmd_development.pati__kinlogixes ;;
+  sql_table_name: petalmd.pati__kinlogixes ;;
 
   dimension: id {
     primary_key: yes

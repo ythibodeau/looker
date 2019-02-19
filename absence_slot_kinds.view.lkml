@@ -1,5 +1,5 @@
 view: absence_slot_kinds {
-  sql_table_name: petalmd_development.absence_slot_kinds ;;
+  sql_table_name: petalmd.absence_slot_kinds ;;
 
   dimension: id {
     primary_key: yes

@@ -1,5 +1,5 @@
 view: group_export_data_kinds {
-  sql_table_name: petalmd_development.group_export_data_kinds ;;
+  sql_table_name: petalmd.group_export_data_kinds ;;
 
   dimension: id {
     primary_key: yes

@@ -1,5 +1,5 @@
 view: participant_flags {
-  sql_table_name: petalmd_development.participant_flags ;;
+  sql_table_name: petalmd.participant_flags ;;
 
   dimension: id {
     primary_key: yes
@@ -71,8 +71,10 @@ view: participant_flags {
     drill_fields: [id, participants.id]
   }
 
+
   measure: participant_count {
     type: count_distinct
     sql: ${TABLE}.participant_id ;;
   }
+
 }

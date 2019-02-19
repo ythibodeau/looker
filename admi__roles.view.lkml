@@ -1,5 +1,5 @@
 view: admi__roles {
-  sql_table_name: petalmd_development.admi__roles ;;
+  sql_table_name: petalmd.admi__roles ;;
 
   dimension: id {
     primary_key: yes

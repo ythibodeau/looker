@@ -1,5 +1,5 @@
 view: simple__multi_selectors {
-  sql_table_name: petalmd_development.simple__multi_selectors ;;
+  sql_table_name: petalmd.simple__multi_selectors ;;
 
   dimension: id {
     primary_key: yes

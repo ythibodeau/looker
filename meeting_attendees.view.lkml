@@ -1,5 +1,5 @@
 view: meeting_attendees {
-  sql_table_name: petalmd_development.meeting_attendees ;;
+  sql_table_name: petalmd.meeting_attendees ;;
 
   dimension: id {
     primary_key: yes

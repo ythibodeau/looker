@@ -1,5 +1,5 @@
 view: account_kinds_specialties {
-  sql_table_name: petalmd_development.account_kinds_specialties ;;
+  sql_table_name: petalmd.account_kinds_specialties ;;
 
   dimension_group: created {
     type: time

@@ -1,5 +1,5 @@
 view: offer_kinds {
-  sql_table_name: petalmd_development.offer_kinds ;;
+  sql_table_name: petalmd.offer_kinds ;;
 
   dimension: id {
     primary_key: yes

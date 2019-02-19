@@ -1,5 +1,5 @@
 view: pati__tasks {
-  sql_table_name: petalmd_development.pati__tasks ;;
+  sql_table_name: petalmd.pati__tasks ;;
 
   dimension: id {
     primary_key: yes

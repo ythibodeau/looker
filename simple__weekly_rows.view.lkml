@@ -1,5 +1,5 @@
 view: simple__weekly_rows {
-  sql_table_name: petalmd_development.simple__weekly_rows ;;
+  sql_table_name: petalmd.simple__weekly_rows ;;
 
   dimension: id {
     primary_key: yes

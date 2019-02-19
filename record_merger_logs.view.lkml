@@ -1,5 +1,5 @@
 view: record_merger_logs {
-  sql_table_name: petalmd_development.record_merger_logs ;;
+  sql_table_name: petalmd.record_merger_logs ;;
 
   dimension: id {
     primary_key: yes

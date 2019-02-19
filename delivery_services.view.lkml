@@ -1,5 +1,5 @@
 view: delivery_services {
-  sql_table_name: petalmd_development.delivery_services ;;
+  sql_table_name: petalmd.delivery_services ;;
 
   dimension: id {
     primary_key: yes

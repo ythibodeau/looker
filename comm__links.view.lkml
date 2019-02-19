@@ -1,5 +1,5 @@
 view: comm__links {
-  sql_table_name: petalmd_development.comm__links ;;
+  sql_table_name: petalmd.comm__links ;;
 
   dimension: id {
     primary_key: yes

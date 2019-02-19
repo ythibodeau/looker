@@ -1,5 +1,5 @@
 view: product_audience_kinds {
-  sql_table_name: petalmd_development.product_audience_kinds ;;
+  sql_table_name: petalmd.product_audience_kinds ;;
 
   dimension: id {
     primary_key: yes

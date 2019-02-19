@@ -1,5 +1,5 @@
 view: absence_limits {
-  sql_table_name: petalmd_development.absence_limits ;;
+  sql_table_name: petalmd.absence_limits ;;
 
   dimension: id {
     primary_key: yes

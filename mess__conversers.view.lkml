@@ -1,5 +1,5 @@
 view: mess__conversers {
-  sql_table_name: petalmd_development.mess__conversers ;;
+  sql_table_name: petalmd.mess__conversers ;;
 
   dimension: id {
     primary_key: yes
