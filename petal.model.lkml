@@ -1963,6 +1963,24 @@ explore: comments {
     relationship: many_to_one
   }
 
+  join: group_kinds {
+    type: inner
+    sql_on: ${groups.kind_id} = ${group_kinds.id} ;;
+    relationship: many_to_one
+  }
+
+  join: locations {
+    type: left_outer
+    sql_on: ${groups.location_id} = ${locations.id} ;;
+    relationship: one_to_one
+  }
+
+  join: location_geometries {
+    type: inner
+    sql_on: ${locations.id} = ${location_geometries.location_id} ;;
+    relationship: one_to_one
+  }
+
   join: distribution_lists {
     type: left_outer
     sql_on: ${discussions.distribution_list_id} = ${distribution_lists.id} ;;
@@ -1975,10 +1993,9 @@ explore: comments {
     relationship: many_to_one
   }
 
-  join: locations {
+  join: attachments {
     type: left_outer
-    sql_on: ${groups.location_id} = ${locations.id} ;;
-    relationship: many_to_one
+    sql_on: ${comments.id} = ${attachments.attachable_id} AND ${attachments.attachable_type} = "Comment" ;;
   }
 
   join: timezones {
@@ -2054,6 +2071,12 @@ explore: discussions {
       relationship: many_to_one
     }
 
+    join: account_kinds {
+      type: inner
+      sql_on: ${accounts.kind_id} = ${account_kinds.id} ;;
+      relationship: one_to_one
+    }
+
     join: account_first_comment {
       type: left_outer
       sql_on: ${accounts.id} = ${account_first_comment.account_id} ;;
@@ -2100,6 +2123,24 @@ explore: discussions {
       type: inner
       sql_on: ${recipients.discussion_id} = ${discussions.id} ;;
       relationship: one_to_one
+    }
+
+    join: participants {
+      type: inner
+      sql_on: ${discussions.id} = ${participants.discussion_id} ;;
+      relationship: one_to_many
+    }
+
+    join: participant_flags {
+      type: left_outer
+      sql_on: ${participants.id} = ${participant_flags.participant_id} ;;
+      relationship: one_to_many
+    }
+
+    join: discussion_flags {
+      type: left_outer
+      sql_on: ${discussions.id} = ${discussion_flags.discussion_id} ;;
+      relationship: one_to_many
     }
   }
 

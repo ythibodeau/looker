@@ -65,11 +65,6 @@ dimension: months_since_signup {
   sql: TIMESTAMPDIFF(MONTH, ${TABLE}.signup_month, ${TABLE}.comment_month) ;;
 }
 
-# dimension: time_to_10_messages {
-#   type: number
-#   sql:  TIMESTAMPDIFF(MONTH, ${TABLE}.signup_month, ${TABLE}.comment_month) ;;
-# }
-
 dimension: monthly_comments {
   type: number
   sql: ${TABLE}.monthly_comments ;;
@@ -84,7 +79,6 @@ measure: total_users {
 measure: total_active_users {
   type: count_distinct
   sql: ${account_id} ;;
-  drill_fields: [accounts.id, accounts.first_name, accounts.last_name]
 
   filters: {
     field: monthly_comments
@@ -107,71 +101,7 @@ measure: percent_of_cohort_active {
   type: number
   value_format_name: percent_1
   sql: 1.0 * ${total_active_users} / nullif(${total_users},0) ;;
-  drill_fields: [account_id, monthly_comments]
+  drill_fields: [account_id, accounts.first_name, accounts.last_name, monthly_comments]
 }
-
-  # CURRENT if Yes
-  # SLEEPING if No
-#   dimension: current {
-#     type: yesno
-#     sql: ${account_id} IN (SELECT ${account_id} FROM ${monthly_activity_comments.SQL_TABLE_NAME} WHERE ${monthly_comments} > 0)
-#          AND
-#          ${account_id} IN (SELECT ${account_id} FROM ${monthly_activity_comments.SQL_TABLE_NAME} WHERE DATE_ADD(${comment_month_month}, INTERVAL -1 MONTH) AND ${monthly_comments} > 0) ;;
-#   }
-
-#   dimension: sleeping {
-#     type: yesno
-#     sql: ${account_id} NOT IN (SELECT ${account_id} FROM ${TABLE} WHERE ${created_month} = ${year_month_table.year_month})
-#          AND
-#          ${account_id} IN (SELECT ${account_id} FROM ${TABLE} WHERE TIMESTAMPDIFF(MONTH, ${year_month_table.year_month}, ${created_month}) >= 1) ;;
-#   }
-#
-#   # resuscitated if Yes
-#   dimension: resuscitated {
-#     type: yesno
-#     sql: ${account_id} IN (SELECT ${account_id} FROM ${TABLE} WHERE ${created_month} = ${year_month_table.year_month})
-#           AND
-#           ${account_id} IN (SELECT ${account_id} FROM ${TABLE} WHERE TIMESTAMPDIFF(MONTH, ${year_month_table.year_month}, ${created_month}) > 1) ;;
-#   }
-#
-#   dimension: new {
-#     type: yesno
-#     sql: ${account_id} IN (SELECT ${account_id} FROM ${TABLE} WHERE ${created_month} = ${year_month_table.year_month})
-#          AND
-#          ${account_id} NOT IN (SELECT ${account_id} FROM ${TABLE} WHERE TIMESTAMPDIFF(MONTH, ${year_month_table.year_month}, ${created_month}) >= 1) ;;
-#   }
-
-  measure: current_total {
-    type: count
-    filters: {
-      field: current
-      value: "Yes"
-    }
-  }
-
-#   measure: sleeping_total {
-#     type: count
-#     filters: {
-#       field: sleeping
-#       value: "Yes"
-#     }
-#   }
-#
-#   measure: resuscitated_total {
-#     type: count
-#     filters: {
-#       field: resuscitated
-#       value: "yes"
-#     }
-#   }
-#
-#   measure: new_total {
-#     type: count
-#     filters: {
-#       field: new
-#       value: "yes"
-#     }
-#   }
-
 
 }

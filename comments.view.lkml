@@ -22,7 +22,10 @@ view: comments {
       week,
       month,
       quarter,
-      year
+      year,
+      day_of_week,
+      hour_of_day,
+      hour
     ]
     sql: ${TABLE}.created_at ;;
   }
@@ -93,7 +96,7 @@ view: comments {
 
   dimension: created_week_only {
     type: date
-    sql: YEARWEEK(${created_date});;
+    sql: WEEK(${created_date});;
  }
 
   dimension: created_month_only {
