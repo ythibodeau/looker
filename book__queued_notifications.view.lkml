@@ -58,8 +58,24 @@ view: book__queued_notifications {
   }
 
   dimension: status {
-    type: number
-    sql: ${TABLE}.status ;;
+    type: string
+    sql:
+    CASE
+      WHEN ${TABLE}.status = 10 THEN "Not Found"
+      WHEN ${TABLE}.status =  8 THEN "Cancelled"
+      WHEN ${TABLE}.status =  9 THEN "Already Sent"
+      WHEN ${TABLE}.status =  99 THEN "No Matching Template"
+      WHEN ${TABLE}.status =  0 THEN "No Action Required/Hung up"
+      WHEN ${TABLE}.status =  1 THEN "Confirmed Action"
+      WHEN ${TABLE}.status =  2 THEN "Cancelled Action"
+      WHEN ${TABLE}.status =  3 THEN "Transfer Action"
+      WHEN ${TABLE}.status =  4 THEN "Callback Action"
+      WHEN ${TABLE}.status =  5 THEN "Wrong Recipient Action"
+      WHEN ${TABLE}.status =  6 THEN "No Answer"
+      WHEN ${TABLE}.status =  99 THEN "Missing Field/Invalid Data"
+      WHEN ${TABLE}.status =  11 THEN "Voice Mail"
+    END
+     ;;
   }
 
   dimension_group: status_change {

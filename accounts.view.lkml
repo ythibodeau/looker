@@ -337,6 +337,15 @@ view: accounts {
   dimension: state {
     type: string
     sql: ${TABLE}.state ;;
+    html:
+
+    {% if value == "created" %}
+      <p style="color: #ffffff; background-color: #B32F37; font-size:100%; text-align:center;">{{ rendered_value }}</p>
+    {% elsif value == "confirmed" %}
+      <p style="color: #ffffff; background-color: #72D16D; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% else %}
+      <p style="color: #ffffff; background-color: #FFD95F; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% endif %} ;;
   }
 
   dimension: stripe_id {
@@ -430,6 +439,12 @@ view: accounts {
       year
     ]
     sql: MAX(${comments.created_raw}) ;;
+  }
+
+  dimension: highest_paying_plan {
+    type: number
+    sql: MAX(${memberships.pricing_plan_weight})
+     ;;
   }
 
   measure: count {
@@ -530,7 +545,7 @@ view: accounts {
           WHEN ${kind_id} IN (1,14,17) THEN "Doctor"
           WHEN ${kind_id} IN (2, 9, 11, 12, 13, 15, 16) THEN "Resident"
           WHEN ${kind_id} = 7  THEN "Other Healthcare Professional"
-          WHEN ${kind_id} = 5 THEN "Assistant"
+          WHEN ${kind_id} IN (5,6) THEN "Assistant"
           ELSE "Other"
           END ;;
   }
@@ -543,32 +558,40 @@ view: accounts {
   measure: count_doctors_only {
     type: count
     filters: {
-      field: kind_id
-      value: "1,14,17"
+      field: simplified_kind
+      value: "Doctor"
     }
   }
 
   measure: count_residents_only {
     type: count
     filters: {
-      field: kind_id
-      value: "2, 9, 11, 12, 13, 15, 16"
+      field: simplified_kind
+      value: "Resident"
     }
   }
 
   measure: count_assistants_only {
     type: count
     filters: {
-      field: kind_id
-      value: "5"
+      field: simplified_kind
+      value: "Assistant"
     }
   }
 
   measure: count_hcps_only {
     type: count
     filters: {
-      field: kind_id
-      value: "7"
+      field: simplified_kind
+      value: "Other Healthcare Professional"
+    }
+  }
+
+  measure: count_others_only {
+    type: count
+    filters: {
+      field: simplified_kind
+      value: "Other"
     }
   }
 
@@ -591,6 +614,16 @@ view: accounts {
   measure: at_least_one_group_count {
     type: count
     sql: COUNT(${memberships.id}) > 0 ;;
+  }
+
+  dimension: group_acronym {
+    type: string
+    sql: ${groups.acronym} ;;
+  }
+
+  measure: groups_acronym {
+    type: list
+    list_field: group_acronym
   }
 
   # ----- Sets of fields for drilling ------

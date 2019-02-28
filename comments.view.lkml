@@ -22,7 +22,8 @@ view: comments {
       week,
       month,
       quarter,
-      year
+      year,
+      day_of_week
     ]
     sql: ${TABLE}.created_at ;;
   }
@@ -108,7 +109,8 @@ view: comments {
 
   measure: regular_count {
     label: "Regular Count"
-    type: count
+    type: count_distinct
+    sql: ${TABLE}.id ;;
     filters: {
       field: is_regular
       value: "Yes"
@@ -123,6 +125,7 @@ view: comments {
   measure: change_request_count {
     label: "Change Request Count"
     type: count
+    sql: ${TABLE}.id ;;
     filters: {
       field: is_change_request
       value: "Yes"

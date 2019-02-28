@@ -80,6 +80,30 @@ view: appointment_reminders {
     drill_fields: [id]
   }
 
+  measure: email_count {
+    type: count
+    filters: {
+      field: method
+      value: "1"
+    }
+  }
+
+  measure: phone_count {
+    type: count
+    filters: {
+      field: method
+      value: "2"
+    }
+  }
+
+  measure: sms_count {
+    type: count
+    filters: {
+      field: method
+      value: "3"
+    }
+  }
+
   measure: number_of_unique_appointments {
     type: count_distinct
     sql: ${context_id} ;;

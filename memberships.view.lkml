@@ -292,6 +292,13 @@ view: memberships {
   dimension: manage_schedules {
     type: yesno
     sql: ${TABLE}.manage_schedules ;;
+    html:
+     {% if value == "Yes" %}
+       <p style="color: #ffffff; background-color: #592EC2; font-size:100%; text-align:center;">{{ rendered_value }}</p>
+     {% else %}
+    <p style="text-align:center;">{{ rendered_value }}</p>
+     {% endif %}
+    ;;
   }
 
   dimension: messaging_dashboard {
@@ -374,9 +381,36 @@ view: memberships {
     sql: ${TABLE}.view_schedules ;;
   }
 
+  dimension: pricing_plan_weight {
+    type: string
+    sql:
+    CASE
+      WHEN ${pricing_plans.code} LIKE "%advance%" THEN 3
+      WHEN ${pricing_plans.code} LIKE "%standard%" THEN 2
+      WHEN ${pricing_plans.code} LIKE "%basic%"THEN 1
+      ELSE 0
+
+    END
+
+     ;;
+  }
+
+  dimension: mau {
+    type: yesno
+    sql: TIMESTAMPDIFF(DAY,account_last_active, now()) <= 30 ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [detail*]
+  }
+
+  measure: mau_count {
+    type: count
+    filters: {
+      field: mau
+      value: "Yes"
+    }
   }
 
   measure: number_of_unique_accounts {

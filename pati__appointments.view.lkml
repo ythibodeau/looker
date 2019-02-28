@@ -172,6 +172,40 @@ view: pati__appointments {
     }
   }
 
+  measure: patient_web_count {
+    label: "Patient Appointments by Web"
+    type: count
+    filters: {
+      field: cancelled
+      value: "0"
+    }
+    filters: {
+      field: created_by_type
+      value: "Patient::Patient"
+    }
+    filters: {
+      field: source
+      value: "0"
+    }
+  }
+
+  measure: patient_phone_count {
+    label: "Patient Appointments by Phone"
+    type: count
+    filters: {
+      field: cancelled
+      value: "0"
+    }
+    filters: {
+      field: created_by_type
+      value: "Patient::Patient"
+    }
+    filters: {
+      field: source
+      value: "1"
+    }
+  }
+
   measure: patient_regular_count {
     label: "All Regular Appointments Patients Count"
     type: count

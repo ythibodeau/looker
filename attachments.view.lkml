@@ -22,6 +22,23 @@ view: attachments {
     sql: ${TABLE}.content_type ;;
   }
 
+  dimension: clean_content_type {
+    type: string
+    sql:
+    CASE
+      WHEN ${content_type} LIKE "%powerpoint%" OR ${content_type} LIKE "%pres%" THEN "MS PowerPoint"
+      WHEN ${content_type} LIKE "%pdf%" THEN "PDF"
+      WHEN ${content_type} LIKE "%word%" THEN "MS Word"
+      WHEN ${content_type} LIKE "%spre%" OR ${content_type} LIKE "excel" THEN "MS Excel"
+      WHEN ${content_type} LIKE "%zip%" THEN "ZIP file"
+      WHEN ${content_type} LIKE "%image%" THEN "Image"
+      WHEN ${content_type} LIKE "%audio%" THEN "Audio"
+      ELSE "Other"
+    END
+
+    ;;
+  }
+
   dimension_group: created {
     type: time
     timeframes: [

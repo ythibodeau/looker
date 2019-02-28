@@ -5,6 +5,7 @@ view: clinics {
       column: code {}
       column: acronym {}
       column: name {}
+      column: location_id {}
       column: adapterable_type { field: pati__providers.adapterable_type }
       filters: {
         field: pricing_suites.code
@@ -40,6 +41,7 @@ view: clinics {
   dimension: code {}
   dimension: acronym {}
   dimension: name {}
+  dimension: location_id {}
   dimension: adapterable_type {
     label: "EMR Adapterable Type"
   }

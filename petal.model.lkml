@@ -123,6 +123,7 @@ explore: account_locations {
 
 explore: accounts {
   group_label: "Global"
+  cancel_grouping_fields: [accounts.highest_paying_plan]
   join: timezones {
     type: left_outer
     sql_on: ${accounts.timezone_id} = ${timezones.id} ;;
@@ -148,7 +149,7 @@ explore: accounts {
   }
 
   join: specialties {
-    type: inner
+    type: left_outer
     sql_on: ${accounts.specialty_id} = ${specialties.id} ;;
     relationship: many_to_one
   }
@@ -171,12 +172,11 @@ explore: accounts {
     relationship: one_to_many
   }
 
-#   join: memberships {
-#     view_label: "Scheduled Memberships"
-#     type: left_outer
-#     sql_on: ${accounts.id} = ${memberships.account_id} AND ${memberships.is_scheduled} = 1 ;;
-#     relationship: one_to_many
-#   }
+  join: account_highest_scheduling_paying_plan {
+    type: left_outer
+    sql_on: ${accounts.id} = ${account_highest_scheduling_paying_plan.account_id} ;;
+    relationship: one_to_one
+  }
 
   join: memberships {
     type: left_outer
@@ -189,6 +189,25 @@ explore: accounts {
     sql_on: ${memberships.group_id} = ${groups.id} ;;
     relationship: one_to_one
   }
+
+  join: groups_pricing_plans {
+    type: inner
+    sql_on: ${groups_pricing_plans.group_id} = ${groups.id} ;;
+    relationship: many_to_one
+  }
+
+  join: pricing_plans {
+    type: inner
+    sql_on: ${groups_pricing_plans.plan_id} = ${pricing_plans.id} ;;
+    relationship: many_to_one
+  }
+
+  join: pricing_suites {
+    type: inner
+    sql_on: ${pricing_plans.suite_id} =  ${pricing_suites.id};;
+    relationship: many_to_one
+  }
+
 
   join: centres {
     type: inner
@@ -539,8 +558,24 @@ explore: group_export_datas {
   }
 }
 
+explore: account_highest_scheduling_paying_plan {}
+
 explore: groups {
   group_label: "Global"
+  cancel_grouping_fields: [accounts.highest_paying_plan]
+
+  join: group_kinds {
+    type: inner
+    sql_on: ${groups.kind_id} = ${group_kinds.id} ;;
+    relationship: many_to_one
+  }
+
+  join: group_highest_plans {
+    type: left_outer
+    sql_on: ${groups.id} = ${group_highest_plans.id} ;;
+    relationship: one_to_one
+  }
+
   join: centres {
     type: left_outer
     sql_on: ${groups.centre_id} = ${centres.id} ;;
@@ -605,6 +640,12 @@ explore: groups {
     type: inner
     sql_on: ${memberships.account_id} = ${accounts.id} ;;
     relationship: many_to_one
+  }
+
+  join: account_highest_scheduling_paying_plan {
+    type: inner
+    sql_on: ${accounts.id} = ${account_highest_scheduling_paying_plan.account_id} ;;
+    relationship: one_to_one
   }
 
   join: account_kinds {
@@ -731,6 +772,16 @@ explore: groups {
     type: left_outer
     sql_on: ${group_last_periods.period_id} = ${sche__tasks.period_id} ;;
     relationship: one_to_many
+  }
+
+  join: console_content_groups {
+    type: left_outer
+    sql_on: ${groups.id} = ${console_content_groups.content_group_id} ;;
+    relationship: one_to_many
+  }
+
+  join: date_series_table {
+    type: cross
   }
 
 }
@@ -1498,7 +1549,7 @@ explore: centres {}
 
 #explore: account_statuses {}
 
-#explore: account_kinds {}
+explore: account_kinds {}
 
 #explore: account_kinds_specialties {}
 
@@ -1638,7 +1689,7 @@ explore: comments_retention_lifecycle {
 
   join: account_kinds {
     type: inner
-    sql: ${accounts.kind_id} = ${account_kinds.id} ;;
+    sql_on: ${accounts.kind_id} = ${account_kinds.id} ;;
     relationship: one_to_one
   }
 
@@ -1756,6 +1807,7 @@ explore: account_kind_distribution_lists {
 
 explore: comm__documents {
   fields: [ALL_FIELDS*, -groups.last_period_id]
+  label: "Documents"
   group_label: "Petal Message"
   join: accounts {
     type: left_outer
@@ -1783,7 +1835,7 @@ explore: comm__documents {
 
   join: groups {
     type: left_outer
-    sql_on: ${comm__documents.group_id} = ${groups.parent_group_id} ;;
+    sql_on: ${comm__documents.group_id} = ${groups.id} ;;
     relationship: many_to_one
   }
 
@@ -1803,6 +1855,12 @@ explore: comm__documents {
     type: left_outer
     sql_on: ${groups.location_id} = ${locations.id} ;;
     relationship: many_to_one
+  }
+
+  join: attachments {
+    type: inner
+    sql_on: ${comm__documents.id} = ${attachments.attachable_id} AND ${attachments.attachable_type} = "Communication::Document" ;;
+    relationship: one_to_one
   }
 }
 
@@ -1964,6 +2022,12 @@ explore: comments {
     relationship: many_to_one
   }
 
+  join: group_kinds {
+    type: inner
+    sql_on: ${groups.kind_id} = ${group_kinds.id} ;;
+    relationship: many_to_one
+  }
+
   join: distribution_lists {
     type: left_outer
     sql_on: ${discussions.distribution_list_id} = ${distribution_lists.id} ;;
@@ -2053,6 +2117,12 @@ explore: discussions {
       type: left_outer
       sql_on: ${discussions.account_id} = ${accounts.id} ;;
       relationship: many_to_one
+    }
+
+    join: account_kinds {
+      type: inner
+      sql_on: ${accounts.kind_id} = ${account_kinds.id} ;;
+      relationship: one_to_one
     }
 
     join: account_first_comment {
@@ -3223,6 +3293,12 @@ explore: weekly_comments {
 # Petal Patient
 #####################################################################
 
+explore: active_patients {}
+
+explore: questionnaire_appointments {}
+
+explore:  patient_users {}
+
 explore: date_series_table {
   join:pati__appointments {
     type: left_outer
@@ -3339,6 +3415,20 @@ explore: pati__appointments {
     relationship: many_to_one
     sql_on: ${pati__reasons.group_id} = ${clinics.id};;
   }
+
+
+  join: locations {
+    type: left_outer
+    sql_on: ${clinics.location_id} = ${locations.id} ;;
+    relationship: many_to_one
+  }
+
+  join: location_geometries {
+    type: left_outer
+    sql_on: ${locations.id} = ${location_geometries.location_id} ;;
+    relationship: one_to_one
+  }
+
   join: pati__providers {
     type: inner
     relationship: one_to_one
@@ -3392,6 +3482,18 @@ explore: appointment_reminders {
     type: inner
     relationship: many_to_one
     sql_on: ${pati__reasons.group_id} = ${clinics.id};;
+  }
+
+  join: locations {
+    type: left_outer
+    sql_on: ${clinics.location_id} = ${locations.id} ;;
+    relationship: many_to_one
+  }
+
+  join: location_geometries {
+    type: left_outer
+    sql_on: ${locations.id} = ${location_geometries.location_id} ;;
+    relationship: one_to_one
   }
 
 
@@ -4273,7 +4375,37 @@ explore: pati__waiting_rooms {
 #
 # explore: book__notification_templates {}
 #
-# explore: book__notifications {}
+ explore: book__notifications {
+   join: book__notification_deliveries {
+     type: left_outer
+     sql_on: ${book__notifications.id} = ${book__notification_deliveries.notification_id} ;;
+     relationship: one_to_one
+   }
+
+  join: book__notification_templates {
+    type: left_outer
+    sql_on: ${book__notifications.template_id} = ${book__notification_templates.id} ;;
+    relationship: many_to_one
+  }
+
+  join: book__notification_template_groups {
+    type: left_outer
+    sql_on: ${book__notification_templates.template_group_id} = ${book__notification_template_groups.created_by_id} ;;
+    relationship: many_to_one
+  }
+
+  join: groups {
+    type: inner
+    sql_on: ${book__notification_template_groups.group_id} = ${groups.id} ;;
+    relationship: many_to_one
+  }
+
+  join: book__queued_notifications {
+    type: left_outer
+    sql_on: ${book__notifications.queued_notification_id} = ${book__queued_notifications.id} ;;
+    relationship: one_to_one
+  }
+ }
 #
 # explore: book__queued_notifications {
 #   join: groups {

@@ -232,6 +232,18 @@ view: groups {
     sql: ${TABLE}.inactive ;;
   }
 
+  dimension: status  {
+    type: string
+    sql: CASE WHEN ${inactive} = 1 THEN "Inactive" ELSE "Active" END ;;
+    html:
+    {% if value == "Active" %}
+    <p style="color: #ffffff; background-color: #72D16D; font-size:100%; text-align:center;">{{ rendered_value }}</p>
+    {% else %}
+    <p style="color: #ffffff; background-color: #B32F37; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% endif %}
+    ;;
+  }
+
   dimension: invalid_change_request_behavior {
     type: string
     sql: ${TABLE}.invalid_change_request_behavior ;;
@@ -255,6 +267,21 @@ view: groups {
   dimension: kind_id {
     type: number
     sql: ${TABLE}.kind_id ;;
+  }
+
+  dimension: clean_kind {
+    type: string
+    sql:
+      CASE
+        WHEN ${kind_id} = 1 THEN "Department"
+        WHEN ${kind_id} = 2 THEN "Hospital"
+        WHEN ${kind_id} = 3 THEN "Centre"
+        WHEN ${kind_id} = 4 THEN "Association"
+        WHEN ${kind_id} = 5 THEN "Communication"
+        WHEN ${kind_id} = 6 THEN "Clinic"
+        WHEN ${kind_id} = 7 THEN "Integrated Centre"
+      END
+    ;;
   }
 
   dimension: late_threshold_weeks {
@@ -563,6 +590,11 @@ view: groups {
   dimension: last_period_id {
     type: number
     sql: MAX(${sche__periods.id}) ;;
+  }
+
+  dimension: is_in_console {
+    type: yesno
+    sql: ${console_content_groups.console_group_id} IS NOT NULL ;;
   }
 
   measure: count {

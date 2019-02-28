@@ -91,6 +91,17 @@ view: pati__offerings {
     sql: ${TABLE}.web_offering ;;
   }
 
+  dimension: offering_type {
+    type: string
+    sql:
+
+    CASE
+      WHEN ${TABLE}.code LIKE "WALK%" THEN "Walk-in"
+      WHEN ${TABLE}.code LIKE "FAMILY%" THEN "Family Doctor"
+      ELSE "Other Services"
+    END;;
+  }
+
   measure: count {
     type: count
     drill_fields: [id, groups.name, groups.parent_group_id]

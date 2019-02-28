@@ -81,6 +81,26 @@ view: centres {
     sql: ${TABLE}.zip ;;
   }
 
+  dimension: cohort {
+    type: string
+    sql:
+     CASE
+        WHEN ${id} IN (20, 278, 266, 260, 303) THEN "COHORT A"
+        WHEN ${id} IN (175, 21, 170, 302, 290, 112, 263, 269, 242, 306) THEN "COHORT B"
+        ELSE "COHORT C"
+      END;;
+    html:
+      {% if value == "COHORT A" %}
+        <p style="color: #c3933a; background-color: #fdf6c7; font-size:100%; text-align:center;">{{ rendered_value }}</p>
+      {% elsif value == 'COHORT B' %}
+        <p style="color: #aaaaaa; background-color: #dddddd; font-size:100%; text-align:center">{{ rendered_value }}</p>
+      {% else %}
+        <p style="color: #a86048; background-color: #ddb2a6; font-size:100%; text-align:center">{{ rendered_value }}</p>
+       {% endif %}
+
+      ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [parent_centre_id, name, groups.count]
