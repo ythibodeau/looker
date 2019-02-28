@@ -70,4 +70,11 @@ view: participant_flags {
     type: count
     drill_fields: [id, participants.id]
   }
+
+
+  measure: participant_count {
+    type: count_distinct
+    sql: ${TABLE}.participant_id ;;
+  }
+
 }

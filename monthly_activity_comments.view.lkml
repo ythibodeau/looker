@@ -65,11 +65,6 @@ dimension: months_since_signup {
   sql: TIMESTAMPDIFF(MONTH, ${TABLE}.signup_month, ${TABLE}.comment_month) ;;
 }
 
-# dimension: time_to_10_messages {
-#   type: number
-#   sql:  TIMESTAMPDIFF(MONTH, ${TABLE}.signup_month, ${TABLE}.comment_month) ;;
-# }
-
 dimension: monthly_comments {
   type: number
   sql: ${TABLE}.monthly_comments ;;
@@ -84,7 +79,6 @@ measure: total_users {
 measure: total_active_users {
   type: count_distinct
   sql: ${account_id} ;;
-  drill_fields: [accounts.id, accounts.first_name, accounts.last_name]
 
   filters: {
     field: monthly_comments
@@ -98,7 +92,6 @@ measure: percent_of_cohort_active {
   sql: 1.0 * ${total_active_users} / nullif(${total_users},0) ;;
   drill_fields: [account_id, accounts.first_name, accounts.last_name, account.simplified_kind, accounts.group_acronyms, monthly_comments]
 }
-
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
@@ -110,5 +103,6 @@ measure: percent_of_cohort_active {
       monthly_comments
     ]
   }
+
 
 }

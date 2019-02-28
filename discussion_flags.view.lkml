@@ -70,4 +70,14 @@ view: discussion_flags {
     type: count
     drill_fields: [id, discussions.id]
   }
+
+  measure: ask_for_acknowledge_count {
+    type: count_distinct
+    sql: ${discussion_id} ;;
+    filters: {
+      field: flag
+      value: "0"
+    }
+  }
+
 }

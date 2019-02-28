@@ -5,6 +5,7 @@ view: discussions {
     primary_key: yes
     type: number
     sql: ${TABLE}.id ;;
+    html: <span title="{{discussions.participants_count._value}}"> {{rendered_value}} </span> ;;
   }
 
   dimension: account_id {
@@ -195,6 +196,11 @@ view: discussions {
   measure: count {
     type: count
     drill_fields: [detail*]
+  }
+
+  measure: participants_count {
+    type: count_distinct
+    sql: ${participants.account_id} ;;
   }
 
   # ----- Sets of fields for drilling ------

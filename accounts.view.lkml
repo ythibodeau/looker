@@ -254,6 +254,7 @@ view: accounts {
   dimension: last_name {
     type: string
     sql: ${TABLE}.last_name ;;
+    html: <span title="This is a test {{accounts.cumulative_confirmed._value}}">{{rendered_value}}</span>;;
   }
 
   dimension: locale {
@@ -550,9 +551,19 @@ view: accounts {
           END ;;
   }
 
-  dimension: concatenated_name {
+  dimension: group_acronym {
     type: string
-    sql: GROUP_CONCAT(${groups.name}) ;;
+    sql: ${groups.acronym} ;;
+  }
+
+  measure: groups_acronym {
+    type: list
+    list_field: group_acronym
+  }
+
+  measure: test {
+    type: count
+    sql: ${memberships.count} ;;
   }
 
   measure: count_doctors_only {

@@ -38,12 +38,12 @@ view: account_kinds {
 
   dimension: is_hcp {
     type: yesno
-    sql: ${TABLE}.mnemonic IN ("doctor", "retired", "fellow")  ;;
+    sql: ${TABLE}.mnemonic IN ("other_health_professional")  ;;
   }
 
   dimension: is_assistant {
     type: yesno
-    sql: ${TABLE}.mnemonic IN ("other_health_professional")  ;;
+    sql: ${TABLE}.mnemonic IN ("assistant" , "administrator")  ;;
   }
 
 

@@ -97,7 +97,6 @@ view: centres {
       {% else %}
         <p style="color: #a86048; background-color: #ddb2a6; font-size:100%; text-align:center">{{ rendered_value }}</p>
        {% endif %}
-
       ;;
   }
 
