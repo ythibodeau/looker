@@ -592,10 +592,11 @@ view: groups {
     sql: MAX(${sche__periods.id}) ;;
   }
 
-  dimension: is_in_console {
-    type: yesno
-    sql: ${console_content_groups.console_group_id} IS NOT NULL ;;
-  }
+#   dimension: is_in_console {
+#     type: yesno
+#     sql: ${id} NOT IN (SELECT ${console_content_group.id} FROM ${console_content_group}  ) ;;
+#    # sql:${id} NOT IN   ${console_content_groups.console_group_id} IS NOT NULL ;;
+#   }
 
   measure: count {
     type: count

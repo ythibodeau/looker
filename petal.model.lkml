@@ -576,6 +576,12 @@ explore: groups {
     relationship: one_to_one
   }
 
+  join: groups_not_in_console {
+    type: left_outer
+    sql_on: ${groups.id} = ${groups_not_in_console.content_group_id} ;;
+    relationship: many_to_one
+  }
+
   join: centres {
     type: left_outer
     sql_on: ${groups.centre_id} = ${centres.id} ;;
@@ -771,12 +777,6 @@ explore: groups {
   join: sche__tasks {
     type: left_outer
     sql_on: ${group_last_periods.period_id} = ${sche__tasks.period_id} ;;
-    relationship: one_to_many
-  }
-
-  join: console_content_groups {
-    type: left_outer
-    sql_on: ${groups.id} = ${console_content_groups.content_group_id} ;;
     relationship: one_to_many
   }
 
