@@ -344,6 +344,8 @@ view: accounts {
       <p style="color: #ffffff; background-color: #B32F37; font-size:100%; text-align:center;">{{ rendered_value }}</p>
     {% elsif value == "confirmed" %}
       <p style="color: #ffffff; background-color: #72D16D; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% elsif value == "deactivated" %}
+     <p style="color: #ffffff; background-color: gray; font-size:100%; text-align:center">{{ rendered_value }}</p>
     {% else %}
       <p style="color: #ffffff; background-color: #FFD95F; font-size:100%; text-align:center">{{ rendered_value }}</p>
     {% endif %} ;;
@@ -455,7 +457,7 @@ view: accounts {
 
   measure: count_unique {
     type: count_distinct
-    sql: ${id} ;;
+    sql: ${accounts.id} ;;
   }
 
   measure: confirmed_count {
@@ -537,7 +539,8 @@ view: accounts {
   dimension: is_scheduled {
     type: yesno
     #sql: SUM(CASE WHEN ${memberships.is_scheduled} = 1 then 1 else 0 end) > 0 ;;
-    sql: EXISTS(SELECT ${memberships.id} FROM ${memberships.SQL_TABLE_NAME} WHERE ${id} = ${memberships.id} AND ${memberships.is_scheduled} = 1;;
+    sql: EXISTS(SELECT ${memberships.id} FROM ${memberships.SQL_TABLE_NAME}
+    WHERE ${id} = ${memberships.id} AND ${memberships.is_scheduled} = 1);;
   }
 
   dimension: simplified_kind {
@@ -625,16 +628,6 @@ view: accounts {
   measure: at_least_one_group_count {
     type: count
     sql: COUNT(${memberships.id}) > 0 ;;
-  }
-
-  dimension: group_acronym {
-    type: string
-    sql: ${groups.acronym} ;;
-  }
-
-  measure: groups_acronym {
-    type: list
-    list_field: group_acronym
   }
 
   # ----- Sets of fields for drilling ------

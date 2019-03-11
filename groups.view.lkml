@@ -592,6 +592,16 @@ view: groups {
     sql: MAX(${sche__periods.id}) ;;
   }
 
+  dimension: pricing_plan {
+    type: string
+    sql: ${pricing_plans.name_en} ;;
+  }
+
+  measure: pricing_plans {
+    type: list
+    list_field: pricing_plan
+  }
+
 #   dimension: is_in_console {
 #     type: yesno
 #     sql: ${id} NOT IN (SELECT ${console_content_group.id} FROM ${console_content_group}  ) ;;

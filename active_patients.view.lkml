@@ -9,7 +9,7 @@ FROM ${date_series_table.SQL_TABLE_NAME} as wd
 LEFT JOIN (
 SELECT DISTINCT a.patient_id, DATE_FORMAT(a.created_at, '%Y-%m-%d') as appointment_date
 FROM pati__appointments a
-WHERE YEAR(a.created_at) >= 2018) as daily_use
+WHERE YEAR(a.created_at) >= 2019) as daily_use
 ON wd.date BETWEEN daily_use.appointment_date AND DATE_ADD(daily_use.appointment_date, INTERVAL 30 DAY)
 GROUP BY 1,2
        ;;

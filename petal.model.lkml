@@ -15,13 +15,12 @@ persist_with: test_yves_default_datagroup
 # Global
 #####################################################################
 
+explore: specialties {}
+explore: locations {}
+
 explore: year_month_accounts
  {
-#     join: monthly_activity_previous_comments {
-#       type: left_outer
-#       sql_on: ${year_month_accounts.compound_primary_key} = ${monthly_activity_previous_comments.compound_primary_key} ;;
-#       relationship: one_to_one
-#     }
+
  }
 
 explore: year_month_table {
@@ -1125,6 +1124,12 @@ explore: meeting_events {
       type: left_outer
       sql_on: ${meeting_events.account_id} = ${accounts.id} ;;
       relationship: many_to_one
+    }
+
+    join: meeting_attendees {
+      type: inner
+      sql_on: ${meeting_events.id} = ${meeting_attendees.event_id} ;;
+      relationship: one_to_many
     }
 
     join: account_first_comment {
@@ -2598,6 +2603,10 @@ explore: shared_distribution_lists {
 # Petal Agenda
 #####################################################################
 
+
+# This version is not for chargeBee where we exclude console
+explore: account_highest_scheduling_plan {}
+
 explore: sche__period_histories {
   group_label: "Petal Agenda"
   label: "Period Histories"
@@ -2640,6 +2649,28 @@ explore: sche__change_requests {
   join: discussions {
     type: left_outer
     sql: ${comments.discussion_id} = ${discussions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: sche__absence_changes {
+    type: left_outer
+    sql_on: ${sche__change_requests.id} = ${sche__absence_changes.request_id} AND ${sche__absence_changes.request_id} IS NULL ;;
+    relationship: many_to_one
+  }
+}
+
+explore: sche__absence_changes {
+  group_label: "Petal Agenda"
+
+  join: categories {
+    type: inner
+    sql_on: ${sche__absence_changes.category_to_id} = ${categories.id} ;;
+    relationship: many_to_one
+  }
+
+  join: groups {
+    type: inner
+    sql_on: ${categories.group_id} = ${groups.id} ;;
     relationship: many_to_one
   }
 }
@@ -3595,6 +3626,7 @@ explore: pati__appointment_check_ins {
   }
 
 explore: pati__availabilities {
+    label: "Availabilities"
     group_label: "Petal Patient"
     join: pati__account_tasks {
       type: inner
@@ -3616,6 +3648,13 @@ explore: pati__availabilities {
       sql_on: ${pati__reasons.offering_id} = ${pati__offerings.id};;
       relationship: many_to_one
     }
+
+    join: groups {
+      type: inner
+      sql_on: ${pati__reasons.group_id} = ${groups.id} ;;
+      relationship: many_to_one
+    }
+
     join: accounts {
       type: inner
       sql_on: ${pati__account_tasks.account_id} = ${accounts.id} ;;
@@ -3784,6 +3823,8 @@ explore: pati__patient_statuses {
       relationship: many_to_one
     }
 
+
+
     join: centres {
       type: left_outer
       sql_on: ${groups.centre_id} = ${centres.parent_centre_id} ;;
@@ -3805,11 +3846,19 @@ explore: pati__patient_statuses {
 
 explore: pati__patients {
     group_label: "Petal Patient"
+    label: "Patients"
     join: timezones {
       type: left_outer
       sql_on: ${pati__patients.timezone_id} = ${timezones.id} ;;
       relationship: many_to_one
     }
+
+  join: patient_users {
+    type: left_outer
+    sql_on: ${pati__patients.id} = ${patient_users.id} ;;
+    relationship: one_to_one
+
+  }
 
     join: profiles {
       type: left_outer
@@ -3851,6 +3900,12 @@ explore: pati__patients {
       type: inner
       sql_on: ${pati__subscriptions.group_id} = ${groups.id} ;;
       relationship: many_to_one
+    }
+
+    join: pati__appointments {
+      type: left_outer
+      sql_on: ${pati__patients.id} = ${pati__appointments.patient_id} ;;
+      relationship: one_to_many
     }
   }
 

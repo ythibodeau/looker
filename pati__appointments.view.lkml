@@ -158,6 +158,11 @@ view: pati__appointments {
     drill_fields: [details*]
   }
 
+  measure: unique_patients_count {
+    type: count_distinct
+    sql: ${pati__appointments.patient_id} ;;
+  }
+
 
   measure: patient_count {
     label: "All Appointments Patients Count"

@@ -288,6 +288,20 @@ view: sche__change_requests {
     drill_fields: [id]
   }
 
+  measure: distinct_mlinks_count {
+    type: count_distinct
+    sql: ${multiple_link} ;;
+  }
+
+  measure: distinct_one_one_count {
+    type: count_distinct
+    sql: ${id} ;;
+    filters: {
+      field: multiple_link
+      value: "NULL"
+    }
+  }
+
   measure: completed_change_request_count {
     label: "Executed Change Request"
     type: count_distinct
