@@ -9,7 +9,8 @@ FROM ${date_series_table.SQL_TABLE_NAME} as wd
 LEFT JOIN (
 SELECT DISTINCT a.patient_id, DATE_FORMAT(a.created_at, '%Y-%m-%d') as appointment_date
 FROM pati__appointments a
-WHERE YEAR(a.created_at) >= 2019) as daily_use
+WHERE YEAR(a.created_at) >= 2019
+AND created_by_type = "Patient::Patient" AND cancelled = 0) as daily_use
 ON wd.date BETWEEN daily_use.appointment_date AND DATE_ADD(daily_use.appointment_date, INTERVAL 30 DAY)
 GROUP BY 1,2
        ;;
@@ -32,20 +33,20 @@ GROUP BY 1,2
     sql: ${TABLE}.patient_id ;;
   }
 
-  dimension: days_since_last_appointment {
+  dimension: days_since_last_action {
     type: number
-    sql: ${TABLE}.days_since_last_appointment ;;
+    sql: ${TABLE}.days_since_last_action ;;
     value_format_name: decimal_0
   }
 
   dimension: active_this_day {
     type: yesno
-    sql: ${days_since_last_appointment} <  1 ;;
+    sql: ${days_since_last_action} <  1 ;;
   }
 
   dimension: active_last_7_days {
     type: yesno
-    sql: ${days_since_last_appointment} < 7 ;;
+    sql: ${days_since_last_action} < 7 ;;
   }
 
   measure: patient_count_active_30_days {

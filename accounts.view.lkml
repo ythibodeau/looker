@@ -540,7 +540,7 @@ view: accounts {
     type: yesno
     #sql: SUM(CASE WHEN ${memberships.is_scheduled} = 1 then 1 else 0 end) > 0 ;;
     sql: EXISTS(SELECT ${memberships.id} FROM ${memberships.SQL_TABLE_NAME}
-    WHERE ${id} = ${memberships.id} AND ${memberships.is_scheduled} = 1);;
+    WHERE ${accounts.id} = ${memberships.account_id} AND ${memberships.is_scheduled} = 1);;
   }
 
   dimension: simplified_kind {
@@ -687,7 +687,10 @@ view: accounts {
       simple__resources.count,
       trackings.count,
       trials.count,
-      validation_tokens.count
+      validation_tokens.count,
+      state,
+      last_active_date,
+      account_kinds.mnemonic
     ]
   }
 }

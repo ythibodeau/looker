@@ -15,13 +15,19 @@ persist_with: test_yves_default_datagroup
 # Global
 #####################################################################
 
-explore: specialties {}
+explore: specialties {
+  join: accounts {
+    type: left_outer
+    sql_on: ${specialties.id} = ${accounts.specialty_id} ;;
+    relationship: one_to_many
+  }
+}
 explore: locations {}
 
-explore: year_month_accounts
- {
+explore: year_month_accounts {}
+explore: year_month_patients {}
 
- }
+explore: year_month_table_patients {}
 
 explore: year_month_table {
 
@@ -142,7 +148,7 @@ explore: accounts {
   }
 
   join: account_kinds {
-    type: inner
+    type: left_outer
     sql_on: ${accounts.kind_id} = ${account_kinds.id} ;;
     relationship: many_to_one
   }
@@ -174,6 +180,12 @@ explore: accounts {
   join: account_highest_scheduling_paying_plan {
     type: left_outer
     sql_on: ${accounts.id} = ${account_highest_scheduling_paying_plan.account_id} ;;
+    relationship: one_to_one
+  }
+
+  join: account_highest_scheduling_plan{
+    type: left_outer
+    sql_on: ${accounts.id} = ${account_highest_scheduling_plan.account_id} ;;
     relationship: one_to_one
   }
 
@@ -1554,7 +1566,19 @@ explore: centres {}
 
 #explore: account_statuses {}
 
-explore: account_kinds {}
+explore: account_kinds {
+  join: accounts {
+    type: left_outer
+    sql_on: ${account_kinds.id} = ${accounts.kind_id} ;;
+    relationship: one_to_many
+  }
+
+  join: specialties {
+    type: left_outer
+    sql_on: ${accounts.specialty_id} = ${specialties.id} ;;
+    relationship: many_to_one
+  }
+}
 
 #explore: account_kinds_specialties {}
 
@@ -3359,11 +3383,19 @@ explore: weekly_comments {
 # Petal Patient
 #####################################################################
 
+explore: appointments_retention_lifecycle {}
+
 explore: active_patients {}
+
+explore: monthly_activity_appointments {}
+
+explore: monthly_activity_previous_appointments {}
 
 explore: questionnaire_appointments {}
 
 explore:  patient_users {}
+
+explore: date_series_table_patients {}
 
 explore: date_series_table {
   join:pati__appointments {
