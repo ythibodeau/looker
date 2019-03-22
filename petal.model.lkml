@@ -600,9 +600,9 @@ explore: groups {
   }
 
   join: sche__periods {
-    type: inner
-    sql_on: ${sche__periods.group_id} = ${groups.id} ;;
-    relationship: many_to_one
+    type: left_outer
+    sql_on: ${groups.id} = ${sche__periods.group_id} ;;
+    relationship: one_to_many
   }
 
   join: locations {
@@ -1571,6 +1571,18 @@ explore: account_kinds {
     type: left_outer
     sql_on: ${account_kinds.id} = ${accounts.kind_id} ;;
     relationship: one_to_many
+  }
+
+  join: memberships {
+    type: left_outer
+    sql_on: ${accounts.id} = ${memberships.account_id} ;;
+    relationship: one_to_many
+  }
+
+  join: groups {
+    type: left_outer
+    sql_on: ${memberships.group_id} = ${groups.id} ;;
+    relationship: many_to_one
   }
 
   join: specialties {
@@ -2720,6 +2732,12 @@ explore: sche__periods {
     type: inner
     sql_on: ${sche__change_requests.initiated_by_id} = ${accounts.id} ;;
     relationship: many_to_one
+  }
+
+  join: memberships {
+    type: left_outer
+    sql_on: ${groups.id} = ${memberships.group_id} ;;
+    relationship: one_to_many
   }
 
   join: account_first_comment {

@@ -257,6 +257,11 @@ view: accounts {
     html: <span title="This is a test {{accounts.cumulative_confirmed._value}}">{{rendered_value}}</span>;;
   }
 
+  dimension: full_name {
+    type: string
+    sql: CONCAT(${first_name}, " ", ${last_name}) ;;
+  }
+
   dimension: locale {
     type: string
     sql: ${TABLE}.locale ;;
@@ -690,7 +695,8 @@ view: accounts {
       validation_tokens.count,
       state,
       last_active_date,
-      account_kinds.mnemonic
+      account_kinds.mnemonic,
+      groups_acronym
     ]
   }
 }

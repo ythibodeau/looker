@@ -85,8 +85,8 @@ view: centres {
     type: string
     sql:
      CASE
-        WHEN ${id} IN (20, 278, 266, 260, 303) THEN "COHORT A"
-        WHEN ${id} IN (175, 21, 170, 302, 290, 112, 263, 269, 242, 306) THEN "COHORT B"
+        WHEN ${id} IN (20, 278, 266, 260, 303, 167) THEN "COHORT A"
+        WHEN ${id} IN (175, 21, 170, 302, 290, 112, 263, 269, 242, 306, 275) THEN "COHORT B"
         ELSE "COHORT C"
       END;;
     html:
