@@ -15,6 +15,51 @@ persist_with: test_yves_default_datagroup
 # Global
 #####################################################################
 
+explore: health_clusters {
+
+  join: territories {
+    type: inner
+    sql_on: ${health_clusters.territory_id} = ${territories.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${health_clusters.id} = ${health_institutions.health_cluster_id} ;;
+    relationship: one_to_many
+  }
+
+  join: groups {
+    type: left_outer
+    sql_on: ${health_institutions.id} = ${groups.health_institution_id} ;;
+    relationship: one_to_many
+  }
+
+  join: memberships {
+    type: left_outer
+    sql_on: ${groups.id} = ${memberships.group_id} ;;
+    relationship: one_to_many
+  }
+
+  join: accounts {
+    type: left_outer
+    sql_on: ${memberships.account_id} = ${accounts.id} ;;
+    relationship: many_to_one
+  }
+
+  join: locations {
+    type: left_outer
+    sql_on: ${groups.location_id} = ${locations.id} ;;
+    relationship: many_to_one
+  }
+
+  join: location_geometries {
+    type: left_outer
+    sql_on: ${locations.id} = ${location_geometries.location_id} ;;
+    relationship: one_to_one
+  }
+}
+
 explore: specialties {
   join: accounts {
     type: left_outer
@@ -958,10 +1003,16 @@ explore: location_geometries {
 
 explore: membership_changes {
   group_label: "Global"
-  hidden: yes
+
+  join: membership_change_kinds {
+    type: inner
+    sql_on: ${membership_changes.kind_id} = ${membership_change_kinds.id} ;;
+    relationship: many_to_one
+  }
+
   join: groups {
     type: left_outer
-    sql_on: ${membership_changes.group_id} = ${groups.parent_group_id} ;;
+    sql_on: ${membership_changes.group_id} = ${groups.id} ;;
     relationship: many_to_one
   }
 
@@ -2165,17 +2216,30 @@ explore: discussion_flags {
 
 explore: discussions {
   group_label: "Petal Message"
-    join: accounts {
-      type: left_outer
-      sql_on: ${discussions.account_id} = ${accounts.id} ;;
-      relationship: many_to_one
-    }
 
-    join: account_kinds {
+    join: recipients {
       type: inner
-      sql_on: ${accounts.kind_id} = ${account_kinds.id} ;;
+      sql_on: ${recipients.discussion_id} = ${discussions.id} ;;
       relationship: one_to_one
     }
+
+    join: participants {
+      type: inner
+      sql_on: ${discussions.id} = ${participants.discussion_id} ;;
+      relationship: one_to_many
+    }
+
+    join: comments {
+      type: left_outer
+      sql_on: ${discussions.id} = ${comments.discussion_id} ;;
+      relationship: one_to_many
+    }
+
+  join: accounts {
+    type: left_outer
+    sql_on: ${comments.account_id} = ${accounts.id} ;;
+    relationship: many_to_one
+  }
 
     join: account_kinds {
       type: inner
@@ -2187,12 +2251,6 @@ explore: discussions {
       type: left_outer
       sql_on: ${accounts.id} = ${account_first_comment.account_id} ;;
       relationship: one_to_one
-    }
-
-    join: comments {
-      type: left_outer
-      sql_on: ${accounts.id} = ${comments.account_id} ;;
-      relationship: one_to_many
     }
 
     join: groups {
@@ -2225,17 +2283,7 @@ explore: discussions {
       relationship: many_to_one
     }
 
-    join: recipients {
-      type: inner
-      sql_on: ${recipients.discussion_id} = ${discussions.id} ;;
-      relationship: one_to_one
-    }
 
-    join: participants {
-      type: inner
-      sql_on: ${discussions.id} = ${participants.discussion_id} ;;
-      relationship: one_to_many
-    }
 
     join: participant_flags {
       type: left_outer
@@ -2658,6 +2706,13 @@ explore: sche__period_histories {
 explore: sche__change_requests {
   group_label: "Petal Agenda"
   label: "Change Requests"
+
+  join: sche__change_request_flags {
+    type: left_outer
+    sql_on: ${sche__change_requests.id} = ${sche__change_request_flags.change_request_id} ;;
+    relationship: one_to_many
+  }
+
   join: groups {
     type: inner
     sql_on: ${groups.id} = ${sche__change_requests.group_id} ;;
@@ -2718,6 +2773,24 @@ explore: sche__periods {
   join: groups {
     type: inner
     sql_on: ${sche__periods.group_id} = ${groups.id}  ;;
+    relationship: many_to_one
+  }
+
+  join: groups_pricing_plans {
+    type: inner
+    sql_on: ${groups_pricing_plans.group_id} = ${groups.id} ;;
+    relationship: many_to_one
+  }
+
+  join: pricing_plans {
+    type: inner
+    sql_on: ${groups_pricing_plans.plan_id} = ${pricing_plans.id} ;;
+    relationship: many_to_one
+  }
+
+  join: pricing_suites {
+    type: inner
+    sql_on: ${pricing_plans.suite_id} =  ${pricing_suites.id};;
     relationship: many_to_one
   }
 
@@ -2793,6 +2866,12 @@ explore: sche__periods {
     type: inner
     sql_on: ${sche__period_histories.period_id} = ${sche__periods.id} ;;
     relationship: many_to_one
+  }
+
+  join: sche__assignments {
+    type: inner
+    sql_on: ${sche__period_histories.id} = ${sche__assignments.period_history_id} ;;
+    relationship: one_to_many
   }
 
   join: sche__plans {

@@ -284,6 +284,14 @@ view: groups {
     ;;
   }
 
+  dimension: chargebe_cohort {
+    type: string
+    sql: CASE
+        WHEN ${id} IN (2738, 751, 450, 226, 1816, 1842, 217, 28, 2, 421, 256, 1858, 2300, 1288, 1024, 300, 267, 385, 608, 1146, 1244, 409, 342, 1232, 312, 2297, 1825) THEN "April 2019"
+        ELSE NULL
+        END;;
+  }
+
   dimension: late_threshold_weeks {
     type: number
     sql: ${TABLE}.late_threshold_weeks ;;
@@ -592,6 +600,11 @@ view: groups {
     sql: MAX(${sche__periods.id}) ;;
   }
 
+  dimension: health_institution_id {
+    type: number
+    sql: ${TABLE}.health_institution_id ;;
+  }
+
   dimension: pricing_plan {
     type: string
     sql: ${pricing_plans.name_en} ;;
@@ -602,14 +615,9 @@ view: groups {
     list_field: pricing_plan
   }
 
-#   dimension: is_in_console {
-#     type: yesno
-#     sql: ${id} NOT IN (SELECT ${console_content_group.id} FROM ${console_content_group}  ) ;;
-#    # sql:${id} NOT IN   ${console_content_groups.console_group_id} IS NOT NULL ;;
-#   }
-
   measure: count {
     type: count
+    sql: ${groups.id} ;;
     drill_fields: [detail*]
   }
 

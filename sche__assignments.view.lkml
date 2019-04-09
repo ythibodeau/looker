@@ -99,4 +99,32 @@ view: sche__assignments {
     type: count
     drill_fields: [id]
   }
+
+  dimension: is_manual {
+    type: yesno
+    sql: ${sche__period_histories.source_type} IN (0,6) ;;
+  }
+
+  dimension: is_automatic {
+    type: yesno
+    sql: ${sche__period_histories.source_type} IN (1,2) ;;
+  }
+
+  measure: is_manual_count {
+    type: count_distinct
+    sql: ${sche__assignments.id} ;;
+    filters: {
+      field: is_manual
+      value: "Yes"
+    }
+  }
+
+  measure: is_automatic_count {
+    type: count_distinct
+    sql: ${sche__assignments.id} ;;
+    filters: {
+      field: is_automatic
+      value: "Yes"
+    }
+  }
 }
