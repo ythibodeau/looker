@@ -652,7 +652,10 @@ view: accounts {
       field: is_scheduled
       value: "Yes"
     }
+
+    drill_fields: [accounts.id, accounts.first_name, accounts.last_name, accounts.simplified_kind, accounts.console_group_acronyms]
   }
+
 
   measure: not_scheduled_count {
     type: count
