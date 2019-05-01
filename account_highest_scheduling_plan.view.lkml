@@ -1,5 +1,6 @@
 view: account_highest_scheduling_plan {
   derived_table: {
+    sql_trigger_value: SELECT CURDATE() ;;
     sql: SELECT account_id,
           CASE
             WHEN MAX(plan_value) = 3 THEN "ADVANCED"
@@ -34,6 +35,7 @@ view: account_highest_scheduling_plan {
 
   dimension: account_id {
     type: number
+    primary_key: yes
     sql: ${TABLE}.account_id ;;
   }
 

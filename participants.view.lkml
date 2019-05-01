@@ -86,6 +86,11 @@ view: participants {
     drill_fields: [detail*]
   }
 
+  measure: count_discussions {
+    type: count_distinct
+    sql: ${discussion_id} ;;
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [

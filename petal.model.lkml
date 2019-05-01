@@ -618,7 +618,7 @@ explore: account_highest_scheduling_paying_plan {}
 
 explore: groups {
   group_label: "Global"
-  cancel_grouping_fields: [accounts.highest_paying_plan]
+  cancel_grouping_fields: [accounts.highest_paying_plan, groups.is_scheduling]
 
   join: group_kinds {
     type: inner
@@ -2154,6 +2154,18 @@ explore: comments {
     sql_on: ${groups.timezone_id} = ${timezones.id} ;;
     relationship: many_to_one
   }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+    relationship: many_to_one
+  }
 }
 
 explore: discussion_flags {
@@ -3495,58 +3507,72 @@ explore:  patient_users {}
 explore: date_series_table_patients {}
 
 explore: date_series_table {
-  join:pati__appointments {
-    type: left_outer
-    sql_on: ${date_series_table.date_date} = ${pati__appointments.created_date} ;;
-  }
-
-  join: pati__availabilities {
-    type: inner
-    sql_on: ${pati__appointments.availability_id} = ${pati__availabilities.id} ;;
-    relationship: one_to_one
-  }
-
-  join: pati__account_tasks {
-    type: inner
-    sql_on: ${pati__availabilities.account_task_id} = ${pati__account_tasks.id} ;;
-    relationship: many_to_one
-  }
-
-  join: pati__tasks {
-    type: inner
-    sql_on: ${pati__account_tasks.task_id} = ${pati__tasks.id} ;;
-    relationship: many_to_one
-  }
-
-  join: pati__reasons {
-    type: inner
-    sql_on: ${pati__tasks.reason_id} = ${pati__reasons.id} ;;
-    relationship: many_to_one
-  }
-
-  join: clinics {
-    type: inner
-    sql_on: ${pati__reasons.group_id} = ${clinics.id} ;;
-    relationship: many_to_one
-  }
-
-  join: appointment_reminders  {
-    type: left_outer
-    sql_on: ${date_series_table.date_date} = ${appointment_reminders.sent_date_date} ;;
-  }
 
   join: accounts {
-    view_label: "Confirmed accounts"
-    type: left_outer
-    sql_on: ${date_series_table.date_date} = ${accounts.confirmed_date} ;;
-    relationship: one_to_many
+    type: cross
   }
-
-  join: comments {
+  join: active_users {
     type: left_outer
-    sql_on: ${accounts.id} = ${comments.account_id} ;;
-    relationship: one_to_many
+    sql_on: ${accounts.id} = ${active_users.account_id} ;;
+    relationship: one_to_one
   }
+#   join:pati__appointments {
+#     type: left_outer
+#     sql_on: ${date_series_table.date_date} = ${pati__appointments.created_date} ;;
+#   }
+#
+#   join: pati__availabilities {
+#     type: inner
+#     sql_on: ${pati__appointments.availability_id} = ${pati__availabilities.id} ;;
+#     relationship: one_to_one
+#   }
+#
+#   join: pati__account_tasks {
+#     type: inner
+#     sql_on: ${pati__availabilities.account_task_id} = ${pati__account_tasks.id} ;;
+#     relationship: many_to_one
+#   }
+#
+#   join: pati__tasks {
+#     type: inner
+#     sql_on: ${pati__account_tasks.task_id} = ${pati__tasks.id} ;;
+#     relationship: many_to_one
+#   }
+#
+#   join: pati__reasons {
+#     type: inner
+#     sql_on: ${pati__tasks.reason_id} = ${pati__reasons.id} ;;
+#     relationship: many_to_one
+#   }
+#
+#   join: clinics {
+#     type: inner
+#     sql_on: ${pati__reasons.group_id} = ${clinics.id} ;;
+#     relationship: many_to_one
+#   }
+#
+#   join: appointment_reminders  {
+#     type: left_outer
+#     sql_on: ${date_series_table.date_date} = ${appointment_reminders.sent_date_date} ;;
+#   }
+#
+#   join: accounts {
+#     view_label: "Confirmed accounts"
+#     type: left_outer
+#     sql_on: ${date_series_table.date_date} = ${accounts.confirmed_date} ;;
+#     relationship: one_to_many
+#   }
+#
+#   join: comments {
+#     type: left_outer
+#     sql_on: ${accounts.id} = ${comments.account_id} ;;
+#     relationship: one_to_many
+#   }
+#
+#   join: memberships {
+#     type: left_outer
+#     sql_on:  ;;
+#   }
 
 }
 
@@ -4705,6 +4731,129 @@ explore: pati__waiting_rooms {
 #####################################################################
 # Petal Hub
 #####################################################################
+
+explore: console_content_groups {
+  group_label: "Petal Hub"
+
+  join: head_groups {
+    from: groups
+    sql_on: ${console_content_groups.console_group_id} = ${head_groups.id} ;;
+  }
+
+  join: console_groups {
+    from: groups
+    sql_on: ${console_content_groups.content_group_id} = ${console_groups.id}  ;;
+  }
+
+  join: console_access_groups {
+    type: left_outer
+    sql_on: ${console_content_groups.console_group_id} = ${console_access_groups.console_group_id} ;;
+    relationship: one_to_many
+  }
+
+  join: group_kinds {
+    type: inner
+    sql_on: ${console_groups.kind_id} = ${group_kinds.id} ;;
+    relationship: many_to_one
+  }
+
+  join: groups_pricing_plans {
+    type: inner
+    sql_on: ${groups_pricing_plans.group_id} = ${console_groups.id} ;;
+    relationship: many_to_one
+  }
+
+  join: pricing_plans {
+    type: inner
+    sql_on: ${groups_pricing_plans.plan_id} = ${pricing_plans.id} ;;
+    relationship: many_to_one
+  }
+
+  join: pricing_suites {
+    type: inner
+    sql_on: ${pricing_plans.suite_id} =  ${pricing_suites.id};;
+    relationship: many_to_one
+  }
+
+  join: ip_ranges {
+    type: left_outer
+    sql_on: ${head_groups.id} = ${ip_ranges.group_id} ;;
+    relationship: one_to_many
+  }
+
+  join: memberships {
+    type: left_outer
+    sql_on: ${console_groups.id} = ${memberships.group_id} ;;
+    relationship: one_to_many
+  }
+
+  join: accounts {
+    type: left_outer
+    sql_on: ${memberships.account_id} = ${accounts.id} ;;
+    relationship: many_to_one
+  }
+
+  join: head_memberships {
+    from: memberships
+    sql_on: ${console_content_groups.console_group_id} = ${head_memberships.group_id} ;;
+    relationship: one_to_many
+  }
+
+  join: head_accounts {
+    from: accounts
+    type: left_outer
+    sql_on: ${head_memberships.account_id} = ${head_accounts.id} ;;
+    relationship: many_to_one
+  }
+
+  join: comments {
+    type: left_outer
+    sql_on: ${accounts.id} = ${comments.account_id} ;;
+    relationship: one_to_many
+  }
+
+  join: discussions {
+    type: left_outer
+    sql_on: ${comments.discussion_id} = ${discussions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: participants {
+    type: left_outer
+    sql_on: ${accounts.id} = ${participants.account_id} ;;
+    relationship: one_to_many
+  }
+}
+
+explore: console_access_groups {
+  join: console_content_groups {
+    type: left_outer
+    sql_on: ${console_access_groups.console_group_id} = ${console_content_groups.console_group_id} ;;
+    relationship: many_to_many
+  }
+
+  join: console_groups {
+    from: groups
+    sql_on: ${console_content_groups.console_group_id} = ${console_groups.id} ;;
+  }
+
+  join: access_groups {
+    from: groups
+    sql_on: ${console_access_groups.access_group_id} = ${access_groups.id} ;;
+  }
+
+  join: memberships {
+    type: left_outer
+    sql_on: ${access_groups.id} = ${memberships.group_id} ;;
+    relationship: one_to_many
+  }
+
+  join: accounts {
+    type: left_outer
+    sql_on: ${memberships.id} = ${accounts.id} ;;
+    relationship: many_to_one
+  }
+}
 
 explore: dashboard_calls {
   group_label: "Petal Hub"

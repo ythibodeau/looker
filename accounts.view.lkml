@@ -548,6 +548,18 @@ view: accounts {
     WHERE ${accounts.id} = ${memberships.account_id} AND ${memberships.is_scheduled} = 1);;
   }
 
+  dimension: total_md_qc {
+    type: number
+    sql: 20350 ;;
+    value_format: "#####"
+  }
+
+  dimension: total_md_on {
+    type: number
+    sql: 28642 ;;
+    value_format: "#####"
+  }
+
   dimension: simplified_kind {
     type: string
     sql: CASE
@@ -567,6 +579,26 @@ view: accounts {
   measure: groups_acronym {
     type: list
     list_field: group_acronym
+  }
+
+  dimension: console_group_acronym {
+    type: string
+    sql: ${console_groups.acronym} ;;
+  }
+
+  measure: console_group_acronyms {
+    type: list
+    list_field: console_group_acronym
+  }
+
+  dimension: access_group_acronym {
+    type: string
+    sql: ${access_groups.acronym} ;;
+  }
+
+  measure: access_group_acronyms {
+    type: list
+    list_field: access_group_acronym
   }
 
   measure: test {

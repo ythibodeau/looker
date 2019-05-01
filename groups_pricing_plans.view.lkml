@@ -81,6 +81,21 @@ view: groups_pricing_plans {
     sql: ${TABLE}.updated_at ;;
   }
 
+  dimension: is_scheduling {
+    type: yesno
+    sql: ${pricing_plans.is_scheduling_plan} = 1 ;;
+  }
+
+  dimension: is_booking {
+    type: yesno
+    sql: ${pricing_plans.is_booking_plan} = 1 ;;
+  }
+
+  dimension: is_hospital {
+    type: yesno
+    sql: ${pricing_plans.is_hospital_plan} = 1 ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [id, groups.name, groups.parent_group_id]

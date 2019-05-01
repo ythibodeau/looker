@@ -610,6 +610,17 @@ view: groups {
     sql: ${pricing_plans.name_en} ;;
   }
 
+  # Indicates if this groups has the Group Scheduling
+  dimension: nb_scheduling {
+    type: number
+    sql: COUNT(${groups_pricing_plans.id} WHERE ${groups_pricing_plans.is_scheduling} = "Yes" ;;
+  }
+
+  dimension: is_scheduling {
+    type: number
+    sql: ${nb_scheduling} > 0 ;;
+  }
+
   measure: pricing_plans {
     type: list
     list_field: pricing_plan

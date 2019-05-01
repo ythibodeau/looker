@@ -12,6 +12,11 @@ view: console_content_groups {
     sql: ${TABLE}.console_group_id ;;
   }
 
+  dimension: content_group_id {
+    type: number
+    sql: ${TABLE}.content_group_id ;;
+  }
+
   dimension_group: created {
     type: time
     timeframes: [
@@ -43,5 +48,10 @@ view: console_content_groups {
   measure: count {
     type: count
     drill_fields: [id]
+  }
+
+  measure: count_console_groups {
+    type: count_distinct
+    sql: ${TABLE}.content_group_id ;;
   }
 }

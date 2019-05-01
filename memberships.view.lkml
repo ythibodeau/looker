@@ -428,9 +428,19 @@ view: memberships {
 
   measure: is_scheduled_count {
     type: count_distinct
+    sql: ${id} ;;
     filters: {
       field: is_scheduled
       value: "Yes"
+    }
+  }
+
+  measure: not_scheduled_count {
+    type: count_distinct
+    sql: ${id} ;;
+    filters: {
+      field: is_scheduled
+      value: "No"
     }
   }
 

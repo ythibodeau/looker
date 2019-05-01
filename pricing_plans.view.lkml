@@ -75,6 +75,21 @@ view: pricing_plans {
     sql: ${TABLE}.updated_at ;;
   }
 
+  dimension: is_scheduling_plan {
+    type: yesno
+    sql: ${suite_id} = 1 ;;
+  }
+
+  dimension: is_booking_plan {
+    type: yesno
+    sql: ${suite_id} = 4 ;;
+  }
+
+  dimension: is_hospital_plan {
+    type: yesno
+    sql: ${suite_id} = 3 ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [id]
