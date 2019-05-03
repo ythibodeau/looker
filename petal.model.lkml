@@ -701,8 +701,13 @@ explore: groups {
 
   join: groups_pricing_plans {
     type: inner
-    sql_on: ${groups_pricing_plans.group_id} = ${groups.id} ;;
-    relationship: many_to_one
+    sql_on: ${groups_pricing_plans.group_id} = ${groups.id} AND
+            ((${groups_pricing_plans.start_date} IS NULL AND ${groups_pricing_plans.end_date} IS NULL) OR
+            (${groups_pricing_plans.start_date} IS NULL AND ${groups_pricing_plans.end_date} >= now()) OR
+            (${groups_pricing_plans.start_date} <= now() AND ${groups_pricing_plans.end_date} IS NULL) OR
+            (${groups_pricing_plans.start_date} <= now() AND ${groups_pricing_plans.end_date} >= now()))
+            ;;
+    relationship: one_to_many
   }
 
   join: pricing_plans {
@@ -4784,8 +4789,13 @@ explore: console_content_groups {
 
   join: groups_pricing_plans {
     type: inner
-    sql_on: ${groups_pricing_plans.group_id} = ${console_groups.id} ;;
-    relationship: many_to_one
+    sql_on: ${groups_pricing_plans.group_id} = ${console_groups.id} AND
+            ((${groups_pricing_plans.start_date} IS NULL AND ${groups_pricing_plans.end_date} IS NULL) OR
+            (${groups_pricing_plans.start_date} IS NULL AND ${groups_pricing_plans.end_date} >= now()) OR
+            (${groups_pricing_plans.start_date} <= now() AND ${groups_pricing_plans.end_date} IS NULL) OR
+            (${groups_pricing_plans.start_date} <= now() AND ${groups_pricing_plans.end_date} >= now()))
+            ;;
+    relationship: one_to_many
   }
 
   join: pricing_plans {

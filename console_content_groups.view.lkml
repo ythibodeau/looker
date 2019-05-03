@@ -56,8 +56,10 @@ view: console_content_groups {
     drill_fields: [console_groups.acronym,
                    console_groups.name,
                    group_kinds.mnemonic,
+                   accounts.simplified_kind,
                    memberships.is_scheduled_count,
-                  memberships.not_scheduled_count]
+                  memberships.not_scheduled_count,
+                  memberships.count]
     link: {label: "By Account Kind" url: "{{link}}&pivots=accounts.simplified_kind"}
   }
 }
