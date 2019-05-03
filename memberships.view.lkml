@@ -444,6 +444,15 @@ view: memberships {
     }
   }
 
+  measure: read_write_count {
+    type: count
+    sql: ${id} ;;
+    filters: {
+      field: edit_assignments
+      value: "Yes"
+    }
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [

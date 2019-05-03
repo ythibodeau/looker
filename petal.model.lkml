@@ -289,6 +289,16 @@ explore: accounts {
     relationship: many_to_one
   }
 
+  join: console_access_groups {
+    type: left_outer
+    sql_on: ${groups.id} = ${console_access_groups.access_group_id} ;;
+    relationship: one_to_many
+  }
+
+  join: console_groups {
+    from: groups
+    sql_on: ${console_access_groups.console_group_id} = ${console_groups.id} ;;
+  }
 
   join: centres {
     type: inner
@@ -4867,20 +4877,24 @@ join: groups_plans {
 }
 
 explore: console_access_groups {
-  join: console_content_groups {
-    type: left_outer
-    sql_on: ${console_access_groups.console_group_id} = ${console_content_groups.console_group_id} ;;
-    relationship: many_to_many
-  }
+#   join: console_content_groups {
+#     type: left_outer
+#     sql_on: ${console_access_groups.console_group_id} = ${console_content_groups.console_group_id} ;;
+#     relationship: many_to_many
+#   }
 
   join: console_groups {
     from: groups
-    sql_on: ${console_content_groups.console_group_id} = ${console_groups.id} ;;
+    type: inner
+    sql_on: ${console_access_groups.console_group_id} = ${console_groups.id} ;;
+    relationship: many_to_many
   }
 
   join: access_groups {
     from: groups
     sql_on: ${console_access_groups.access_group_id} = ${access_groups.id} ;;
+    type: inner
+    relationship: many_to_many
   }
 
   join: memberships {
