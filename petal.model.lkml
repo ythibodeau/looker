@@ -35,6 +35,12 @@ explore: health_clusters {
     relationship: one_to_many
   }
 
+  join: group_kinds {
+    type: inner
+    sql_on: ${groups.kind_id} = ${group_kinds.id} ;;
+    relationship: one_to_one
+  }
+
   join: memberships {
     type: left_outer
     sql_on: ${groups.id} = ${memberships.group_id} ;;
@@ -45,6 +51,25 @@ explore: health_clusters {
     type: left_outer
     sql_on: ${memberships.account_id} = ${accounts.id} ;;
     relationship: many_to_one
+  }
+
+  join: comments {
+    type: left_outer
+    sql_on: ${accounts.id} = ${comments.account_id} ;;
+    relationship: one_to_many
+  }
+
+  join: discussions {
+    type: left_outer
+    sql_on: ${comments.discussion_id} = ${discussions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: sche__change_requests {
+    view_label: "Change Requests"
+    type: left_outer
+    sql_on: ${groups.id} = ${sche__change_requests.group_id} ;;
+    relationship: one_to_many
   }
 
   join: locations {

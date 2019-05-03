@@ -53,5 +53,11 @@ view: console_content_groups {
   measure: count_console_groups {
     type: count_distinct
     sql: ${TABLE}.content_group_id ;;
+    drill_fields: [console_groups.acronym,
+                   console_groups.name,
+                   group_kinds.mnemonic,
+                   memberships.is_scheduled_count,
+                  memberships.not_scheduled_count]
+    link: {label: "By Account Kind" url: "{{link}}&pivots=accounts.simplified_kind"}
   }
 }
