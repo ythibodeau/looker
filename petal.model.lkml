@@ -643,7 +643,7 @@ explore: account_highest_scheduling_paying_plan {}
 
 explore: groups {
   group_label: "Global"
-  cancel_grouping_fields: [accounts.highest_paying_plan, groups.is_scheduling]
+  cancel_grouping_fields: [accounts.highest_paying_plan, groups.is_scheduling, groups.pricing_plan_test]
 
   join: group_kinds {
     type: inner
@@ -4797,6 +4797,12 @@ explore: console_content_groups {
             ;;
     relationship: one_to_many
   }
+
+join: groups_plans {
+  type: left_outer
+  sql_on: ${console_groups.id} = ${groups_plans.id} ;;
+  relationship: one_to_one
+}
 
   join: pricing_plans {
     type: inner

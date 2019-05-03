@@ -610,6 +610,16 @@ view: groups {
     sql: ${pricing_plans.name_en} ;;
   }
 
+  dimension: plans {
+    type: string
+    sql: ${groups_plans.plans} ;;
+  }
+
+  dimension: pricing_plan_test {
+    type: string
+    sql: GROUP_CONCAT(${pricing_plans.name_en}) ;;
+  }
+
   # Indicates if this groups has the Group Scheduling
   dimension: nb_scheduling {
     type: number
