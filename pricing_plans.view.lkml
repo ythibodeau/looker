@@ -90,6 +90,27 @@ view: pricing_plans {
     sql: ${suite_id} = 3 ;;
   }
 
+  dimension: fees {
+    type: number
+    sql:
+
+      CASE ${pricing_suites.code}
+        WHEN "md_schedule" THEN
+          CASE ${code}
+            WHEN "advanced_sched" THEN 25
+            WHEN "standard_sched" THEN 10
+            ELSE 0
+          END
+        WHEN "booking" THEN 0
+      END
+    ;;
+  }
+
+  measure: fees_measure {
+    type: number
+    sql: ${fees} ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [id]

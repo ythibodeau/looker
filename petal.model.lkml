@@ -15,6 +15,10 @@ persist_with: test_yves_default_datagroup
 # Global
 #####################################################################
 
+explore: group_highest_scheduling_plans {
+
+}
+
 explore: health_clusters {
 
   join: territories {
@@ -33,6 +37,12 @@ explore: health_clusters {
     type: left_outer
     sql_on: ${health_institutions.id} = ${groups.health_institution_id} ;;
     relationship: one_to_many
+  }
+
+  join: specialties {
+    type: left_outer
+    sql_on: ${groups.specialty_id} = ${specialties.id} ;;
+    relationship: many_to_one
   }
 
   join: group_kinds {
@@ -198,7 +208,7 @@ explore: account_locations {
 
 explore: accounts {
   group_label: "Global"
-  cancel_grouping_fields: [accounts.highest_paying_plan]
+  #cancel_grouping_fields: [accounts.highest_paying_plan]
   join: timezones {
     type: left_outer
     sql_on: ${accounts.timezone_id} = ${timezones.id} ;;
@@ -247,15 +257,9 @@ explore: accounts {
     relationship: one_to_many
   }
 
-  join: account_highest_scheduling_paying_plan {
+  join: account_highest_scheduling_plans {
     type: left_outer
-    sql_on: ${accounts.id} = ${account_highest_scheduling_paying_plan.account_id} ;;
-    relationship: one_to_one
-  }
-
-  join: account_highest_scheduling_plan{
-    type: left_outer
-    sql_on: ${accounts.id} = ${account_highest_scheduling_plan.account_id} ;;
+    sql_on: ${accounts.id} = ${account_highest_scheduling_plans.account_id} ;;
     relationship: one_to_one
   }
 
@@ -264,6 +268,8 @@ explore: accounts {
     sql_on: ${accounts.id} = ${memberships.account_id};;
     relationship: one_to_many
   }
+
+  join:  {}
 
   join: groups {
     type: inner
@@ -661,12 +667,6 @@ explore: groups {
     relationship: many_to_one
   }
 
-  join: group_highest_plans {
-    type: left_outer
-    sql_on: ${groups.id} = ${group_highest_plans.id} ;;
-    relationship: one_to_one
-  }
-
   join: groups_not_in_console {
     type: left_outer
     sql_on: ${groups.id} = ${groups_not_in_console.content_group_id} ;;
@@ -733,21 +733,15 @@ explore: groups {
   }
 
   join: memberships {
-    type: inner
+    type: left_outer
     sql_on: ${memberships.group_id} = ${groups.id} ;;
     relationship: many_to_one
   }
 
   join: accounts {
-    type: inner
+    type: left_outer
     sql_on: ${memberships.account_id} = ${accounts.id} ;;
     relationship: many_to_one
-  }
-
-  join: account_highest_scheduling_paying_plan {
-    type: inner
-    sql_on: ${accounts.id} = ${account_highest_scheduling_paying_plan.account_id} ;;
-    relationship: one_to_one
   }
 
   join: account_kinds {
@@ -770,7 +764,7 @@ explore: groups {
 
   join: sche__change_requests {
     view_label: "Change Requests"
-    type: inner
+    type: left_outer
     sql_on: ${sche__change_requests.group_id} = ${groups.id} ;;
     relationship: many_to_one
   }
@@ -1482,7 +1476,50 @@ explore: notifications {
     }
   }
 
-explore: pricing_plans {}
+explore: pricing_plans {
+
+  join: pricing_suites {
+    type: inner
+    sql_on: ${pricing_plans.suite_id} - ${pricing_suites.id} ;;
+    relationship: many_to_one
+  }
+
+  join: group_highest_scheduling_plans {
+    type: left_outer
+    sql_on: ${pricing_plans.code} = ${group_highest_scheduling_plans.plan_value} ;;
+    relationship: one_to_many
+  }
+
+  join: account_highest_scheduling_plans {
+    type: left_outer
+    sql_on: ${pricing_plans.code} = ${account_highest_scheduling_plans.plan_value} ;;
+    relationship: one_to_many
+  }
+
+  join: accounts {
+    type: left_outer
+    sql_on: ${account_highest_scheduling_plans.account_id} = ${accounts.id} ;;
+    relationship: one_to_one
+  }
+
+  join: account_kinds {
+    type: inner
+    sql_on: ${accounts.kind_id} = ${account_kinds.id} ;;
+    relationship: many_to_one
+  }
+
+  join: memberships {
+    type: left_outer
+    sql_on: ${accounts.id} = ${memberships.account_id} ;;
+    relationship: one_to_many
+  }
+
+  join: groups {
+    type: left_outer
+    sql_on: ${memberships.group_id} = ${groups.id} ;;
+    relationship: many_to_one
+  }
+}
 
 explore: pricing_plans_products {
   group_label: "Global"
@@ -3556,6 +3593,13 @@ explore: date_series_table {
     sql_on: ${accounts.id} = ${active_users.account_id} ;;
     relationship: one_to_one
   }
+
+  join: active_users_scheduling {
+    type: left_outer
+    sql_on: ${accounts.id} = ${active_users_scheduling.account_id} ;;
+    relationship: one_to_many
+  }
+
 #   join:pati__appointments {
 #     type: left_outer
 #     sql_on: ${date_series_table.date_date} = ${pati__appointments.created_date} ;;
