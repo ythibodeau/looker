@@ -19,6 +19,25 @@ explore: group_highest_scheduling_plans {
 
 }
 
+explore: group_billing_profiles {
+  join: group_billing_subscriptions {
+    type: left_outer
+    sql_on: ${group_billing_profiles.id} = ${group_billing_subscriptions.group_billing_profile_id} ;;
+    relationship: one_to_many
+  }
+
+  join: account_billing_subscriptions {
+    type: left_outer
+    sql_on: ${group_billing_subscriptions.id} = ${account_billing_subscriptions.group_billing_subscription_id} ;;
+    relationship: one_to_many
+  }
+
+  join: accounts {
+    type: left_outer
+    sql_on: ${account_billing_subscriptions.account_id} = ${accounts.id} ;;
+  }
+}
+
 explore: health_clusters {
 
   join: territories {
@@ -269,8 +288,6 @@ explore: accounts {
     relationship: one_to_many
   }
 
-  join:  {}
-
   join: groups {
     type: inner
     sql_on: ${memberships.group_id} = ${groups.id} ;;
@@ -310,6 +327,18 @@ explore: accounts {
     type: inner
     sql_on: ${groups.centre_id} = ${centres.id} ;;
     relationship: many_to_one
+  }
+
+  join: pati__account_tasks {
+    type: left_outer
+    sql_on: ${accounts.id} = ${pati__account_tasks.account_id} ;;
+    relationship: one_to_many
+  }
+
+  join: pati__availabilities {
+    type: left_outer
+    sql_on: ${pati__account_tasks.id} = ${pati__availabilities.account_task_id} ;;
+    relationship: one_to_many
   }
 }
 
@@ -2812,6 +2841,12 @@ explore: sche__change_requests {
     type: inner
     sql_on: ${accounts.id} = ${sche__change_requests.initiated_by_id} ;;
     relationship: one_to_many
+  }
+
+  join: specialties {
+    type: inner
+    sql_on: ${accounts.specialty_id} = ${specialties.id} ;;
+    relationship: one_to_one
   }
 
   join: account_first_comment {
