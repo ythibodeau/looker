@@ -3,58 +3,11 @@ view: active_users_scheduling {
     sql_trigger_value: SELECT CURDATE() ;;
     sql: SELECT daily_use.account_id,
       wd.date as xdate,
-      MIN(DATEDIFF(wd.date, daily_use.action_date)) as days_since_last_action
+      MIN(DATEDIFF(wd.date, sa.action_date)) as days_since_last_action
 FROM ${date_series_table.SQL_TABLE_NAME} as wd
-LEFT JOIN
-(
--- Define Action Here --
-SELECT DISTINCT cr.initiated_by_id as account_id,
-      'initiated_change_request' as action,
-      DATE_FORMAT(cr.created_at, '%Y-%m-%d') as action_date
-FROM sche__change_requests cr
-WHERE YEAR(cr.created_at) >= 2019
-UNION
-SELECT DISTINCT cr.executed_by_id as account_id,
-      'executed_change_request' as action,
-      DATE_FORMAT(cr.created_at, '%Y-%m-%d') as action_date
-FROM sche__change_requests cr
-WHERE YEAR(cr.created_at) >= 2019
-UNION
-SELECT DISTINCT cr.accepted_by_id as account_id,
-      'accepted_change_request' as action,
-      DATE_FORMAT(cr.created_at, '%Y-%m-%d') as action_date
-FROM sche__change_requests cr
-WHERE YEAR(cr.created_at) >= 2019
-UNION
-SELECT DISTINCT cr.approved_by_id as account_id,
-      'approved_change_request' as action,
-      DATE_FORMAT(cr.created_at, '%Y-%m-%d') as action_date
-FROM sche__change_requests cr
-WHERE YEAR(cr.created_at) >= 2019
-UNION
-SELECT DISTINCT cr.cancelled_by_id as account_id,
-      'cancelled_change_request' as action,
-      DATE_FORMAT(cr.created_at, '%Y-%m-%d') as action_date
-FROM sche__change_requests cr
-WHERE YEAR(cr.created_at) >= 2019
-UNION
-select DISTINCT me.account_id as account_id,
-       'created_event' as action,
-       DATE_FORMAT(me.created_at, '%Y-%m-%d') as action_date
-FROM meeting_events me
-WHERE YEAR(me.created_at) >= 2019
-UNION
-select DISTINCT ma.account_id as account_id,
-       'accepted_event' as action,
-       DATE_FORMAT(ma.created_at, '%Y-%m-%d') as action_date
-FROM meeting_attendees ma
-WHERE YEAR(ma.created_at) >= 2019 AND ma.answer_id IN (2,3)
-) as daily_use
--- Define Action Here --
+LEFT JOIN ${scheduling_actions.SQL_TABLE_NAME} as sa
+ON wd.date BETWEEN sa.action_date AND DATE_ADD(sa.action_date, INTERVAL 30 DAY)
 
--- Define Date --
-ON wd.date BETWEEN daily_use.action_date AND DATE_ADD(daily_use.action_date, INTERVAL 30 DAY)
--- Define Date --
 
 GROUP BY 1,2;
  ;;
