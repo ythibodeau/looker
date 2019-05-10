@@ -1,6 +1,6 @@
 view: active_users_scheduling {
   derived_table: {
-    sql_trigger_value: SELET CURDATE() ;;
+    sql_trigger_value: SELECT CURDATE() ;;
     sql: SELECT daily_use.account_id,
       wd.date as xdate,
       MIN(DATEDIFF(wd.date, daily_use.action_date)) as days_since_last_action

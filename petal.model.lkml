@@ -2807,7 +2807,7 @@ explore: shared_distribution_lists {
 
 
 # This version is not for chargeBee where we exclude console
-explore: account_highest_scheduling_plan {}
+explore: active_users_scheduling {}
 
 explore: sche__period_histories {
   group_label: "Petal Agenda"
