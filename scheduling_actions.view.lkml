@@ -2,6 +2,13 @@ view: scheduling_actions {
   derived_table: {
     sql_trigger_value: SELECT CURDATE() ;;
     sql:
+       select (@row_number:=@row_number + 1) AS id,
+       x.account_id as account_id,
+       x.action as action,
+       x.action_date as action_date
+       FROM
+       (SELECT @row_number:=0) AS t, (
+
       SELECT DISTINCT cr.initiated_by_id as account_id,
             'initiated_change_request' as action,
             DATE_FORMAT(cr.initiated_at, '%Y-%m-%d') as action_date
@@ -42,7 +49,7 @@ view: scheduling_actions {
              'accepted_event' as action,
              DATE_FORMAT(ma.created_at, '%Y-%m-%d') as action_date
       FROM meeting_attendees ma
-      WHERE YEAR(ma.created_at) >= 2019 AND ma.answer_id IN (2,3)
+      WHERE YEAR(ma.created_at) >= 2019 AND ma.answer_id IN (2,3)) as x
        ;;
   }
 
@@ -54,6 +61,12 @@ view: scheduling_actions {
   measure: unique_account {
     type: count_distinct
     sql: ${account_id} ;;
+  }
+
+  dimension: id {
+    primary_key: yes
+    type: number
+    sql: ${id} ;;
   }
 
   dimension: account_id {
@@ -80,6 +93,7 @@ view: scheduling_actions {
     ]
     sql: ${TABLE}.action_date ;;
   }
+
 
   set: detail {
     fields: [account_id, action]
