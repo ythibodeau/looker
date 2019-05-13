@@ -1,7 +1,7 @@
 view: active_users_scheduling {
   derived_table: {
     sql_trigger_value: SELECT CURDATE() ;;
-    sql: SELECT daily_use.account_id,
+    sql: SELECT sa.account_id,
       wd.date as xdate,
       MIN(DATEDIFF(wd.date, sa.action_date)) as days_since_last_action
 FROM ${date_series_table.SQL_TABLE_NAME} as wd
@@ -19,12 +19,22 @@ GROUP BY 1,2;
   }
 
   dimension: account_id {
+    primary_key: yes
     type: number
     sql: ${TABLE}.account_id ;;
   }
 
-  dimension: xdate {
-    type: date
+  dimension_group: xdate {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
     sql: ${TABLE}.xdate ;;
   }
 
@@ -44,14 +54,14 @@ GROUP BY 1,2;
   }
 
   measure: user_count_active_30_days {
-    label: "Monthly Active Users"
+    label: "MAU"
     type: count_distinct
     sql: ${account_id} ;;
     drill_fields: [accounts.id, accounts.name]
   }
 
   measure: user_count_active_this_day {
-    label: "Daily Active Users"
+    label: "DAU"
     type: count_distinct
     sql: ${account_id} ;;
     drill_fields: [accounts.id, accounts.name]
@@ -63,7 +73,7 @@ GROUP BY 1,2;
   }
 
   measure: user_count_active_7_days {
-    label: "Weekly Active Users"
+    label: "WAU"
     type: count_distinct
     sql: ${account_id} ;;
     drill_fields: [accounts.id, accounts.name]
@@ -75,6 +85,6 @@ GROUP BY 1,2;
   }
 
   set: detail {
-    fields: [account_id, xdate, days_since_last_action]
+    fields: [account_id, xdate_date, days_since_last_action]
   }
 }

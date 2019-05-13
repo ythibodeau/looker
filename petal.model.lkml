@@ -282,6 +282,12 @@ explore: accounts {
     relationship: one_to_one
   }
 
+  join: scheduling_actions {
+    type: left_outer
+    sql_on: ${accounts.id} = ${scheduling_actions.account_id} ;;
+    relationship: one_to_many
+  }
+
   join: memberships {
     type: left_outer
     sql_on: ${accounts.id} = ${memberships.account_id};;
@@ -2807,7 +2813,77 @@ explore: shared_distribution_lists {
 
 
 # This version is not for chargeBee where we exclude console
-explore: active_users_scheduling {}
+
+explore: scheduling_actions {}
+
+explore: active_users_scheduling {
+  join: accounts {
+    type: inner
+    sql_on: ${active_users_scheduling.account_id} = ${accounts.id} ;;
+    relationship: one_to_one
+  }
+
+  join: memberships {
+    type: left_outer
+    sql_on: ${accounts.id} = ${memberships.account_id} ;;
+    relationship: one_to_many
+  }
+
+  join: groups {
+    type: left_outer
+    sql_on: ${memberships.group_id} = ${groups.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+  }
+}
+
+explore: scheduling_accounts {
+  join: accounts {
+    type: inner
+    sql_on: ${scheduling_accounts.account_id} = ${accounts.id} ;;
+    relationship: one_to_one
+  }
+
+  join: active_users_scheduling {
+    type: left_outer
+    sql_on: ${scheduling_accounts.account_id} = ${active_users_scheduling.account_id} ;;
+    relationship: one_to_one
+  }
+
+  join: memberships {
+    type: left_outer
+    sql_on: ${accounts.id} = ${memberships.account_id} ;;
+    relationship: one_to_many
+  }
+
+  join: groups {
+    type: left_outer
+    sql_on: ${memberships.group_id} = ${groups.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+  }
+
+}
 
 explore: sche__period_histories {
   group_label: "Petal Agenda"

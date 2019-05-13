@@ -51,6 +51,11 @@ view: scheduling_actions {
     drill_fields: [detail*]
   }
 
+  measure: unique_account {
+    type: count_distinct
+    sql: ${account_id} ;;
+  }
+
   dimension: account_id {
     type: number
     sql: ${TABLE}.account_id ;;
@@ -61,12 +66,22 @@ view: scheduling_actions {
     sql: ${TABLE}.action ;;
   }
 
-  dimension: action_date {
-    type: string
+
+  dimension_group: action_date {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
     sql: ${TABLE}.action_date ;;
   }
 
   set: detail {
-    fields: [account_id, action, action_date]
+    fields: [account_id, action]
   }
 }
