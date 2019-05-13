@@ -1,6 +1,6 @@
 view: appointments_retention_lifecycle {
   derived_table: {
-    #sql_trigger_value: SELECT CURDATE() ;;
+    sql_trigger_value: SELECT CURDATE() ;;
     sql: SELECT pdt5.yearmonth as yearmonth
           , pdt5.patient_id
           , pdt4.monthly_appointments

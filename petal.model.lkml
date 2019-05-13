@@ -2815,6 +2815,7 @@ explore: shared_distribution_lists {
 # This version is not for chargeBee where we exclude console
 
 explore: scheduling_actions {}
+explore: scheduling_retention_lifecycle {}
 
 explore: active_users_scheduling {
   join: accounts {
