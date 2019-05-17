@@ -1,13 +1,13 @@
 view: scheduling_retention_lifecycle {
   derived_table: {
     sql_trigger_value: SELECT CURDATE() ;;
-    sql: SELECT pdt5.yearmonth as yearmonth
-          , pdt5.account_id
-          , pdt4.monthly_actions
-          , pdt4.previous_action_month
-        FROM ${year_month_accounts.SQL_TABLE_NAME} as pdt5
-        LEFT OUTER JOIN ${monthly_activity_previous_scheduling.SQL_TABLE_NAME} as pdt4
-            on pdt5.mapc_key = pdt4.mapc_key
+    sql: -- SELECT pdt5.yearmonth as yearmonth
+        --  , pdt5.account_id
+        --   , pdt4.monthly_actions
+        --   , pdt4.previous_action_month
+        -- FROM ${year_month_accounts.SQL_TABLE_NAME} as pdt5
+        -- LEFT OUTER JOIN ${monthly_activity_previous_scheduling.SQL_TABLE_NAME} as pdt4
+          --  on pdt5.mapc_key = pdt4.mapc_key
  ;;
   }
 

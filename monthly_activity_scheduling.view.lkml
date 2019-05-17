@@ -13,7 +13,7 @@ view: monthly_activity_scheduling {
         (
           SELECT
            DISTINCT(date_add('1900-01-02', interval TIMESTAMPDIFF(MONTH, '1900-01-02', sa.action_date) MONTH)) as action_month
-          FROM ${scheduling_actions.SQL_TABLE_NAME} sa
+          FROM ${scheduling_actions.SQL_TABLE_NAME} sa WHERE YEAR(sa.action_date) >= 2019
         ) as month_list
       ON month_list.action_month >= date_add('1900-01-02', interval TIMESTAMPDIFF(MONTH, '1900-01-02', accounts.confirmed_at) MONTH)
       LEFT JOIN
@@ -22,7 +22,7 @@ view: monthly_activity_scheduling {
                 sa.account_id
               , date_add('1900-01-02', interval TIMESTAMPDIFF(MONTH, '1900-01-02', sa.action_date) MONTH) as action_month
               , COUNT(distinct sa.id) AS monthly_actions
-          FROM ${scheduling_actions.SQL_TABLE_NAME} sa
+          FROM ${scheduling_actions.SQL_TABLE_NAME} sa WHERE YEAR(sa.action_date) >= 2019
           GROUP BY 1,2
         ) as data_x
       ON data_x.action_month = month_list.action_month

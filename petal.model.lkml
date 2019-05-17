@@ -38,6 +38,8 @@ explore: group_billing_profiles {
   }
 }
 
+explore: health_institutions {}
+
 explore: health_clusters {
 
   join: territories {
@@ -315,6 +317,18 @@ explore: accounts {
   join: pricing_suites {
     type: inner
     sql_on: ${pricing_plans.suite_id} =  ${pricing_suites.id};;
+    relationship: many_to_one
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
     relationship: many_to_one
   }
 
@@ -1827,6 +1841,18 @@ explore: account_first_comment {
     sql_on: ${groups.centre_id} = ${centres.id} ;;
     relationship: many_to_one
   }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+    relationship: many_to_one
+  }
 }
 
 explore: monthly_activity_comments {
@@ -1863,6 +1889,18 @@ explore: monthly_activity_comments {
     type: left_outer
     sql_on: ${groups.centre_id} = ${centres.id} ;;
     relationship: one_to_one
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+    relationship: many_to_one
   }
 
   join: account_first_comment {
@@ -1914,6 +1952,18 @@ explore: comments_retention_lifecycle {
     sql_on: ${groups.centre_id} = ${centres.id} ;;
     relationship: one_to_one
   }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+    relationship: many_to_one
+  }
 }
 
 explore: active_users {
@@ -1962,6 +2012,18 @@ explore: active_users {
   join: centres {
     type: inner
     sql_on: ${groups.centre_id} = ${centres.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
     relationship: many_to_one
   }
 }
@@ -2816,6 +2878,8 @@ explore: shared_distribution_lists {
 
 explore: scheduling_actions {}
 explore: scheduling_retention_lifecycle {}
+explore: monthly_activity_scheduling {}
+explore: monthly_activity_previous_scheduling {}
 
 explore: active_users_scheduling {
   join: accounts {

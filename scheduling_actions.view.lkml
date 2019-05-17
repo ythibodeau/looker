@@ -49,7 +49,23 @@ view: scheduling_actions {
              'accepted_event' as action,
              DATE_FORMAT(ma.created_at, '%Y-%m-%d') as action_date
       FROM meeting_attendees ma
-      WHERE YEAR(ma.created_at) >= 2019 AND ma.answer_id IN (2,3)) as x
+      WHERE YEAR(ma.created_at) >= 2019 AND ma.answer_id IN (2,3)
+      UNION
+      SELECT DISTINCT(ph.user_id) as account_id,
+             CASE ph.source_type
+               WHEN 0 THEN "period_manual_action"
+               WHEN 1 THEN "period_step"
+               WHEN 2 THEN "period_script"
+               WHEN 3 THEN "period_wizard"
+               WHEN 4 THEN "period_undo"
+               WHEN 5 THEN "period_publish"
+               WHEN 6 THEN "period_transfert"
+             END AS action,
+            ph.created_at as action_date
+       FROM sche__period_histories ph
+       WHERE ph.user_id IS NOT NULL
+       AND YEAR(ph.created_at) >= 2019
+      ) as x
        ;;
   }
 
@@ -66,7 +82,7 @@ view: scheduling_actions {
   dimension: id {
     primary_key: yes
     type: number
-    sql: ${id} ;;
+    sql: ${TABLE}.id ;;
   }
 
   dimension: account_id {

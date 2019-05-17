@@ -1,7 +1,11 @@
 view: scheduling_accounts {
   derived_table: {
     sql_trigger_value: SELECT CURDATE() ;;
-    sql: select distinct a.id as account_id from accounts a
+    sql:
+select distinct a.id as account_id,
+       a.state as state,
+       a.confirmed_at as confirmed_at
+from accounts a
       inner join membership_changes mc on a.id = mc.account_id
       inner join groups g on mc.group_id = g.id
       inner join groups_pricing_plans gpp on g.id = gpp.group_id
@@ -21,6 +25,24 @@ view: scheduling_accounts {
     primary_key: yes
     type: number
     sql: ${TABLE}.account_id ;;
+  }
+
+  dimension: state {
+    type: string
+    sql: ${TABLE}.state ;;
+  }
+
+  dimension_group: confirmed_at {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
   }
 
   set: detail {
