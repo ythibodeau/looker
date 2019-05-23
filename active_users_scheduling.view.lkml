@@ -11,6 +11,7 @@ ON wd.date BETWEEN sa.action_date AND DATE_ADD(sa.action_date, INTERVAL 30 DAY)
 
 GROUP BY 1,2;
  ;;
+indexes: ["account_id"]
   }
 
   measure: count {

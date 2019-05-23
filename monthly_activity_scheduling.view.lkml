@@ -40,8 +40,9 @@ view: monthly_activity_scheduling {
     sql: ${TABLE}.account_id ;;
   }
 
-  dimension: signup_month {
-    type: string
+  dimension_group: signup {
+    type: time
+    timeframes: [date, month]
     sql: ${TABLE}.signup_month ;;
   }
 
@@ -59,6 +60,35 @@ view: monthly_activity_scheduling {
     type: number
     sql: ${TABLE}.num ;;
   }
+
+  dimension: months_since_signup {
+    type: number
+    sql: TIMESTAMPDIFF(MONTH, ${TABLE}.signup_month, ${TABLE}.action_month) ;;
+  }
+
+  measure: total_users {
+    type: count_distinct
+    sql: ${account_id} ;;
+    drill_fields: [accounts.id, accounts.first_name, accounts.last_name]
+  }
+
+  measure: total_active_users {
+    type: count_distinct
+    sql: ${account_id} ;;
+
+    filters: {
+      field: monthly_actions
+      value: ">0"
+    }
+  }
+
+  measure: percent_of_cohort_active {
+    type: number
+    value_format_name: percent_1
+    sql: 1.0 * ${total_active_users} / nullif(${total_users},0) ;;
+    drill_fields: [account_id, accounts.first_name, accounts.last_name, account.simplified_kind, accounts.group_acronyms, monthly_actions]
+  }
+
 
   set: detail {
     fields: [account_id, signup_month, action_month, monthly_actions, num]

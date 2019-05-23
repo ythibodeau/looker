@@ -42,11 +42,6 @@ view: monthly_activity_appointments {
     sql: ${TABLE}.patient_id ;;
   }
 
-#   dimension: signup_month {
-#     type: string
-#     sql: ${TABLE}.signup_month ;;
-#   }
-
   dimension_group: signup {
     type: time
     timeframes: [date, month]

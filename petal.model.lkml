@@ -2919,6 +2919,12 @@ explore: scheduling_accounts {
     relationship: one_to_one
   }
 
+  join: scheduling_actions {
+    type: left_outer
+    sql_on: ${scheduling_accounts.account_id} = ${scheduling_actions.account_id} ;;
+    relationship: one_to_many
+  }
+
   join: active_users_scheduling {
     type: left_outer
     sql_on: ${scheduling_accounts.account_id} = ${active_users_scheduling.account_id} ;;

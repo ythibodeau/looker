@@ -1,5 +1,6 @@
 view: scheduling_actions {
   derived_table: {
+    indexes: ["account_id", "action_date"]
     sql_trigger_value: SELECT CURDATE() ;;
     sql:
        select (@row_number:=@row_number + 1) AS id,
