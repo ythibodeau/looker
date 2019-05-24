@@ -1,5 +1,6 @@
 view: monthly_activity_scheduling {
   derived_table: {
+    indexes: ["account_id", "action_month"]
     sql_trigger_value: SELECT CURDATE() ;;
     sql: SELECT
           accounts.id as account_id

@@ -1,5 +1,6 @@
 view: monthly_activity_previous_scheduling {
   derived_table: {
+    indexes: ["mapc_key", "account_id", "action_month"]
     sql_trigger_value: SELECT CURDATE() ;;
     sql: SELECT
           CONCAT(date_format(MAC.action_month, '%Y-%m'), "-", CAST(MAC.account_id as CHAR)) as mapc_key
@@ -32,6 +33,7 @@ view: monthly_activity_previous_scheduling {
   }
 
   dimension: mapc_key {
+    primary_key: yes
     type: string
     sql: ${TABLE}.mapc_key ;;
   }

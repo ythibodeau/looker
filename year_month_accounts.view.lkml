@@ -1,7 +1,7 @@
 view: year_month_accounts {
   derived_table: {
     sql_trigger_value: SELECT CURDATE() ;;
-    indexes: ["mapc_key"]
+    indexes: ["mapc_key", "account_id"]
     sql: SELECT
      distinct month_series.yearmonth,
      CONCAT(month_series.yearmonth, "-", CAST(accounts.id as CHAR)) as mapc_key
