@@ -1,5 +1,6 @@
 view: active_users_scheduling {
   derived_table: {
+    indexes: ["account_id", "action_date"]
     sql_trigger_value: SELECT CURDATE() ;;
     sql: SELECT sa.account_id,
       wd.date as xdate,
@@ -7,11 +8,8 @@ view: active_users_scheduling {
 FROM ${date_series_table.SQL_TABLE_NAME} as wd
 LEFT JOIN ${scheduling_actions.SQL_TABLE_NAME} as sa
 ON wd.date BETWEEN sa.action_date AND DATE_ADD(sa.action_date, INTERVAL 30 DAY)
-
-
 GROUP BY 1,2;
  ;;
-indexes: ["account_id"]
   }
 
   measure: count {
