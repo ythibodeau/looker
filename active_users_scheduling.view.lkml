@@ -1,6 +1,6 @@
 view: active_users_scheduling {
   derived_table: {
-    indexes: ["account_id", "action_date"]
+    indexes: ["account_id", "xdate"]
     sql_trigger_value: SELECT CURDATE() ;;
     sql: SELECT sa.account_id,
       wd.date as xdate,
