@@ -54,7 +54,6 @@ view: scheduling_actions {
       UNION
       SELECT DISTINCT(ph.user_id) as account_id,
              CASE ph.source_type
-               WHEN 0 THEN "period_manual_action"
                WHEN 1 THEN "period_step"
                WHEN 2 THEN "period_script"
                WHEN 3 THEN "period_wizard"
