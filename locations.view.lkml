@@ -12,6 +12,33 @@ view: locations {
     sql: ${TABLE}.area_level_1 ;;
   }
 
+  dimension: woe_name {
+    type: string
+    sql:
+    CASE ${area_level_1}
+      WHEN "BC" THEN "British Columbia"
+      WHEN "British Columbia" THEN "British Columbia"
+      WHEN "AB" THEN "Alberta"
+      WHEN "Alberta" THEN "Alberta"
+      WHEN "SK" THEN "Saskatchewan"
+      WHEN "MB" THEN "Manitoba"
+      WHEN "ON" THEN "Ontario"
+      WHEN "QC" THEN "Quebec"
+      WHEN "NB" THEN "New Brunswick"
+      WHEN "New Brunswick" THEN "New Brunswick"
+      WHEN "NS" THEN "Nova Scotia"
+      WHEN "PE" THEN "Prince Edward Island"
+      WHEN "NL" THEN "Newfoundland and Labrador"
+      WHEN "Newfoundland and Labrador" THEN "Newfoundland and Labrador"
+      WHEN "NU" THEN "Nunavut"
+      WHEN "YT" THEN "Yukon"
+      WHEN "NT" THEN "Northwest Territories"
+      WHEN "NWT" THEN "Northwest Territories"
+    END
+    ;;
+    map_layer_name: canada_layer
+  }
+
   dimension: area_level_2 {
     type: string
     sql: ${TABLE}.area_level_2 ;;

@@ -11,6 +11,12 @@ datagroup: test_yves_default_datagroup {
 
 persist_with: test_yves_default_datagroup
 
+# Map Layers
+map_layer: canada_layer {
+  file: "canada.topojson"
+  property_key: "woe_name"
+}
+
 #####################################################################
 # Global
 #####################################################################
@@ -52,6 +58,18 @@ explore: health_clusters {
     type: left_outer
     sql_on: ${health_clusters.id} = ${health_institutions.health_cluster_id} ;;
     relationship: one_to_many
+  }
+
+  join: locations {
+    type: left_outer
+    sql_on: ${health_institutions.location_id} = ${locations.id} ;;
+    relationship: many_to_one
+  }
+
+  join: location_geometries {
+    type: left_outer
+    sql_on: ${locations.id} = ${location_geometries.location_id} ;;
+    relationship: one_to_one
   }
 
   join: groups {
@@ -103,17 +121,6 @@ explore: health_clusters {
     relationship: one_to_many
   }
 
-  join: locations {
-    type: left_outer
-    sql_on: ${groups.location_id} = ${locations.id} ;;
-    relationship: many_to_one
-  }
-
-  join: location_geometries {
-    type: left_outer
-    sql_on: ${locations.id} = ${location_geometries.location_id} ;;
-    relationship: one_to_one
-  }
 }
 
 explore: specialties {

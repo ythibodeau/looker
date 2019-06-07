@@ -193,6 +193,16 @@ view: discussions {
     sql: ${TABLE}.urgent ;;
   }
 
+  dimension: recipient_types {
+    type: string
+    sql: ${recipients.recipientable_type} ;;
+  }
+
+  measure: recipient_types_list {
+    type: list
+    list_field: recipient_types
+  }
+
   measure: count {
     type: count
     drill_fields: [detail*]

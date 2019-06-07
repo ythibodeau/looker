@@ -27,6 +27,7 @@ view: location_geometries {
     type: location
     sql_latitude: ${latitude} ;;
     sql_longitude: ${longitude} ;;
+    map_layer_name: canada_layer
   }
 
   dimension: group_location {
