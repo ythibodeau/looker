@@ -3232,11 +3232,11 @@ explore: sche__periods {
     relationship: one_to_one
   }
 
-  join: sche__assignments {
-    type: inner
-    sql_on: ${sche__assignments.plan_id} = ${sche__plans.id} ;;
-    relationship: many_to_one
-  }
+#   join: sche__assignments {
+#     type: inner
+#     sql_on: ${sche__assignments.plan_id} = ${sche__plans.id} ;;
+#     relationship: many_to_one
+#   }
 
 }
 
