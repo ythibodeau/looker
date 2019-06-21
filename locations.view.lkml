@@ -12,7 +12,7 @@ view: locations {
     sql: ${TABLE}.area_level_1 ;;
   }
 
-  dimension: woe_name {
+  dimension: name {
     type: string
     sql:
     CASE ${area_level_1}
@@ -23,7 +23,8 @@ view: locations {
       WHEN "SK" THEN "Saskatchewan"
       WHEN "MB" THEN "Manitoba"
       WHEN "ON" THEN "Ontario"
-      WHEN "QC" THEN "Quebec"
+      WHEN "QC" THEN "Québec"
+      WHEN "Quebec" THEN "Québec"
       WHEN "NB" THEN "New Brunswick"
       WHEN "New Brunswick" THEN "New Brunswick"
       WHEN "NS" THEN "Nova Scotia"
@@ -42,7 +43,9 @@ view: locations {
   dimension: area_level_2 {
     type: string
     sql: ${TABLE}.area_level_2 ;;
+    map_layer_name: canadacensus_layer
   }
+
 
   dimension: country {
     type: string

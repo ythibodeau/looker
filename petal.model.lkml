@@ -13,16 +13,84 @@ persist_with: test_yves_default_datagroup
 
 # Map Layers
 map_layer: canada_layer {
-  file: "canada.topojson"
-  property_key: "woe_name"
+  file: "canada_provinces.json"
+  property_key: "name"
 }
+
+map_layer: canadacensus_layer {
+  file: "canadacensus.json"
+  property_key: "id"
+}
+
+map_layer: economic_regions_layer {
+  file: "canada_regions.json"
+  property_key: "ERNAME"
+}
+
 
 #####################################################################
 # Global
 #####################################################################
 
+explore: action_monitorings {}
+
+explore: economic_regions {
+
+  join: territories {
+    type: inner
+    sql_on: ${economic_regions.territory_id} = ${territories.id} ;;
+    relationship: many_to_one
+
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${economic_regions.id} = ${health_institutions.region_id} ;;
+    relationship: one_to_many
+  }
+
+  join: groups {
+    type: left_outer
+    sql_on: ${health_institutions.id} = ${groups.health_institution_id};;
+    relationship: one_to_many
+  }
+
+  join: memberships {
+    type: left_outer
+    sql_on: ${groups.id} = ${memberships.group_id} ;;
+    relationship: one_to_many
+  }
+
+  join: accounts {
+    type: left_outer
+    sql_on: ${memberships.account_id} = ${accounts.id} ;;
+    relationship: many_to_one
+  }
+
+}
+
 explore: group_highest_scheduling_plans {
 
+}
+
+explore: account_with_one_group {
+  join: accounts {
+    type: inner
+    sql_on: ${account_with_one_group.id} = ${accounts.id} ;;
+    relationship: one_to_one
+  }
+
+  join: comments {
+    type: left_outer
+    sql_on: ${accounts.id} = ${comments.account_id} ;;
+    relationship: one_to_many
+  }
+
+  join: discussions {
+    type: inner
+    sql_on: ${comments.discussion_id} = ${discussions.id} ;;
+    relationship: many_to_one
+  }
 }
 
 explore: group_billing_profiles {
@@ -58,6 +126,12 @@ explore: health_clusters {
     type: left_outer
     sql_on: ${health_clusters.id} = ${health_institutions.health_cluster_id} ;;
     relationship: one_to_many
+  }
+
+  join: economic_regions {
+    type: left_outer
+    sql_on: ${health_institutions.region_id} = ${economic_regions.id} ;;
+    relationship: many_to_one
   }
 
   join: locations {

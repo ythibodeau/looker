@@ -47,6 +47,11 @@ view: health_institutions {
     sql: ${TABLE}.location_id ;;
   }
 
+  dimension: region_id {
+    type: number
+    sql: ${TABLE}.region_id  ;;
+  }
+
   dimension: name {
     type: string
     sql: ${TABLE}.name ;;
