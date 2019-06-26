@@ -34,6 +34,8 @@ map_layer: economic_regions_layer {
 
 explore: action_monitorings {}
 
+explore: territories {}
+
 explore: economic_regions {
 
   join: territories {
@@ -64,6 +66,18 @@ explore: economic_regions {
   join: accounts {
     type: left_outer
     sql_on: ${memberships.account_id} = ${accounts.id} ;;
+    relationship: many_to_one
+  }
+
+  join: comments {
+    type: left_outer
+    sql_on: ${accounts.id} = ${comments.account_id} ;;
+    relationship: one_to_many
+  }
+
+  join: discussions {
+    type: left_outer
+    sql_on: ${comments.discussion_id} = ${discussions.id} ;;
     relationship: many_to_one
   }
 
@@ -2416,6 +2430,12 @@ explore: comments {
     relationship: many_to_one
   }
 
+  join: territories {
+    type: left_outer
+    sql_on: ${health_institutions.territory_id} = ${territories.id} ;;
+    relationship: one_to_many
+  }
+
   join: health_clusters {
     type: left_outer
     sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
@@ -3126,6 +3146,12 @@ explore: sche__periods {
     type: inner
     sql_on: ${sche__periods.group_id} = ${groups.id}  ;;
     relationship: many_to_one
+  }
+
+  join: admi__users {
+    type: left_outer
+    sql_on: ${groups.script_creator_id} = ${admi__users.id} ;;
+    relationship: one_to_one
   }
 
   join: groups_pricing_plans {

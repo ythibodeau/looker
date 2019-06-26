@@ -104,6 +104,11 @@ view: admi__users {
     sql: ${TABLE}.username ;;
   }
 
+  dimension: full_name {
+    type: string
+    sql: CONCAT(${first_name}, " ", ${last_name}) ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [id, first_name, last_name, username, timezones.id]
