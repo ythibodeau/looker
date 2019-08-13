@@ -153,6 +153,11 @@ view: pati__appointments {
     sql: ${pati__offerings.code} IN ("WALK-IN", "WALK_IN") ;;
   }
 
+  dimension: created_month_only {
+    type: number
+    sql: MONTH(${pati__appointments.created_date});;
+  }
+
   measure: count {
     type: count
     drill_fields: [details*]

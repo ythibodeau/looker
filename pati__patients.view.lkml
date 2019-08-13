@@ -181,6 +181,11 @@ view: pati__patients {
     sql: ${TABLE}.updated_at ;;
   }
 
+  dimension: accepted_month_only {
+    type: number
+    sql: MONTH(${TABLE}.accepted_at);;
+  }
+
   # TEST
   dimension: last_subscription {
     type: yesno

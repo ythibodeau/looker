@@ -2335,6 +2335,19 @@ explore: comments {
     relationship: many_to_one
   }
 
+  join: participants {
+    type: left_outer
+    sql_on: ${discussions.id} = ${participants.discussion_id} ;;
+    relationship: one_to_many
+  }
+
+  join: readers {
+    from: accounts
+    type: left_outer
+    sql_on: ${participants.account_id} = ${readers.id} ;;
+    relationship: many_to_one
+  }
+
   join: recipients {
     type: inner
     sql_on: ${recipients.discussion_id} = ${discussions.id} ;;
@@ -3875,7 +3888,9 @@ explore: date_series_table_patients {}
 explore: date_series_table {
 
   join: accounts {
-    type: cross
+    type: left_outer
+    sql_on: ${date_series_table.date_date} = ${accounts.deactivated_date} OR ${date_series_table.date_date} = ${accounts.confirmed_date} ;;
+    relationship: one_to_many
   }
   join: active_users {
     type: left_outer

@@ -501,6 +501,19 @@ view: accounts {
     }
   }
 
+  measure: deactivated_and_previously_confirmed_count {
+    label: "Deactivated and previously confirmed Count"
+    type: count
+    filters: {
+      field: state
+      value: "deactivated"
+    }
+    filters: {
+      field: confirmed_date
+      value: "NOT NULL"
+    }
+  }
+
   measure: count_unique_activated {
     type: count_distinct
     filters: {

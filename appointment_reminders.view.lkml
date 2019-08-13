@@ -39,8 +39,22 @@ view: appointment_reminders {
     type: number
   }
   dimension: created_by_type {}
-  dimension: created_date {
-    type: date
+  dimension_group: created {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.created_at ;;
+  }
+  dimension: created_month_only {
+    type: number
+    sql: MONTH(${TABLE}.created_date});;
   }
   dimension: failure_reason {}
   dimension: id {

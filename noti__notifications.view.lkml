@@ -109,6 +109,11 @@ view: noti__notifications {
     sql: ${TABLE}.updated_at ;;
   }
 
+  dimension: created_month_only {
+    type: number
+    sql: MONTH(${TABLE}.created_at);;
+  }
+
   measure: count {
     type: count
     drill_fields: [id]
