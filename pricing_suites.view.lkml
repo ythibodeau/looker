@@ -36,6 +36,16 @@ view: pricing_suites {
     sql: ${TABLE}.name_fr_ca ;;
   }
 
+  dimension: product_name {
+    type: string
+    sql: CASE
+           WHEN ${code} = 'md_schedule' THEN 'Scheduling'
+           WHEN ${code} = 'hospital' THEN 'Scheduling'
+           WHEN ${code} = 'booking' THEN 'Booking'
+         END
+        ;;
+  }
+
   dimension_group: updated {
     type: time
     timeframes: [

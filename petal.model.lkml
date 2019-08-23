@@ -34,6 +34,8 @@ map_layer: economic_regions_layer {
 
 explore: action_monitorings {}
 
+explore: users_products {}
+
 explore: territories {}
 
 explore: economic_regions {
@@ -3885,6 +3887,8 @@ explore:  patient_users {}
 
 explore: date_series_table_patients {}
 
+explore: date_series_quarters {}
+
 explore: date_series_table {
 
   join: accounts {
@@ -3892,6 +3896,13 @@ explore: date_series_table {
     sql_on: ${date_series_table.date_date} = ${accounts.deactivated_date} OR ${date_series_table.date_date} = ${accounts.confirmed_date} ;;
     relationship: one_to_many
   }
+
+  join: account_locations {
+    type: left_outer
+    sql_on: ${accounts.id} = ${account_locations.account_id} ;;
+    relationship: one_to_one
+  }
+
   join: active_users {
     type: left_outer
     sql_on: ${accounts.id} = ${active_users.account_id} ;;
