@@ -35,6 +35,8 @@ map_layer: economic_regions_layer {
 explore: action_monitorings {}
 
 explore: users_products {}
+explore: users_by_product {}
+explore: date_series_datetime {}
 
 explore: territories {}
 
