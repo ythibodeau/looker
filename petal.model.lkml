@@ -35,7 +35,13 @@ map_layer: economic_regions_layer {
 explore: action_monitorings {}
 
 explore: users_products {}
-explore: users_by_product {}
+explore: users_by_product {
+  join: accounts {
+    type: inner
+    sql_on: ${users_by_product.id} = ${accounts.id} ;;
+    relationship: many_to_one
+  }
+}
 explore: date_series_datetime {}
 
 explore: territories {}
