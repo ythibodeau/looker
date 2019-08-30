@@ -1024,8 +1024,10 @@ explore: groups {
     relationship: one_to_many
   }
 
-  join: date_series_table {
-    type: cross
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
   }
 
 }

@@ -34,7 +34,7 @@ view: users_by_product {
                   ) MAX_MC ON MAX_MC.id = MC.id
                   INNER JOIN membership_change_kinds MCK ON MCK.id = MC.kind_id
                   INNER JOIN accounts A ON A.id = MC.account_id
-                  WHERE MC.kind_id = 3
+                  WHERE MC.kind_id IN (1,3)
                   UNION
                   SELECT MC.id, quarter_start_date as date_serie FROM membership_changes MC
                   CROSS JOIN ${date_series_quarters.SQL_TABLE_NAME}
