@@ -1,7 +1,7 @@
 view: date_series_quarters {
   derived_table: {
     sql_trigger_value: SELECT CURDATE() ;;
-    sql: SELECT DISTINCT CONVERT_TZ(MAKEDATE(YEAR(date), 1) + INTERVAL QUARTER(date) QUARTER - INTERVAL 1 Quarter ,'America/New_York', 'UTC') as quarter_start_date from ${date_series_table.SQL_TABLE_NAME};
+    sql: SELECT DISTINCT CONVERT_TZ(MAKEDATE(YEAR(day_date), 1) + INTERVAL QUARTER(day_date) QUARTER - INTERVAL 1 Quarter ,'America/New_York', 'UTC') as quarter_start_date from ${date_series_table.SQL_TABLE_NAME};
       ;;
   }
 

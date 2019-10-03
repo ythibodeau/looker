@@ -57,6 +57,11 @@ view: health_institutions {
     sql: ${TABLE}.name ;;
   }
 
+  dimension: short_name {
+    type: string
+    sql: ${TABLE}.short_name ;;
+  }
+
   dimension: parent_health_institution_id {
     type: number
     sql: ${TABLE}.parent_health_institution_id ;;

@@ -42,6 +42,7 @@ explore: users_by_product {
     relationship: many_to_one
   }
 }
+
 explore: date_series_datetime {}
 
 explore: territories {}
@@ -219,6 +220,12 @@ explore: health_clusters {
     relationship: one_to_many
   }
 
+  join: top_12_clusters_messaging {
+    type: left_outer
+    sql_on: ${health_clusters.id} = ${top_12_clusters_messaging.health_clusters_id} ;;
+    relationship: one_to_one
+  }
+
 }
 
 explore: specialties {
@@ -339,6 +346,12 @@ explore: accounts {
     type: left_outer
     sql_on: ${accounts.timezone_id} = ${timezones.id} ;;
     relationship: many_to_one
+  }
+
+  join: accounts_group_list {
+    type: left_outer
+    sql_on: ${accounts.id} = ${accounts_group_list.id} ;;
+    relationship: one_to_one
   }
 
   join: account_first_comment {
@@ -892,6 +905,12 @@ explore: groups {
     relationship: many_to_one
   }
 
+  join: membership_kinds {
+    type: inner
+    sql_on: ${memberships.kind_id} = ${membership_kinds.id} ;;
+    relationship: many_to_one
+  }
+
   join: accounts {
     type: left_outer
     sql_on: ${memberships.account_id} = ${accounts.id} ;;
@@ -1027,6 +1046,12 @@ explore: groups {
   join: health_institutions {
     type: left_outer
     sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
     relationship: many_to_one
   }
 
@@ -1894,6 +1919,15 @@ explore: account_kinds {
 # Petal Message
 #####################################################################
 
+explore: messages {
+  group_label: "Petal Message"
+  join: accounts {
+    type: inner
+    sql_on: ${messages.account_id} = ${accounts.id} ;;
+    relationship: many_to_one
+  }
+}
+
 # --- Product Health --- #
 explore: monthly_activity_previous_comments
  {
@@ -1964,11 +1998,7 @@ explore: account_first_comment {
 
 explore: monthly_activity_comments {
   group_label: "Petal Message"
-#   sql_always_where: ${comments.created_date} > '2017-01-01' ;;
-#   access_filter: {
-#     user_attribute: region
-#     field: comments.region
-#   }
+
   join: accounts {
     sql_on: ${monthly_activity_comments.account_id} = ${accounts.id};;
     relationship: many_to_one
@@ -2134,6 +2164,7 @@ explore: active_users {
     relationship: many_to_one
   }
 }
+
 # --- Product Health --- #
 
 explore: account_distribution_lists {
@@ -2710,8 +2741,6 @@ explore: mess__message_mentions {
     }
   }
 
-explore: mess__messages {}
-
 explore: participant_flags {
     group_label: "Petal Message"
     join: participants {
@@ -3108,6 +3137,18 @@ explore: sche__change_requests {
     type: inner
     sql_on: ${groups.id} = ${sche__change_requests.group_id} ;;
     relationship: one_to_many
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+    relationship: many_to_one
   }
 
   join: accounts {
@@ -3903,7 +3944,7 @@ explore: date_series_table {
 
   join: accounts {
     type: left_outer
-    sql_on: ${date_series_table.date_date} = ${accounts.deactivated_date} OR ${date_series_table.date_date} = ${accounts.confirmed_date} ;;
+    sql_on: ${date_series_table.day_date_date} = ${accounts.deactivated_date} OR ${date_series_table.day_date_date} = ${accounts.confirmed_date} ;;
     relationship: one_to_many
   }
 

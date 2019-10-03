@@ -3,15 +3,15 @@ view: active_users {
     sql_trigger_value: SELECT CURDATE();;
     indexes: ["xdate"]
     sql: SELECT daily_use.account_id,
-       wd.date as xdate,
-       MIN(DATEDIFF(wd.date, daily_use.comment_date)) as days_since_last_action
+       wd.day_date as xdate,
+       MIN(DATEDIFF(wd.day_date, daily_use.comment_date)) as days_since_last_action
 FROM ${date_series_table.SQL_TABLE_NAME} as wd
 LEFT JOIN (
 SELECT DISTINCT c.account_id, DATE_FORMAT(c.created_at, '%Y-%m-%d') as comment_date
 FROM comments c
 INNER JOIN discussions d on d.id = c.discussion_id
 WHERE YEAR(c.created_at) >= 2018 and d.topic_type is null) as daily_use
-ON wd.date BETWEEN daily_use.comment_date AND DATE_ADD(daily_use.comment_date, INTERVAL 30 DAY)
+ON wd.day_date BETWEEN daily_use.comment_date AND DATE_ADD(daily_use.comment_date, INTERVAL 30 DAY)
 GROUP BY 1,2
        ;;
   }

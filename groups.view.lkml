@@ -292,6 +292,31 @@ view: groups {
         END;;
   }
 
+  dimension: messaging_cohort {
+    type: string
+    sql:
+
+    CASE
+      WHEN (${health_clusters.id} IN (300, 72, 96, 108) OR ${health_institution_id} IN (762, 381)) THEN "COHORT A"
+      WHEN (${health_clusters.id} IN (93, 111, 231) OR ${health_institution_id} IN (717)) THEN "COHORT D"
+      WHEN (${health_clusters.id} IN (207, 105) OR ${health_institution_id} IN (1191, 765, 426, 1161)) THEN "COHORT B"
+      ELSE "COHORT C"
+    END
+    ;;
+
+    html:
+
+    {% if value == "COHORT A" %}
+    <p style="color: #67E768; background-color: #008500; font-size:100%; text-align:center;">{{ rendered_value }}</p>
+    {% elsif value == "COHORT B" %}
+    <p style="color: #FFFF73; background-color: #A6A600; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% elsif value == "COHORT C" %}
+    <p style="color: #FFD073; background-color: #A66F00; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% else %}
+    <p style="color: #FF7373; background-color: #A60000; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% endif %} ;;
+  }
+
   dimension: late_threshold_weeks {
     type: number
     sql: ${TABLE}.late_threshold_weeks ;;
