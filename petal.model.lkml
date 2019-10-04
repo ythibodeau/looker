@@ -822,7 +822,9 @@ explore: group_export_datas {
   }
 }
 
-explore: account_highest_scheduling_paying_plan {}
+explore: groups_churn_booking {}
+explore: groups_churn_scheduling {}
+explore: groups_churn_messaging {}
 
 explore: groups {
   group_label: "Global"
