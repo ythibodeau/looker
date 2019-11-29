@@ -1,5 +1,5 @@
-view: mess__messages {
-  sql_table_name: petalmd.mess__messages ;;
+view: mess__web_notif_preferences {
+  sql_table_name: petalmd.mess__web_notif_preferences ;;
 
   dimension: id {
     primary_key: yes
@@ -7,9 +7,14 @@ view: mess__messages {
     sql: ${TABLE}.id ;;
   }
 
-  dimension: converser_id {
+  dimension: account_id {
     type: number
-    sql: ${TABLE}.converser_id ;;
+    sql: ${TABLE}.account_id ;;
+  }
+
+  dimension: active {
+    type: yesno
+    sql: ${TABLE}.active ;;
   }
 
   dimension_group: created {
@@ -26,14 +31,19 @@ view: mess__messages {
     sql: ${TABLE}.created_at ;;
   }
 
-  dimension: message_type {
+  dimension: delay {
     type: number
-    sql: ${TABLE}.message_type ;;
+    sql: ${TABLE}.delay ;;
   }
 
-  dimension: text {
-    type: string
-    sql: ${TABLE}.text ;;
+  dimension: notif_chat_setting {
+    type: number
+    sql: ${TABLE}.notif_chat_setting ;;
+  }
+
+  dimension: notif_hospital_setting {
+    type: number
+    sql: ${TABLE}.notif_hospital_setting ;;
   }
 
   dimension_group: updated {
@@ -53,10 +63,5 @@ view: mess__messages {
   measure: count {
     type: count
     drill_fields: [id]
-  }
-
-  measure: count_distinct_account {
-    type: count_distinct
-    sql: ${mess__conversers.account_id} ;;
   }
 }

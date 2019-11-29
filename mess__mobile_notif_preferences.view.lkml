@@ -1,5 +1,5 @@
-view: mess__conversations {
-  sql_table_name: petalmd.mess__conversations ;;
+view: mess__mobile_notif_preferences {
+  sql_table_name: petalmd.mess__mobile_notif_preferences ;;
 
   dimension: id {
     primary_key: yes
@@ -9,7 +9,6 @@ view: mess__conversations {
 
   dimension: account_id {
     type: number
-    # hidden: yes
     sql: ${TABLE}.account_id ;;
   }
 
@@ -27,14 +26,19 @@ view: mess__conversations {
     sql: ${TABLE}.created_at ;;
   }
 
-  dimension: name {
-    type: string
-    sql: ${TABLE}.name ;;
+  dimension: mode {
+    type: number
+    sql: ${TABLE}.mode ;;
   }
 
-  dimension: has_custom_name {
-    type: yesno
-    sql: ${TABLE}.name IS NOT NULL ;;
+  dimension: normal_sound_name {
+    type: string
+    sql: ${TABLE}.normal_sound_name ;;
+  }
+
+  dimension: special_sound_name {
+    type: string
+    sql: ${TABLE}.special_sound_name ;;
   }
 
   dimension_group: updated {
@@ -51,21 +55,18 @@ view: mess__conversations {
     sql: ${TABLE}.updated_at ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [detail*]
+  dimension: vibration_normal_activated {
+    type: yesno
+    sql: ${TABLE}.vibration_normal_activated ;;
   }
 
-  # ----- Sets of fields for drilling ------
-  set: detail {
-    fields: [
-      id,
-      name,
-      accounts.id,
-      accounts.username,
-      accounts.first_name,
-      accounts.middle_name,
-      accounts.last_name
-    ]
+  dimension: vibration_special_activated {
+    type: yesno
+    sql: ${TABLE}.vibration_special_activated ;;
+  }
+
+  measure: count {
+    type: count
+    drill_fields: [id, normal_sound_name, special_sound_name]
   }
 }

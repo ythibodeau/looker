@@ -556,21 +556,8 @@ view: accounts {
 
   dimension: is_scheduled {
     type: yesno
-    #sql: SUM(CASE WHEN ${memberships.is_scheduled} = 1 then 1 else 0 end) > 0 ;;
-    sql: EXISTS(SELECT ${memberships.id} FROM ${memberships.SQL_TABLE_NAME}
+    sql: EXISTS(SELECT ${memberships.id} FROM ${memberships.SQL_TABLE_NAME})
     WHERE ${accounts.id} = ${memberships.account_id} AND ${memberships.is_scheduled} = 1);;
-  }
-
-  dimension: total_md_qc {
-    type: number
-    sql: 20350 ;;
-    value_format: "#####"
-  }
-
-  dimension: total_md_on {
-    type: number
-    sql: 28642 ;;
-    value_format: "#####"
   }
 
   dimension: simplified_kind {
@@ -614,7 +601,7 @@ view: accounts {
     list_field: access_group_acronym
   }
 
-  measure: test {
+  measure: memberships_count {
     type: count
     sql: ${memberships.count} ;;
   }
@@ -627,11 +614,35 @@ view: accounts {
     }
   }
 
+  measure: count_confirmed_doctors_only {
+    type: count
+    filters: {
+      field: simplified_kind
+      value: "Doctor"
+    }
+    filters: {
+      field: state
+      value: "confirmed"
+    }
+  }
+
   measure: count_residents_only {
     type: count
     filters: {
       field: simplified_kind
       value: "Resident"
+    }
+  }
+
+  measure: count_confirmed_residents_only {
+    type: count
+    filters: {
+      field: simplified_kind
+      value: "Resident"
+    }
+    filters: {
+      field: state
+      value: "confirmed"
     }
   }
 
@@ -643,6 +654,18 @@ view: accounts {
     }
   }
 
+  measure: count_confirmed_assistants_only {
+    type: count
+    filters: {
+      field: simplified_kind
+      value: "Assistant"
+    }
+    filters: {
+      field: state
+      value: "confirmed"
+    }
+  }
+
   measure: count_hcps_only {
     type: count
     filters: {
@@ -651,11 +674,35 @@ view: accounts {
     }
   }
 
+  measure: count_confirmed_hcps_only {
+    type: count
+    filters: {
+      field: simplified_kind
+      value: "Other Healthcare Professional"
+    }
+    filters: {
+      field: state
+      value: "confirmed"
+    }
+  }
+
   measure: count_others_only {
     type: count
     filters: {
       field: simplified_kind
       value: "Other"
+    }
+  }
+
+  measure: count_confirmed_others_only {
+    type: count
+    filters: {
+      field: simplified_kind
+      value: "Other"
+    }
+    filters: {
+      field: state
+      value: "confirmed"
     }
   }
 
@@ -678,10 +725,95 @@ view: accounts {
     }
   }
 
-  measure: at_least_one_group_count {
-    type: count
-    sql: COUNT(${memberships.id}) > 0 ;;
+  dimension: at_least_one_group {
+    type: yesno
+    sql: EXISTS(SELECT ${memberships.id} FROM ${memberships.SQL_TABLE_NAME}) ;;
   }
+
+  measure: count_confirmed_at_least_one_group {
+    type: count
+    filters: {
+      field: state
+      value: "confirmed"
+    }
+    filters: {
+      field: at_least_one_group
+      value: "Yes"
+    }
+  }
+
+  #### CUSTOMER SCORE DATA ######
+  dimension: is_schedulable_account {
+    type: yesno
+    sql: ${kind_id} IN (1,14,17,2,9,11,12,13,15,16,7) ;;
+  }
+
+  measure: scheduled_accounts {
+    type: count
+    filters: {
+      field: is_schedulable_account
+      value: "Yes"
+    }
+  }
+
+  measure: scheduled_accounts_confirmed {
+    type: count
+    filters: {
+      field: is_schedulable_account
+      value: "Yes"
+    }
+    filters: {
+      field: state
+      value: "confirmed"
+    }
+  }
+
+  measure: scheduled_accounts_active_l30days {
+    type: count
+    filters: {
+      field: is_schedulable_account
+      value: "Yes"
+    }
+    filters: {
+      field: last_active_30_days
+      value: "Yes"
+    }
+  }
+
+  measure: unscheduled_accounts {
+    type: count
+    filters: {
+      field: is_schedulable_account
+      value: "No"
+    }
+  }
+
+  measure: unscheduled_accounts_confirmed {
+    type: count
+    filters: {
+      field: is_schedulable_account
+      value: "No"
+    }
+    filters: {
+      field: state
+      value: "confirmed"
+    }
+  }
+
+  measure: unscheduled_accounts_active_l30days {
+    type: count
+    filters: {
+      field: is_schedulable_account
+      value: "No"
+    }
+    filters: {
+      field: last_active_30_days
+      value: "Yes"
+    }
+  }
+
+  #### CUSTOMER SCORE DATA ######
+
 
   # ----- Sets of fields for drilling ------
   set: detail {

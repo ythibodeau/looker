@@ -18,6 +18,17 @@ view: account_first_message {
     drill_fields: [detail*]
   }
 
+  measure: count_distinct_account_id {
+    type: count_distinct
+    sql: ${TABLE}.account_id ;;
+    drill_fields: [detail*]
+  }
+
+  measure: avg_first_usage_delay {
+    type: average
+    sql: ${first_usage_delay} ;;
+  }
+
   dimension: account_id {
     type: number
     sql: ${TABLE}.account_id ;;

@@ -198,6 +198,11 @@ view: discussions {
     sql: ${recipients.recipientable_type} ;;
   }
 
+  dimension: is_large {
+    type: yesno
+    sql: COUNT(DISTINCT ${participants.account_id}) > 10 ;;
+  }
+
   measure: recipient_types_list {
     type: list
     list_field: recipient_types
@@ -208,9 +213,24 @@ view: discussions {
     drill_fields: [detail*]
   }
 
+  measure: count_unique {
+    type: count_distinct
+    sql: ${TABLE}.id ;;
+    drill_fields: [detail*]
+  }
+
   measure: participants_count {
     type: count_distinct
     sql: ${participants.account_id} ;;
+  }
+
+  measure: large_discussions {
+    type: count_distinct
+    sql: ${TABLE}.id ;;
+    filters: {
+      field: is_large
+      value: "Yes"
+    }
   }
 
   # ----- Sets of fields for drilling ------

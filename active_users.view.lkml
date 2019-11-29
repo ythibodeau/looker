@@ -2,18 +2,16 @@ view: active_users {
   derived_table: {
     sql_trigger_value: SELECT CURDATE();;
     indexes: ["xdate"]
-    sql: SELECT daily_use.account_id,
-       wd.day_date as xdate,
-       MIN(DATEDIFF(wd.day_date, daily_use.comment_date)) as days_since_last_action
+    sql:  SELECT daily_use.account_id,
+       CONVERT_TZ(wd.day_date, 'UTC','America/New_York') as xdate,
+       MIN(DATEDIFF(wd.day_date, daily_use.message_date)) as days_since_last_action
 FROM ${date_series_table.SQL_TABLE_NAME} as wd
 LEFT JOIN (
-SELECT DISTINCT c.account_id, DATE_FORMAT(c.created_at, '%Y-%m-%d') as comment_date
-FROM comments c
-INNER JOIN discussions d on d.id = c.discussion_id
-WHERE YEAR(c.created_at) >= 2018 and d.topic_type is null) as daily_use
-ON wd.day_date BETWEEN daily_use.comment_date AND DATE_ADD(daily_use.comment_date, INTERVAL 30 DAY)
-GROUP BY 1,2
-       ;;
+SELECT m.account_id, DATE_FORMAT(CONVERT_TZ(m.message_date, 'UTC','America/New_York'), '%Y-%m-%d') as message_date
+FROM ${messages.SQL_TABLE_NAME} m
+WHERE YEAR(m.message_date) >= 2019) as daily_use
+ON wd.day_date BETWEEN daily_use.message_date AND DATE_ADD(daily_use.message_date, INTERVAL 30 DAY)
+GROUP BY 1,2;;
   }
 
   dimension_group: date {

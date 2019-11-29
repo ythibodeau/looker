@@ -1,5 +1,6 @@
 view: users_by_product {
   derived_table: {
+    sql_trigger_value: SELECT CURDATE() ;;
     sql: SELECT A.id,
 
     CASE
@@ -30,10 +31,9 @@ view: users_by_product {
                       SELECT MAX(MC.id) as id, quarter_start_date as date_serie FROM membership_changes MC
                       CROSS JOIN ${date_series_quarters.SQL_TABLE_NAME}
                       WHERE MC.created_at <= quarter_start_date
-                      GROUP BY account_id, quarter_start_date
+                      GROUP BY group_id, account_id, quarter_start_date
                   ) MAX_MC ON MAX_MC.id = MC.id
                   INNER JOIN membership_change_kinds MCK ON MCK.id = MC.kind_id
-                  INNER JOIN accounts A ON A.id = MC.account_id
                   WHERE MC.kind_id IN (1,3)
                   UNION
                   SELECT MC.id, quarter_start_date as date_serie FROM membership_changes MC
@@ -50,6 +50,16 @@ view: users_by_product {
   measure: count {
     type: count
     drill_fields: [detail*]
+  }
+
+  measure: number_of_unique_accounts {
+    type: count_distinct
+    sql: ${TABLE}.id ;;
+  }
+
+  dimension: primary_key {
+    primary_key: yes
+    sql: CONCAT(${TABLE}.id, ${TABLE}.code, ${TABLE}.date_serie) ;;
   }
 
   dimension: id {

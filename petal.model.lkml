@@ -32,14 +32,29 @@ map_layer: economic_regions_layer {
 # Global
 #####################################################################
 
+explore: account_group_counts {}
+
+explore: health_groups_by_product {}
+
+explore: health_messages_monthly_activity {}
+explore: health_messages_previous_monthly_activity {}
+explore: health_messages_retention_lifecycle {}
+
 explore: action_monitorings {}
 
 explore: users_products {}
+
 explore: users_by_product {
   join: accounts {
     type: inner
     sql_on: ${users_by_product.id} = ${accounts.id} ;;
     relationship: many_to_one
+  }
+
+  join: comments {
+    type: inner
+    sql_on: ${users_by_product.id} = ${comments.account_id} ;;
+    relationship: one_to_many
   }
 }
 
@@ -366,6 +381,12 @@ explore: accounts {
     relationship: one_to_one
   }
 
+  join: account_group_counts {
+    type: left_outer
+    sql_on: ${accounts.id} = ${account_group_counts.account_id} ;;
+    relationship: one_to_one
+  }
+
   join: account_kinds {
     type: left_outer
     sql_on: ${accounts.kind_id} = ${account_kinds.id} ;;
@@ -381,6 +402,12 @@ explore: accounts {
   join: comments {
     type: left_outer
     sql_on:  ${accounts.id} = ${comments.account_id} ;;
+    relationship: one_to_many
+  }
+
+  join: messages {
+    type: left_outer
+    sql_on: ${accounts.id} = ${messages.account_id} ;;
     relationship: one_to_many
   }
 
@@ -477,6 +504,18 @@ explore: accounts {
     type: left_outer
     sql_on: ${pati__account_tasks.id} = ${pati__availabilities.account_task_id} ;;
     relationship: one_to_many
+  }
+
+  join: users_by_product {
+    type: left_outer
+    sql_on: ${accounts.id} = ${users_by_product.id} ;;
+    relationship: one_to_many
+  }
+
+  join: account_without_group {
+    type: left_outer
+    sql_on: ${accounts.id} = ${account_without_group.id} ;;
+    relationship: one_to_one
   }
 }
 
@@ -1921,12 +1960,50 @@ explore: account_kinds {
 # Petal Message
 #####################################################################
 
+explore: mess__mobile_notif_preferences {}
+
 explore: messages {
   group_label: "Petal Message"
   join: accounts {
     type: inner
     sql_on: ${messages.account_id} = ${accounts.id} ;;
     relationship: many_to_one
+  }
+
+  join: account_first_message {
+    type: left_outer
+    sql_on: ${accounts.id} = ${account_first_message.account_id} ;;
+    relationship: one_to_one
+  }
+
+  join: memberships {
+    type: left_outer
+    sql_on: ${accounts.id} = ${memberships.account_id} ;;
+    relationship: one_to_many
+  }
+
+  join: groups {
+    type: left_outer
+    sql_on: ${memberships.group_id} = ${groups.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+    relationship: many_to_one
+  }
+
+  join: territories {
+    type: left_outer
+    sql_on: ${health_institutions.territory_id} = ${territories.id} ;;
+    relationship: one_to_many
   }
 }
 
@@ -1949,6 +2026,14 @@ explore: account_tenth_comment  {
     type: inner
     sql_on: ${accounts.kind_id} = ${account_kinds.id} ;;
     relationship: one_to_one
+  }
+}
+
+explore: account_first_message {
+  join: messages {
+    type: inner
+    sql_on: ${account_first_message.account_id} = ${messages.account_id} ;;
+    relationship: one_to_many
   }
 }
 
@@ -2586,6 +2671,12 @@ explore: discussions {
     relationship: many_to_one
   }
 
+  join: memberships {
+    type: inner
+    sql_on: ${accounts.id} = ${memberships.account_id} ;;
+    relationship: one_to_many
+  }
+
     join: account_kinds {
       type: inner
       sql_on: ${accounts.kind_id} = ${account_kinds.id} ;;
@@ -2600,7 +2691,19 @@ explore: discussions {
 
     join: groups {
       type: left_outer
-      sql_on: ${discussions.group_id} = ${groups.parent_group_id} ;;
+      sql_on: ${memberships.group_id} = ${groups.id} ;;
+      relationship: many_to_one
+    }
+
+    join: health_institutions {
+      type: left_outer
+      sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+      relationship: many_to_one
+    }
+
+    join: health_clusters {
+      type: left_outer
+      sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
       relationship: many_to_one
     }
 
@@ -2628,8 +2731,6 @@ explore: discussions {
       relationship: many_to_one
     }
 
-
-
     join: participant_flags {
       type: left_outer
       sql_on: ${participants.id} = ${participant_flags.participant_id} ;;
@@ -2643,12 +2744,74 @@ explore: discussions {
     }
   }
 
+explore: mess__messages {
+
+  join: mess__conversers {
+    type: inner
+    sql_on: ${mess__messages.converser_id} = ${mess__conversers.id} ;;
+    relationship: many_to_many
+  }
+
+  join: accounts {
+    type: inner
+    sql_on: ${mess__conversers.account_id} = ${accounts.id} ;;
+    relationship: many_to_one
+  }
+
+  join: memberships {
+    type: left_outer
+    sql_on: ${accounts.id} = ${memberships.account_id} ;;
+    relationship: one_to_many
+  }
+
+  join: groups {
+    type: left_outer
+    sql_on: ${memberships.group_id} = ${groups.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+  }
+
+}
+
 explore: mess__conversations {
     join: accounts {
       type: left_outer
       sql_on: ${mess__conversations.account_id} = ${accounts.id} ;;
       relationship: many_to_one
     }
+
+  join: memberships {
+    type: left_outer
+    sql_on: ${accounts.id} = ${memberships.account_id} ;;
+    relationship: one_to_many
+  }
+
+  join: groups {
+    type: left_outer
+    sql_on: ${memberships.group_id} = ${groups.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+  }
 
     join: account_first_comment {
       type: left_outer
@@ -2675,7 +2838,43 @@ explore: mess__conversations {
     }
   }
 
-explore: mess__converser_messages {}
+explore: mess__converser_messages {
+
+  join: mess__conversers {
+    type: inner
+    sql_on: ${mess__converser_messages.converser_id} = ${mess__conversers.id} ;;
+    relationship: many_to_one
+  }
+
+  join: accounts {
+    type: inner
+    sql_on: ${mess__conversers.account_id} = ${accounts.id} ;;
+    relationship: many_to_one
+  }
+
+  join: memberships {
+    type: left_outer
+    sql_on: ${accounts.id} = ${memberships.account_id} ;;
+    relationship: one_to_many
+  }
+
+  join: groups {
+    type: left_outer
+    sql_on: ${memberships.group_id} = ${groups.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+  }
+}
 
 explore: mess__conversers {
     join: accounts {
@@ -2889,6 +3088,29 @@ explore: participants {
       relationship: many_to_one
     }
 
+  join: memberships {
+    type: left_outer
+    sql_on: ${accounts.id} = ${memberships.account_id} ;;
+    relationship: one_to_many
+  }
+
+  join: groups {
+    type: left_outer
+    sql_on: ${memberships.group_id} = ${groups.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+  }
+
     join: account_first_comment {
       type: left_outer
       sql_on: ${accounts.id} = ${account_first_comment.account_id} ;;
@@ -2910,12 +3132,6 @@ explore: participants {
     join: distribution_lists {
       type: left_outer
       sql_on: ${discussions.distribution_list_id} = ${distribution_lists.id} ;;
-      relationship: many_to_one
-    }
-
-    join: centres {
-      type: left_outer
-      sql_on: ${groups.centre_id} = ${centres.parent_centre_id} ;;
       relationship: many_to_one
     }
 
@@ -3944,6 +4160,10 @@ explore: date_series_quarters {}
 
 explore: date_series_table {
 
+  join: health_groups_by_product {
+    type: cross
+  }
+
   join: accounts {
     type: left_outer
     sql_on: ${date_series_table.day_date_date} = ${accounts.deactivated_date} OR ${date_series_table.day_date_date} = ${accounts.confirmed_date} ;;
@@ -3966,6 +4186,12 @@ explore: date_series_table {
     type: left_outer
     sql_on: ${accounts.id} = ${active_users_scheduling.account_id} ;;
     relationship: one_to_many
+  }
+
+  join: users_by_product {
+    type: left_outer
+    sql_on: ${users_by_product.date_serie_quarter} = ${users_by_product.date_serie_quarter} ;;
+    relationship: one_to_one
   }
 
 #   join:pati__appointments {

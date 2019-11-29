@@ -292,17 +292,9 @@ view: groups {
         END;;
   }
 
-  dimension: messaging_cohort {
+  dimension: cohort {
     type: string
-    sql:
-
-    CASE
-      WHEN (${health_clusters.id} IN (300, 72, 96, 108) OR ${health_institution_id} IN (762, 381)) THEN "COHORT A"
-      WHEN (${health_clusters.id} IN (93, 111, 231) OR ${health_institution_id} IN (717)) THEN "COHORT D"
-      WHEN (${health_clusters.id} IN (207, 105) OR ${health_institution_id} IN (1191, 765, 426, 1161)) THEN "COHORT B"
-      ELSE "COHORT C"
-    END
-    ;;
+    sql: ${health_clusters.cohort} ;;
 
     html:
 
@@ -366,6 +358,11 @@ view: groups {
   dimension: name {
     type: string
     sql: ${TABLE}.name ;;
+    link: {
+      label: "Google"
+      url: "http://www.google.com/search?q={{ value }}"
+      icon_url: "http://google.com/favicon.ico"
+      }
   }
 
   dimension_group: next_period_end {
@@ -670,69 +667,10 @@ view: groups {
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
-      parent_group_id,
+      id,
       name,
-      centres.name,
-      centres.parent_centre_id,
-      locations.id,
-      timezones.id,
-      absences.count,
-      absence_date_ranges.count,
-      absence_notifications.count,
-      absence_report_configs.count,
-      account_group_paying_links.count,
-      admi__account_import_lines.count,
-      admi__group_period_details.count,
-      admi__trackings.count,
-      assistant_notes.count,
-      book__notification_template_groups.count,
-      book__queued_notifications.count,
-      categories.count,
-      comm__documents.count,
-      comm__dossiers.count,
-      comm__links.count,
-      discussions.count,
-      groups_pricing_plans.count,
-      group_absence_slot_kinds.count,
-      group_analytics_reports.count,
-      group_distribution_lists.count,
-      group_export_datas.count,
-      holidays.count,
-      ip_ranges.count,
-      meeting_billing_codes.count,
-      meeting_events.count,
-      memberships.count,
-      membership_changes.count,
-      notification_filters.count,
-      pati__appointment_check_ins.count,
-      pati__availability_query_logs.count,
-      pati__display_items.count,
-      pati__form_forms.count,
-      pati__medical_notes.count,
-      pati__offerings.count,
-      pati__patient_statuses.count,
-      pati__periods.count,
-      pati__providers.count,
-      pati__provider_changed_items.count,
-      pati__reasons.count,
-      pati__recall_lists.count,
-      pati__requests.count,
-      pati__subscriptions.count,
-      pati__template_kinds.count,
-      pati__waiting_rooms.count,
-      restrictions.count,
-      schedule_events.count,
-      _availability_mappings.count,
-      _change_requests.count,
-      _console_layouts.count,
-      _console_schedule_rows.count,
-      _periods.count,
-      _sourcings.count,
-      _trackings.count,
-      simple__schedule_configurations.count,
-      trackings.count,
-      trials.count,
-      weekly_comments.count
+      health_institutions.short_name,
+      memberships.count
     ]
   }
 }

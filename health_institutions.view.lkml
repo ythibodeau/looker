@@ -91,6 +91,11 @@ view: health_institutions {
     sql: ${TABLE}.updated_at ;;
   }
 
+  dimension: cohort {
+    type: string
+    sql: ${health_clusters.cohort} ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [id, name, health_clusters.name, health_clusters.parent_health_cluster_id]

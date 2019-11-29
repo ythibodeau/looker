@@ -1,7 +1,20 @@
-view: groups_churn_scheduling {
+view: health_groups_by_product {
   derived_table: {
     sql_trigger_value: SELECT CURDATE() ;;
-    sql: select
+    sql: SELECT  distinct g.id as group_id,
+      g.name as group_name,
+      pp.name_en as plan_name,
+      ps.code as pricing_suite,
+      gpp.start_date as plan_start_date,
+      gpp.end_date as plan_end_date
+      from groups g
+      inner join groups_pricing_plans gpp on g.id = gpp.group_id
+      inner join pricing_plans pp on pp.id = gpp.plan_id
+      inner join pricing_suites ps on ps.id = pp.suite_id
+      where ps.code IN ('md_schedule', 'hospital') and g.is_trial = 0 AND gpp.end_date is  null
+
+UNION
+(select
       distinct g.id as group_id,
       g.name as group_name,
       pp.name_en as plan_name,
@@ -18,18 +31,12 @@ view: groups_churn_scheduling {
       inner join groups_pricing_plans gpp2 on g2.id = gpp2.group_id
       inner join pricing_plans pp2 on pp2.id = gpp2.plan_id
       inner join pricing_suites ps2 on ps2.id = pp2.suite_id
-      where g2.id = g.id and ps2.code IN ('md_schedule', 'hospital') and gpp2.end_date IS NULL and g2.is_trial = 0)
+      where g2.id = g.id and ps2.code IN ('md_schedule', 'hospital') and gpp2.end_date IS NULL and g2.is_trial = 0))
  ;;
   }
 
   measure: count {
     type: count
-    drill_fields: [detail*]
-  }
-
-  measure: count_group_unique {
-    type: count_distinct
-    sql: ${TABLE}.group_id ;;
     drill_fields: [detail*]
   }
 
@@ -41,11 +48,6 @@ view: groups_churn_scheduling {
   dimension: group_name {
     type: string
     sql: ${TABLE}.group_name ;;
-    link: {
-      label: "PetalMD"
-      url: "https://admin.petalmd.com/admin/group/show/{{ groups_churn_scheduling.group_id._value }}"
-      icon_url: "http://video.petalmd.com/notifications/petalmd.ico"
-    }
   }
 
   dimension: plan_name {
@@ -92,8 +94,8 @@ view: groups_churn_scheduling {
       group_name,
       plan_name,
       pricing_suite,
-      plan_start_date_date,
-      plan_end_date_date
+      plan_start_date,
+      plan_end_date
     ]
   }
 }

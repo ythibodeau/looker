@@ -50,6 +50,17 @@ view: health_clusters {
     sql: ${TABLE}.updated_at ;;
   }
 
+  dimension: cohort {
+    type: string
+    sql:
+     CASE
+       WHEN ${TABLE}.id IN (72,96,108,300) THEN "COHORT A"
+       WHEN ${TABLE}.id IN (93,111) THEN "COHORT C"
+       ELSE "COHORT B"
+     END
+     ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [parent_health_cluster_id, name, health_institutions.count]

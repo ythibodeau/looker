@@ -119,9 +119,13 @@ view: comments {
     }
   }
 
-  measure: number_of_unique_accounts {
+  measure: number_of_unique_accounts_regular_messages {
     type: count_distinct
     sql: ${account_id} ;;
+    filters: {
+      field: is_regular
+      value: "Yes"
+    }
   }
 
   measure: change_request_count {
