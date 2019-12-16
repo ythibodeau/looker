@@ -36,9 +36,105 @@ explore: account_group_counts {}
 
 explore: health_groups_by_product {}
 
-explore: health_messages_monthly_activity {}
+explore: health_messages_monthly_activity {
+  join: accounts {
+    sql_on: ${health_messages_monthly_activity.account_id} = ${accounts.id};;
+    relationship: many_to_one
+  }
+
+  join: account_kinds {
+    type: inner
+    sql_on: ${accounts.kind_id} = ${account_kinds.id} ;;
+    relationship: one_to_many
+  }
+
+  join: memberships {
+    type: left_outer
+    sql_on: ${accounts.id} = ${memberships.account_id} ;;
+    relationship: one_to_many
+  }
+
+  join: groups {
+    type: inner
+    sql_on: ${memberships.group_id} = ${groups.id} ;;
+    relationship: one_to_one
+  }
+
+  join: centres {
+    type: left_outer
+    sql_on: ${groups.centre_id} = ${centres.id} ;;
+    relationship: one_to_one
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+    relationship: many_to_one
+  }
+
+  join: account_first_message {
+    type: left_outer
+    sql_on: ${accounts.id} = ${account_first_message.account_id} ;;
+    relationship: one_to_one
+  }
+
+  join: messages {
+    type: left_outer
+    sql_on: ${accounts.id} = ${messages.account_id} ;;
+    relationship: one_to_many
+  }
+}
+
 explore: health_messages_previous_monthly_activity {}
-explore: health_messages_retention_lifecycle {}
+explore: health_messages_retention_lifecycle {
+  join: accounts {
+    type: inner
+    sql_on: ${health_messages_retention_lifecycle.account_id} = ${accounts.id} ;;
+    relationship: many_to_one
+  }
+
+  join: account_kinds {
+    type: inner
+    sql_on: ${accounts.kind_id} = ${account_kinds.id} ;;
+    relationship: one_to_one
+  }
+
+  join: memberships {
+    type: left_outer
+    sql_on: ${accounts.id} = ${memberships.account_id} ;;
+    relationship: one_to_many
+  }
+
+  join: groups {
+    type: inner
+    sql_on: ${memberships.group_id} = ${groups.id} ;;
+    relationship: one_to_one
+  }
+
+  join: centres {
+    type: left_outer
+    sql_on: ${groups.centre_id} = ${centres.id} ;;
+    relationship: one_to_one
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+    relationship: many_to_one
+  }
+}
 
 explore: action_monitorings {}
 

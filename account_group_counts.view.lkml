@@ -1,5 +1,6 @@
 view: account_group_counts {
   derived_table: {
+    indexes: ["account_id"]
     sql_trigger_value: SELECT CURDATE() ;;
     sql: SELECT A.id as account_id, IFNULL(dept_count, 0) as dept_count, IFNULL(hosp_count, 0) as hosp_count, IFNULL(clin_count, 0) as clinic_count, IFNULL(asso_count, 0) as asso_count FROM accounts A
       LEFT JOIN (

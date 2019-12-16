@@ -32,6 +32,7 @@ view: health_messages_previous_monthly_activity {
   }
 
   dimension: mapc_key {
+    primary_key: yes
     type: string
     sql: ${TABLE}.mapc_key ;;
   }

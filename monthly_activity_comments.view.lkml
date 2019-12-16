@@ -96,6 +96,7 @@ measure: percent_of_cohort_active {
   set: detail {
     fields: [
       accounts.id,
+      accounts.locale,
       accounts.first_name,
       accounts.last_name,
       accounts.simplified_kind,

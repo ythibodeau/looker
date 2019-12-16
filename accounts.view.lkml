@@ -727,7 +727,36 @@ view: accounts {
 
   dimension: at_least_one_group {
     type: yesno
-    sql: EXISTS(SELECT ${memberships.id} FROM ${memberships.SQL_TABLE_NAME}) ;;
+    sql: ${account_group_counts.total_groups} > 0 ;;
+  }
+
+  measure: at_least_one_group_count {
+    type: count
+    filters: {
+      field: at_least_one_group
+      value: "Yes"
+    }
+    filters: {
+      field: state
+      value: "confirmed"
+    }
+  }
+
+  dimension: at_least_one_group_non_asso {
+    type: yesno
+    sql: ${account_group_counts.total_non_asso_groups} > 0 ;;
+  }
+
+  measure: at_least_one_group_non_asso_count {
+    type: count
+    filters: {
+      field: at_least_one_group_non_asso
+      value: "Yes"
+    }
+    filters: {
+      field: state
+      value: "confirmed"
+    }
   }
 
   measure: count_confirmed_at_least_one_group {

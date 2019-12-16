@@ -42,6 +42,7 @@ view: pricing_suites {
            WHEN ${code} = 'md_schedule' THEN 'Scheduling'
            WHEN ${code} = 'hospital' THEN 'Scheduling'
            WHEN ${code} = 'booking' THEN 'Booking'
+           WHEN ${code} = 'petal_message' THEN 'Messaging'
          END
         ;;
   }

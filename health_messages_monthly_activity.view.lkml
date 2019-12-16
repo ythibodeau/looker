@@ -40,9 +40,15 @@ view: health_messages_monthly_activity {
     sql: ${TABLE}.account_id ;;
   }
 
-  dimension: signup_month {
-    type: string
+  dimension_group: signup {
+    type: time
+    timeframes: [date, month]
     sql: ${TABLE}.signup_month ;;
+  }
+
+  dimension: months_since_signup {
+    type: number
+    sql: TIMESTAMPDIFF(MONTH, ${TABLE}.signup_month, ${TABLE}.message_month) ;;
   }
 
   dimension: message_month {
@@ -60,7 +66,37 @@ view: health_messages_monthly_activity {
     sql: ${TABLE}.num ;;
   }
 
+  measure: total_users {
+    type: count_distinct
+    sql: ${account_id} ;;
+    drill_fields: [accounts.id, accounts.first_name, accounts.last_name]
+  }
+
+  measure: total_active_users {
+    type: count_distinct
+    sql: ${account_id} ;;
+
+    filters: {
+      field: monthly_messages
+      value: ">0"
+    }
+  }
+
+  measure: percent_of_cohort_active {
+    type: number
+    value_format_name: percent_1
+    sql: 1.0 * ${total_active_users} / nullif(${total_users},0) ;;
+    drill_fields: [account_id, accounts.first_name, accounts.last_name, account.simplified_kind, accounts.group_acronyms, monthly_messages]
+  }
+  # ----- Sets of fields for drilling ------
   set: detail {
-    fields: [account_id, signup_month, message_month, monthly_messages, num]
+    fields: [
+      accounts.id,
+      accounts.first_name,
+      accounts.last_name,
+      accounts.simplified_kind,
+      accounts.group_acronyms,
+      monthly_messages
+    ]
   }
 }
