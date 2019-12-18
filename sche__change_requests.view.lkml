@@ -288,6 +288,11 @@ view: sche__change_requests {
     drill_fields: [id]
   }
 
+  measure: count_distinct_executed_by {
+    type: count_distinct
+    sql: ${executed_by_id} ;;
+  }
+
   measure: distinct_mlinks_count {
     type: count_distinct
     sql: ${multiple_link} ;;

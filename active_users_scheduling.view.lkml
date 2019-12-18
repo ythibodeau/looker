@@ -3,11 +3,11 @@ view: active_users_scheduling {
     indexes: ["account_id", "xdate"]
     sql_trigger_value: SELECT CURDATE() ;;
     sql: SELECT sa.account_id,
-      wd.date as xdate,
-      MIN(DATEDIFF(wd.date, sa.action_date)) as days_since_last_action
+      wd.day_date as xdate,
+      MIN(DATEDIFF(wd.day_date, sa.action_date)) as days_since_last_action
 FROM ${date_series_table.SQL_TABLE_NAME} as wd
 LEFT JOIN ${scheduling_actions.SQL_TABLE_NAME} as sa
-ON wd.date BETWEEN sa.action_date AND DATE_ADD(sa.action_date, INTERVAL 30 DAY)
+ON wd.day_date BETWEEN sa.action_date AND DATE_ADD(sa.action_date, INTERVAL 30 DAY)
 GROUP BY 1,2;
  ;;
   }
@@ -81,6 +81,11 @@ GROUP BY 1,2;
       field: active_last_7_days
       value: "yes"
     }
+  }
+
+  measure: count_unique_accounts {
+    type: count_distinct
+    sql: ${account_id} ;;
   }
 
   set: detail {
