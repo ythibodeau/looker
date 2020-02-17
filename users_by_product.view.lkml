@@ -2,6 +2,7 @@ view: users_by_product {
   derived_table: {
     sql_trigger_value: SELECT CURDATE() ;;
     sql: SELECT A.id,
+                A.state,
 
     CASE
           WHEN AK.id IN (1,14,17) THEN "Doctor"
@@ -75,6 +76,11 @@ view: users_by_product {
   dimension: code {
     type: string
     sql: ${TABLE}.code ;;
+  }
+
+  dimension: state {
+    type: string
+    sql: ${TABLE}.state ;;
   }
 
   dimension_group: date_serie {

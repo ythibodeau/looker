@@ -1,6 +1,6 @@
 view: messages {
   derived_table: {
-    sql_trigger_value: SELECT CURDATE() ;;
+    datagroup_trigger: messages_health
     indexes: ["messages_key"]
     sql: SELECT
       CONCAT("CHAT", "-", CAST(m.id as CHAR)) as messages_key,
@@ -122,6 +122,11 @@ view: messages {
   dimension: parent_id {
     type: number
     sql: ${TABLE}.parent_id ;;
+  }
+
+  dimension: pre_new_messaging {
+    type: yesno
+    sql: ${TABLE}.message_date < '2019-10-22' ;;
   }
 
 

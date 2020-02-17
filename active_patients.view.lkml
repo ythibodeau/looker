@@ -3,15 +3,15 @@ view: active_patients {
     sql_trigger_value: SELECT CURDATE();;
     indexes: ["xdate"]
     sql: SELECT daily_use.patient_id,
-       wd.date as xdate,
-       MIN(DATEDIFF(wd.date, daily_use.appointment_date)) as days_since_last_action
+       wd.day_date as xdate,
+       MIN(DATEDIFF(wd.day_date, daily_use.appointment_date)) as days_since_last_action
 FROM ${date_series_table.SQL_TABLE_NAME} as wd
 LEFT JOIN (
 SELECT DISTINCT a.patient_id, DATE_FORMAT(a.created_at, '%Y-%m-%d') as appointment_date
 FROM pati__appointments a
 WHERE YEAR(a.created_at) >= 2019
 AND created_by_type = "Patient::Patient" AND cancelled = 0) as daily_use
-ON wd.date BETWEEN daily_use.appointment_date AND DATE_ADD(daily_use.appointment_date, INTERVAL 30 DAY)
+ON wd.day_date BETWEEN daily_use.appointment_date AND DATE_ADD(daily_use.appointment_date, INTERVAL 30 DAY)
 GROUP BY 1,2
        ;;
   }

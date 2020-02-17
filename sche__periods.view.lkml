@@ -229,4 +229,9 @@ view: sche__periods {
     type: count
     drill_fields: [id, name]
   }
+
+  measure: total_tasks {
+    type: count_distinct
+    sql: ${sche__tasks.id} ;;
+  }
 }

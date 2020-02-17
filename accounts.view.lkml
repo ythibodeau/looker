@@ -571,6 +571,16 @@ view: accounts {
           END ;;
   }
 
+  dimension: is_gp {
+    type: yesno
+    sql: ${TABLE}.kind_id = 1 AND ${TABLE}.specialty_id = 10 ;;
+  }
+
+  dimension: is_specialist {
+    type: yesno
+    sql: ${TABLE}.kind_id = 1 AND ${TABLE}.specialty_id <> 10 ;;
+  }
+
   dimension: group_acronym {
     type: string
     sql: ${groups.acronym} ;;

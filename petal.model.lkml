@@ -9,6 +9,12 @@ datagroup: test_yves_default_datagroup {
   max_cache_age: "1 hour"
 }
 
+# Data for Me
+datagroup: messages_health {
+  max_cache_age: "24 hours"
+  sql_trigger: SELECT CURDATE() ;;
+}
+
 persist_with: test_yves_default_datagroup
 
 # Map Layers
@@ -145,6 +151,24 @@ explore: users_by_product {
     type: inner
     sql_on: ${users_by_product.id} = ${accounts.id} ;;
     relationship: many_to_one
+  }
+
+  join: account_kinds {
+    type: inner
+    sql_on: ${accounts.kind_id} = ${account_kinds.id} ;;
+    relationship: one_to_one
+  }
+
+  join: account_locations {
+    type: left_outer
+    sql_on: ${accounts.id} = ${account_locations.account_id} ;;
+    relationship: one_to_one
+  }
+
+  join: specialties {
+    type: left_outer
+    sql_on: ${accounts.specialty_id} = ${specialties.id} ;;
+    relationship: one_to_one
   }
 
   join: comments {
@@ -365,6 +389,10 @@ explore: implementation_monitoring  {
   group_label: "Global"
 }
 
+explore: group_last_published_period {
+  group_label: "Global"
+}
+
 explore: group_last_periods {
   group_label: "Global"
 
@@ -564,6 +592,12 @@ explore: accounts {
   join: health_institutions {
     type: left_outer
     sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: territories {
+    type: left_outer
+    sql_on: ${health_institutions.territory_id} = ${territories.id} ;;
     relationship: many_to_one
   }
 
@@ -983,11 +1017,20 @@ explore: groups {
     relationship: many_to_one
   }
 
-  join: sche__periods {
+  join: group_last_published_period {
     type: left_outer
-    sql_on: ${groups.id} = ${sche__periods.group_id} ;;
-    relationship: one_to_many
+    sql_on: ${groups.id} = ${group_last_published_period.group_id};;
+    relationship: one_to_one
   }
+
+  join: sche__periods {
+    view_label: "Last Published period"
+    from: sche__periods
+    type: left_outer
+    sql_on: ${group_last_published_period.period_id} = ${sche__periods.id} ;;
+    relationship: one_to_one
+  }
+
 
   join: locations {
     type: left_outer
@@ -1165,18 +1208,6 @@ explore: groups {
   join: holidays {
     type: left_outer
     sql_on: ${holidays.group_id} = ${groups.id} ;;
-    relationship: one_to_many
-  }
-
-  join: group_last_periods {
-    type: inner
-    sql_on: ${group_last_periods.group_id} = ${groups.id} ;;
-    relationship: one_to_one
-  }
-
-  join: sche__tasks {
-    type: left_outer
-    sql_on: ${group_last_periods.period_id} = ${sche__tasks.period_id} ;;
     relationship: one_to_many
   }
 
@@ -2057,6 +2088,25 @@ explore: account_kinds {
 #####################################################################
 
 explore: mess__mobile_notif_preferences {}
+explore: distribution_lists {
+  join: accounts {
+    type: left_outer
+    sql_on: ${distribution_lists.owner_id} = ${accounts.kind_id} ;;
+    relationship: one_to_many
+  }
+
+  join: memberships {
+    type: left_outer
+    sql_on: ${accounts.id} = ${memberships.account_id} ;;
+    relationship: one_to_many
+  }
+
+  join: groups {
+    type: left_outer
+    sql_on: ${memberships.group_id} = ${groups.id} ;;
+    relationship: many_to_one
+  }
+}
 
 explore: messages {
   group_label: "Petal Message"
@@ -3381,6 +3431,37 @@ explore: active_users_scheduling {
   }
 }
 
+explore: active_users_messaging {
+  join: accounts {
+    type: inner
+    sql_on: ${active_users_messaging.account_id} = ${accounts.id} ;;
+    relationship: one_to_one
+  }
+
+  join: memberships {
+    type: left_outer
+    sql_on: ${accounts.id} = ${memberships.account_id} ;;
+    relationship: one_to_many
+  }
+
+  join: groups {
+    type: left_outer
+    sql_on: ${memberships.group_id} = ${groups.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+  }
+}
+
 explore: scheduling_accounts {
   join: accounts {
     type: inner
@@ -3636,6 +3717,12 @@ explore: sche__periods {
     type: inner
     sql_on: ${sche__plans.period_id} = ${sche__periods.id} ;;
     relationship: one_to_one
+  }
+
+  join: sche__tasks {
+    type: left_outer
+    sql_on: ${sche__periods.id} = ${sche__tasks.period_id} ;;
+    relationship: one_to_many
   }
 
 #   join: sche__assignments {
@@ -4352,6 +4439,12 @@ explore: date_series_table {
 
 explore: pati__appointments {
   label: "Appointments"
+
+  join: pati__patients {
+    type: inner
+    relationship: many_to_one
+    sql_on: ${pati__appointments.patient_id} = ${pati__patients.id} ;;
+  }
 
   join: pati__availabilities {
     view_label: "Availabilities"

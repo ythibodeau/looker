@@ -1,6 +1,6 @@
 view: health_messages_retention_lifecycle {
   derived_table: {
-    sql_trigger_value: SELECT CURDATE() ;;
+    datagroup_trigger: messages_health
     sql: SELECT pdt5.yearmonth as yearmonth
           , pdt5.account_id
           , pdt4.monthly_messages
@@ -8,6 +8,7 @@ view: health_messages_retention_lifecycle {
         FROM ${year_month_accounts.SQL_TABLE_NAME} as pdt5
         LEFT OUTER JOIN ${health_messages_previous_monthly_activity.SQL_TABLE_NAME} as pdt4
             on pdt5.mapc_key = pdt4.mapc_key
+
  ;;
   }
 

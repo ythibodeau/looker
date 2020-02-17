@@ -1,6 +1,6 @@
 view: health_messages_previous_monthly_activity {
   derived_table: {
-    sql_trigger_value: SELECT CURDATE() ;;
+    datagroup_trigger: messages_health
     sql: SELECT
           CONCAT(date_format(MAC.message_month, '%Y-%m'), "-", CAST(MAC.account_id as CHAR)) as mapc_key
         , date_format(MAC.message_month, '%Y-%m') as message_month

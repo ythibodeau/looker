@@ -1,6 +1,6 @@
 view: year_month_accounts {
   derived_table: {
-    sql_trigger_value: SELECT CURDATE() ;;
+    datagroup_trigger: messages_health
     indexes: ["mapc_key", "account_id"]
     sql: SELECT
      distinct month_series.yearmonth,

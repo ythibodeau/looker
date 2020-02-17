@@ -1,6 +1,6 @@
 view: health_messages_monthly_activity {
   derived_table: {
-    sql_trigger_value: SELECT CURDATE() ;;
+    datagroup_trigger: messages_health
     sql: SELECT
           accounts.id as account_id
         , date_add('1900-01-02', interval TIMESTAMPDIFF(MONTH, '1900-01-02', accounts.confirmed_at) MONTH) as signup_month
