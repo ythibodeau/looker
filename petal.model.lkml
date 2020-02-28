@@ -3609,6 +3609,18 @@ explore: sche__periods {
     relationship: many_to_one
   }
 
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+    relationship: many_to_one
+  }
+
   join: admi__users {
     type: left_outer
     sql_on: ${groups.script_creator_id} = ${admi__users.id} ;;
