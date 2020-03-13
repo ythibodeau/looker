@@ -573,7 +573,12 @@ explore: accounts {
 
   join: groups_pricing_plans {
     type: inner
-    sql_on: ${groups_pricing_plans.group_id} = ${groups.id} ;;
+    sql_on: ${groups_pricing_plans.group_id} = ${groups.id} AND
+    ((${groups_pricing_plans.start_date} IS NULL AND ${groups_pricing_plans.end_date} IS NULL) OR
+    (${groups_pricing_plans.start_date} IS NULL AND ${groups_pricing_plans.end_date} >= now()) OR
+    (${groups_pricing_plans.start_date} <= now() AND ${groups_pricing_plans.end_date} IS NULL) OR
+    (${groups_pricing_plans.start_date} <= now() AND ${groups_pricing_plans.end_date} >= now()))
+    ;;
     relationship: many_to_one
   }
 

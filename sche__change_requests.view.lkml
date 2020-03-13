@@ -149,15 +149,6 @@ view: sche__change_requests {
 
   dimension_group: executed {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.executed_at ;;
   }
 
