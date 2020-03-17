@@ -38,6 +38,32 @@ map_layer: economic_regions_layer {
 # Global
 #####################################################################
 
+ explore: periods_last_year {}
+ explore: all_released_periods {}
+explore: min_next_released_period {}
+explore: publication_average_delay {
+  join: min_next_released_period {
+    type: left_outer
+    sql_on: ${publication_average_delay.periods_last_year_groups_id} = ${min_next_released_period.group_id} ;;
+    relationship: one_to_one
+  }
+}
+
+explore: scheduling_publication_alert {
+  join: groups {
+    type: left_outer
+    sql_on: ${scheduling_publication_alert.group_id} = ${groups.id} ;;
+    relationship: one_to_one
+  }
+
+  join: sche__periods {
+    type: left_outer
+    sql_on: ${scheduling_publication_alert.period_id} = ${sche__periods.id} ;;
+    relationship: one_to_one
+  }
+}
+
+
 explore: account_group_counts {}
 
 explore: health_groups_by_product {}
