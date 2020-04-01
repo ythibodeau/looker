@@ -38,6 +38,7 @@ map_layer: economic_regions_layer {
 # Global
 #####################################################################
 
+
  explore: periods_last_year {}
  explore: all_released_periods {}
 explore: min_next_released_period {}
@@ -678,6 +679,49 @@ explore: accounts {
     sql_on: ${accounts.id} = ${account_without_group.id} ;;
     relationship: one_to_one
   }
+
+  #### Scheduling stuff
+   join: sche__resources {
+     type: left_outer
+     sql_on: ${accounts.id} = ${sche__resources.account_id} ;;
+    relationship: one_to_many
+   }
+
+  join: sche__periods {
+    type: left_outer
+    sql_on: ${sche__resources.period_id} = ${sche__periods.id} ;;
+    relationship: many_to_one
+  }
+
+  join: sche__tasks {
+    type: left_outer
+    sql_on: ${sche__periods.id} = ${sche__tasks.period_id} ;;
+    relationship:one_to_many
+  }
+
+  join: sche__task_kinds {
+    type: left_outer
+    sql_on: ${sche__tasks.kind_id} = ${sche__task_kinds.id} ;;
+    relationship: many_to_one
+  }
+
+  join: sche__requirements {
+    type: left_outer
+    sql_on: ${sche__tasks.id} = ${sche__requirements.task_id} ;;
+    relationship: one_to_many
+  }
+
+  join: sche__assignments {
+    type: left_outer
+    sql_on: ${sche__requirements.id} = ${sche__assignments.requirement_id} ;;
+  }
+
+  join: crisis_availabilities {
+    type: left_outer
+    sql_on: ${accounts.id} = ${crisis_availabilities.account_id} ;;
+    relationship: one_to_one
+  }
+
 }
 
 explore: accounts_subspecialties {
@@ -1252,6 +1296,13 @@ explore: groups {
     type: left_outer
     sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
     relationship: many_to_one
+  }
+
+  # Scheduling Part
+  join: sche__task_kinds {
+    type: left_outer
+    sql_on: ${groups.id} = ${sche__task_kinds.id} ;;
+    relationship: one_to_many
   }
 
 }
@@ -2118,6 +2169,7 @@ explore: account_kinds {
 # Petal Message
 #####################################################################
 
+explore: messages_participants {}
 explore: mess__mobile_notif_preferences {}
 explore: distribution_lists {
   join: accounts {
@@ -3422,6 +3474,8 @@ explore: shared_distribution_lists {
 #####################################################################
 # Petal Agenda
 #####################################################################
+
+explore: sche__assignments {}
 
 
 # This version is not for chargeBee where we exclude console

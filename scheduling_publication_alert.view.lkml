@@ -8,14 +8,14 @@ view: scheduling_publication_alert {
         DATE(CONVERT_TZ(min_next_released_period.period_start_date ,'UTC','America/New_York')) AS next_period_start_date,
         DATEDIFF(now(), min_next_released_period.period_start_date) AS days_from_now,
         (0.67 * publication_average_delay.`periods_last_year.average_delay`) as alert_trigger,
+        DATE_ADD(DATE(CONVERT_TZ(min_next_released_period.period_start_date ,'UTC','America/New_York')), INTERVAL -(0.67 * publication_average_delay.`periods_last_year.average_delay`) DAY) as trigger_date,
         CASE
           WHEN (DATEDIFF(now(), min_next_released_period.period_start_date) > (0.67 * publication_average_delay.`periods_last_year.average_delay`) OR DATEDIFF(now(), min_next_released_period.period_start_date) >= 0) THEN true
           ELSE false
         END AS must_be_contacted
       FROM
                  looker_scratch.LR$NWYX7MEGQ7948XTQECGGG_publication_average_delay AS publication_average_delay
-      LEFT JOIN looker_scratch.LR$NWRY3W1PURAB1NVRQ9UBE_min_next_released_period   AS min_next_released_period   ON (publication_average_delay.`periods_last_year.groups_id`) = min_next_released_period.group_id
-       ;;
+      LEFT JOIN looker_scratch.LR$NWRY3W1PURAB1NVRQ9UBE_min_next_released_period   AS min_next_released_period   ON (publication_average_delay.`periods_last_year.groups_id`) = min_next_released_period.group_id       ;;
   }
 
   measure: count {
@@ -42,6 +42,11 @@ view: scheduling_publication_alert {
   dimension: next_period_start_date {
     type: date
     sql: ${TABLE}.next_period_start_date ;;
+  }
+
+  dimension: trigger_date {
+    type: date
+    sql: ${TABLE}.trigger_date ;;
   }
 
   dimension: days_from_now {
