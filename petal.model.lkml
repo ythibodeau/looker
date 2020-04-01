@@ -39,8 +39,8 @@ map_layer: economic_regions_layer {
 #####################################################################
 
 
- explore: periods_last_year {}
- explore: all_released_periods {}
+explore: periods_last_year {}
+explore: all_released_periods {}
 explore: min_next_released_period {}
 explore: publication_average_delay {
   join: min_next_released_period {
