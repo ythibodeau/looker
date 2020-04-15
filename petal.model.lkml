@@ -400,6 +400,7 @@ explore: specialties {
 explore: locations {}
 
 explore: year_month_accounts {}
+explore: year_month_accounts_light {}
 explore: year_month_patients {}
 
 explore: year_month_table_patients {}
@@ -714,6 +715,12 @@ explore: accounts {
   join: sche__assignments {
     type: left_outer
     sql_on: ${sche__requirements.id} = ${sche__assignments.requirement_id} ;;
+  }
+
+  join: sche__assignment_flags {
+    type: left_outer
+    sql_on: ${sche__assignments.id} = ${sche__assignment_flags.assignment_id} ;;
+    relationship: one_to_many
   }
 
   join: crisis_availabilities {
@@ -2169,6 +2176,7 @@ explore: account_kinds {
 # Petal Message
 #####################################################################
 
+explore: chats_monthly_activity {}
 explore: messages_participants {}
 explore: mess__mobile_notif_preferences {}
 explore: distribution_lists {
@@ -3474,6 +3482,21 @@ explore: shared_distribution_lists {
 #####################################################################
 # Petal Agenda
 #####################################################################
+
+explore: sche__assignment_flags {
+  join: sche__assignments {
+    type: left_outer
+    sql: ${sche__assignment_flags.assignment_id} = ${sche__assignments.id} ;;
+    relationship: one_to_one
+  }
+
+  join: sche__resources {
+    type: left_outer
+    sql: ${sche__assignments.resource_id} = ${sche__resources.id} ;;
+    relationship: one_to_one
+  }
+}
+
 
 explore: sche__assignments {}
 

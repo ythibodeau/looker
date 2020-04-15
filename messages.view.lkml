@@ -115,7 +115,7 @@ view: messages {
   }
 
   dimension: urgent {
-    type: number
+    type: yesno
     sql: ${TABLE}.urgent ;;
   }
 
@@ -133,12 +133,11 @@ view: messages {
   set: detail {
     fields: [
       message_type,
-      type_id,
       account_id,
       accounts.full_name,
       message_date_time,
+      accounts.groups_acronym,
       urgent,
-      parent_id
     ]
   }
 }

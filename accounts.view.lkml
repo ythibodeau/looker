@@ -351,6 +351,34 @@ view: accounts {
       <p style="color: #ffffff; background-color: #72D16D; font-size:100%; text-align:center">{{ rendered_value }}</p>
     {% elsif value == "deactivated" %}
      <p style="color: #ffffff; background-color: gray; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% elsif value == "pending_invite" %}
+     <p style="color: #ffffff; background-color: #F99245; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% else %}
+      <p style="color: #ffffff; background-color: #FFD95F; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% endif %} ;;
+  }
+
+  dimension: state_ordered {
+    type: string
+    sql:
+      CASE
+      WHEN ${TABLE}.state = "created" THEN "1-created"
+      WHEN ${TABLE}.state = "pending_invite" THEN "2-pending_invite"
+      WHEN ${TABLE}.state = "activated" THEN "3-activated"
+      WHEN ${TABLE}.state = "confirmed" THEN "4-confirmed"
+      WHEN ${TABLE}.state = "deactivated" THEN "5-deactivated"
+    END
+     ;;
+    html:
+
+    {% if value == "1-created" %}
+      <p style="color: #ffffff; background-color: #B32F37; font-size:100%; text-align:center;">{{ rendered_value }}</p>
+    {% elsif value == "4-confirmed" %}
+      <p style="color: #ffffff; background-color: #72D16D; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% elsif value == "5-deactivated" %}
+     <p style="color: #ffffff; background-color: gray; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% elsif value == "2-pending_invite" %}
+     <p style="color: #ffffff; background-color: #F99245; font-size:100%; text-align:center">{{ rendered_value }}</p>
     {% else %}
       <p style="color: #ffffff; background-color: #FFD95F; font-size:100%; text-align:center">{{ rendered_value }}</p>
     {% endif %} ;;
