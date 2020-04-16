@@ -2176,6 +2176,7 @@ explore: account_kinds {
 # Petal Message
 #####################################################################
 
+explore: chats_retention_lifecycle {}
 explore: chats_monthly_activity {}
 explore: messages_participants {}
 explore: mess__mobile_notif_preferences {}
