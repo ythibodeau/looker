@@ -2176,6 +2176,7 @@ explore: account_kinds {
 # Petal Message
 #####################################################################
 
+explore: chat_previous_monthly_activity {}
 explore: chats_retention_lifecycle {}
 explore: chats_monthly_activity {}
 explore: messages_participants {}
@@ -2230,6 +2231,24 @@ explore: messages {
     type: left_outer
     sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
     relationship: many_to_one
+  }
+
+  join: economic_regions {
+    type: left_outer
+    sql_on: ${health_institutions.region_id} = ${economic_regions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: locations {
+    type: left_outer
+    sql_on: ${health_institutions.location_id} = ${locations.id} ;;
+    relationship: many_to_one
+  }
+
+  join: location_geometries {
+    type: left_outer
+    sql_on: ${locations.id} = ${location_geometries.location_id} ;;
+    relationship: one_to_one
   }
 
   join: health_clusters {
