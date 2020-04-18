@@ -8,7 +8,7 @@ view: chats_monthly_activity {
         , COALESCE(data_x.monthly_chats, 0) as monthly_chats
         ,(@row_number:=@row_number + 1) AS num
       FROM
-       (SELECT @row_number:=0) AS t, accounts
+       (SELECT @row_number:=0) AS t, ${confirmed_accounts.SQL_TABLE_NAME} AS accounts
       LEFT JOIN
         (
           SELECT
