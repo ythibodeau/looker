@@ -1,6 +1,6 @@
 view: scheduling_publication_alert {
   derived_table: {
-    sql_trigger_value: SELECT CURDATE() ;;
+    datagroup_trigger: scheduling_publication_alerting
     sql: SELECT
         publication_average_delay.`periods_last_year.groups_id` AS group_id,
         min_next_released_period.period_id AS period_id,
@@ -14,8 +14,8 @@ view: scheduling_publication_alert {
           ELSE false
         END AS must_be_contacted
       FROM
-                 looker_scratch.LR$NWYX7MEGQ7948XTQECGGG_publication_average_delay AS publication_average_delay
-      LEFT JOIN looker_scratch.LR$NWRY3W1PURAB1NVRQ9UBE_min_next_released_period   AS min_next_released_period   ON (publication_average_delay.`periods_last_year.groups_id`) = min_next_released_period.group_id       ;;
+                 ${publication_average_delay.SQL_TABLE_NAME} AS publication_average_delay
+      LEFT JOIN ${min_next_released_period.SQL_TABLE_NAME}   AS min_next_released_period   ON (publication_average_delay.`periods_last_year.groups_id`) = min_next_released_period.group_id       ;;
   }
 
   measure: count {

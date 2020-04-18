@@ -15,6 +15,11 @@ datagroup: messages_health {
   sql_trigger: SELECT CURDATE() ;;
 }
 
+datagroup: scheduling_publication_alerting {
+  max_cache_age: "24 hours"
+  sql_trigger: SELECT CURDATE() ;;
+}
+
 persist_with: test_yves_default_datagroup
 
 # Map Layers

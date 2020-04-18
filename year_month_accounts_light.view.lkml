@@ -9,6 +9,7 @@ view: year_month_accounts_light {
               FROM ${year_month_table_light.SQL_TABLE_NAME} as month_series
               CROSS JOIN accounts
               WHERE  month_series.yearmonth IS NOT NULL
+              and accounts.state = 'confirmed'
        ;;
   }
 

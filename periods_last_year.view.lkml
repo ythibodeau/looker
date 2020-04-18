@@ -1,6 +1,6 @@
 view: periods_last_year {
   derived_table: {
-    sql_trigger_value: SELECT CURDATE() ;;
+    datagroup_trigger: scheduling_publication_alerting
     sql: SELECT
         groups.id  AS `groups.id`,
         sche__periods.id  AS `sche__periods.id`,
