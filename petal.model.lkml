@@ -130,49 +130,7 @@ explore: health_messages_monthly_activity {
 }
 
 explore: health_messages_previous_monthly_activity {}
-explore: health_messages_retention_lifecycle {
-  join: accounts {
-    type: inner
-    sql_on: ${health_messages_retention_lifecycle.account_id} = ${accounts.id} ;;
-    relationship: many_to_one
-  }
 
-  join: account_kinds {
-    type: inner
-    sql_on: ${accounts.kind_id} = ${account_kinds.id} ;;
-    relationship: one_to_one
-  }
-
-  join: memberships {
-    type: left_outer
-    sql_on: ${accounts.id} = ${memberships.account_id} ;;
-    relationship: one_to_many
-  }
-
-  join: groups {
-    type: inner
-    sql_on: ${memberships.group_id} = ${groups.id} ;;
-    relationship: one_to_one
-  }
-
-  join: centres {
-    type: left_outer
-    sql_on: ${groups.centre_id} = ${centres.id} ;;
-    relationship: one_to_one
-  }
-
-  join: health_institutions {
-    type: left_outer
-    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
-    relationship: many_to_one
-  }
-
-  join: health_clusters {
-    type: left_outer
-    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
-    relationship: many_to_one
-  }
-}
 
 explore: action_monitorings {}
 
@@ -3533,67 +3491,9 @@ explore: scheduling_retention_lifecycle {}
 explore: monthly_activity_scheduling {}
 explore: monthly_activity_previous_scheduling {}
 
-explore: active_users_scheduling {
-  join: accounts {
-    type: inner
-    sql_on: ${active_users_scheduling.account_id} = ${accounts.id} ;;
-    relationship: one_to_one
-  }
 
-  join: memberships {
-    type: left_outer
-    sql_on: ${accounts.id} = ${memberships.account_id} ;;
-    relationship: one_to_many
-  }
 
-  join: groups {
-    type: left_outer
-    sql_on: ${memberships.group_id} = ${groups.id} ;;
-    relationship: many_to_one
-  }
 
-  join: health_institutions {
-    type: left_outer
-    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
-    relationship: many_to_one
-  }
-
-  join: health_clusters {
-    type: left_outer
-    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
-  }
-}
-
-explore: active_users_messaging {
-  join: accounts {
-    type: inner
-    sql_on: ${active_users_messaging.account_id} = ${accounts.id} ;;
-    relationship: one_to_one
-  }
-
-  join: memberships {
-    type: left_outer
-    sql_on: ${accounts.id} = ${memberships.account_id} ;;
-    relationship: one_to_many
-  }
-
-  join: groups {
-    type: left_outer
-    sql_on: ${memberships.group_id} = ${groups.id} ;;
-    relationship: many_to_one
-  }
-
-  join: health_institutions {
-    type: left_outer
-    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
-    relationship: many_to_one
-  }
-
-  join: health_clusters {
-    type: left_outer
-    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
-  }
-}
 
 explore: scheduling_accounts {
   join: accounts {
@@ -3608,11 +3508,11 @@ explore: scheduling_accounts {
     relationship: one_to_many
   }
 
-  join: active_users_scheduling {
-    type: left_outer
-    sql_on: ${scheduling_accounts.account_id} = ${active_users_scheduling.account_id} ;;
-    relationship: one_to_one
-  }
+  #join: active_users_scheduling {
+  #  type: left_outer
+  #  sql_on: ${scheduling_accounts.account_id} = ${active_users_scheduling.account_id} ;;
+  #  relationship: one_to_one
+  #}
 
   join: memberships {
     type: left_outer
@@ -4470,9 +4370,9 @@ explore: weekly_comments {
 # Petal Patient
 #####################################################################
 
-explore: appointments_retention_lifecycle {}
+# explore: appointments_retention_lifecycle {}
 
-explore: active_patients {}
+# explore: active_patients {}
 
 explore: monthly_activity_appointments {}
 
@@ -4510,11 +4410,11 @@ explore: date_series_table {
     relationship: one_to_one
   }
 
-  join: active_users_scheduling {
-    type: left_outer
-    sql_on: ${accounts.id} = ${active_users_scheduling.account_id} ;;
-    relationship: one_to_many
-  }
+  #join: active_users_scheduling {
+  #  type: left_outer
+  #  sql_on: ${accounts.id} = ${active_users_scheduling.account_id} ;;
+  #  relationship: one_to_many
+  #}
 
   join: users_by_product {
     type: left_outer
