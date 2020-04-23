@@ -376,9 +376,7 @@ explore: year_month_table {
     }
 }
 
-explore: implementation_monitoring  {
-  group_label: "Global"
-}
+explore: year_month_table_light {}
 
 explore: group_last_published_period {
   group_label: "Global"
@@ -490,6 +488,12 @@ explore: accounts {
     relationship: one_to_one
   }
 
+  join: account_first_message {
+    type: left_outer
+    sql_on: ${accounts.id} = ${account_first_message.account_id} ;;
+    relationship: one_to_one
+  }
+
   join: account_tenth_comment {
     type: left_outer
     sql_on: ${accounts.id} = ${account_tenth_comment.account_id} ;;
@@ -560,6 +564,24 @@ explore: accounts {
     type: inner
     sql_on: ${memberships.group_id} = ${groups.id} ;;
     relationship: one_to_one
+  }
+
+  join: membership_changes {
+    type: left_outer
+    sql_on: ${accounts.id} = ${membership_changes.account_id} ;;
+    relationship: one_to_many
+  }
+
+  join: membership_change_kinds {
+    type: left_outer
+    sql_on: ${membership_changes_groups.kind_id} = ${membership_change_kinds.id} ;;
+    relationship: many_to_one
+  }
+
+  join: membership_changes_groups {
+    from: groups
+    type: left_outer
+    sql_on: ${membership_changes.group_id} = ${membership_changes_groups.id} ;;
   }
 
   join: groups_pricing_plans {
@@ -2139,6 +2161,52 @@ explore: account_kinds {
 # Petal Message
 #####################################################################
 
+explore: messaging_actions {}
+
+explore: health_messages_retention_lifecycle {
+  join: accounts {
+    type: inner
+    sql_on: ${health_messages_retention_lifecycle.account_id} = ${accounts.id} ;;
+    relationship: many_to_one
+  }
+
+  join: account_kinds {
+    type: inner
+    sql_on: ${accounts.kind_id} = ${account_kinds.id} ;;
+    relationship: one_to_one
+  }
+
+  join: memberships {
+    type: left_outer
+    sql_on: ${accounts.id} = ${memberships.account_id} ;;
+    relationship: one_to_many
+  }
+
+  join: groups {
+    type: inner
+    sql_on: ${memberships.group_id} = ${groups.id} ;;
+    relationship: one_to_one
+  }
+
+  join: centres {
+    type: left_outer
+    sql_on: ${groups.centre_id} = ${centres.id} ;;
+    relationship: one_to_one
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+    relationship: many_to_one
+  }
+}
+
 explore: chat_previous_monthly_activity {}
 explore: chats_retention_lifecycle {}
 explore: chats_monthly_activity {}
@@ -2256,6 +2324,8 @@ explore: account_first_message {
     relationship: one_to_many
   }
 }
+
+explore: account_first_message_read {}
 
 explore: account_first_comment {
   group_label: "Petal Message"
@@ -2409,6 +2479,8 @@ explore: comments_retention_lifecycle {
     relationship: many_to_one
   }
 }
+
+explore: active_users_messaging {}
 
 explore: active_users {
   join: accounts {
@@ -3469,13 +3541,13 @@ explore: shared_distribution_lists {
 explore: sche__assignment_flags {
   join: sche__assignments {
     type: left_outer
-    sql: ${sche__assignment_flags.assignment_id} = ${sche__assignments.id} ;;
+    sql_on: ${sche__assignment_flags.assignment_id} = ${sche__assignments.id} ;;
     relationship: one_to_one
   }
 
   join: sche__resources {
     type: left_outer
-    sql: ${sche__assignments.resource_id} = ${sche__resources.id} ;;
+    sql_on: ${sche__assignments.resource_id} = ${sche__resources.id} ;;
     relationship: one_to_one
   }
 }

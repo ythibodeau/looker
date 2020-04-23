@@ -3,8 +3,11 @@ view: health_messages_monthly_activity {
     datagroup_trigger: messages_health
     sql: SELECT
           accounts.id as account_id
-        , date_add('1900-01-02', interval TIMESTAMPDIFF(MONTH, '1900-01-02', accounts.confirmed_at) MONTH) as signup_month
-        , month_list.message_month as message_month
+        -- , date_add('1900-01-02', interval TIMESTAMPDIFF(MONTH, '1900-01-02', (CONVERT_TZ(TIMESTAMP(accounts.confirmed_at),'America/New_York','UTC'))) MONTH) as signup_month
+        -- , DATE_FORMAT(DATE_FORMAT((CONVERT_TZ(TIMESTAMP(accounts.confirmed_at),'America/New_York','UTC')),'%Y-%m'),'%Y-%m') as signup_month
+       -- , date_add(date_add(LAST_DAY(CONVERT_TZ(TIMESTAMP(accounts.confirmed_at),'America/New_York','UTC')),interval 1 DAY),interval -1 MONTH) as signup_month
+       , DATE_SUB(CONVERT_TZ(TIMESTAMP(accounts.confirmed_at),'America/New_York','UTC'),INTERVAL DAYOFMONTH(CONVERT_TZ(TIMESTAMP(accounts.confirmed_at),'America/New_York','UTC'))-1 DAY) as signup_month
+       , month_list.message_month as message_month
         , COALESCE(data_x.monthly_messages, 0) as monthly_messages
         ,(@row_number:=@row_number + 1) AS num
       FROM
@@ -15,7 +18,7 @@ view: health_messages_monthly_activity {
            DISTINCT(date_add('1900-01-02', interval TIMESTAMPDIFF(MONTH, '1900-01-02', m.message_date) MONTH)) as message_month
           FROM ${messages.SQL_TABLE_NAME} m
         ) as month_list
-      ON month_list.message_month >= date_add('1900-01-02', interval TIMESTAMPDIFF(MONTH, '1900-01-02', accounts.confirmed_at) MONTH)
+      ON month_list.message_month >= date_add('1900-01-02', interval TIMESTAMPDIFF(MONTH, '1900-01-02', (CONVERT_TZ(TIMESTAMP(accounts.confirmed_at),'America/New_York','UTC'))) MONTH)
       LEFT JOIN
         (
           SELECT
@@ -42,8 +45,17 @@ view: health_messages_monthly_activity {
 
   dimension_group: signup {
     type: time
-    timeframes: [date, month]
+       timeframes: [
+        raw,
+        time,
+        date,
+        week,
+        month,
+        quarter,
+        year
+      ]
     sql: ${TABLE}.signup_month ;;
+    convert_tz: no
   }
 
   dimension: months_since_signup {
@@ -86,7 +98,7 @@ view: health_messages_monthly_activity {
     type: number
     value_format_name: percent_1
     sql: 1.0 * ${total_active_users} / nullif(${total_users},0) ;;
-    drill_fields: [account_id, accounts.first_name, accounts.last_name, account.simplified_kind, accounts.group_acronyms, monthly_messages]
+    drill_fields: [account_id, accounts.first_name, accounts.last_name, accounts.simplified_kind, signup_month, accounts.confirmed_at, accounts.group_acronyms, monthly_messages]
   }
   # ----- Sets of fields for drilling ------
   set: detail {
@@ -95,6 +107,7 @@ view: health_messages_monthly_activity {
       accounts.first_name,
       accounts.last_name,
       accounts.simplified_kind,
+      accounts.confirmed_at,
       accounts.group_acronyms,
       monthly_messages
     ]

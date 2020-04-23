@@ -5,6 +5,7 @@ view: account_first_message {
        M.account_id,
        A.confirmed_at AS confirmed_at,
        MIN(M.message_date) AS first_comment,
+       MAX(M.message_date) AS last_comment,
        TIMESTAMPDIFF(DAY, A.confirmed_at, MIN(M.message_date)) as first_usage_delay,
        M.message_type as message_type
     FROM ${messages.SQL_TABLE_NAME} M
@@ -31,6 +32,7 @@ view: account_first_message {
 
   dimension: account_id {
     type: number
+    primary_key: yes
     sql: ${TABLE}.account_id ;;
   }
 
@@ -60,6 +62,20 @@ view: account_first_message {
       year
     ]
     sql: ${TABLE}.first_comment ;;
+  }
+
+  dimension_group: last_comment {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.last_comment ;;
   }
 
   dimension: first_usage_delay {

@@ -15,7 +15,7 @@ view: chats_monthly_activity {
            DISTINCT(date_add('1900-01-02', interval TIMESTAMPDIFF(MONTH, '1900-01-02', M.created_at) MONTH)) as chat_month
           FROM mess__messages M
           INNER JOIN mess__conversers C on C.id = M.converser_id
-          WHERE message_type IN (0,1)
+          WHERE message_type IN (0,1) AND M.created_at >= "2019-01-01"
         ) as month_list
       ON month_list.chat_month >= date_add('1900-01-02', interval TIMESTAMPDIFF(MONTH, '1900-01-02', accounts.confirmed_at) MONTH)
       LEFT JOIN
@@ -26,7 +26,7 @@ view: chats_monthly_activity {
               , COUNT(distinct M.id) AS monthly_chats
           FROM mess__messages M
           INNER JOIN mess__conversers C on C.id = M.converser_id
-          WHERE message_type IN (0,1)
+          WHERE message_type IN (0,1) AND M.created_at >= "2019-01-01"
           GROUP BY 1,2
         ) as data_x
       ON data_x.chat_month = month_list.chat_month

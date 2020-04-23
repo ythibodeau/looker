@@ -24,6 +24,7 @@ GROUP BY 1,2;;
       year
     ]
     sql: ${TABLE}.xdate ;;
+    convert_tz: no
   }
 
   dimension: account_id {

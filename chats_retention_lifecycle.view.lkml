@@ -6,7 +6,7 @@ view: chats_retention_lifecycle {
           , pdt4.monthly_chats
           , pdt4.previous_chat_month
         FROM ${year_month_accounts_light.SQL_TABLE_NAME} as pdt5
-        LEFT OUTER JOIN ${chat_previous_monthly_activity.SQL_TABLE_NAME} as pdt4
+       INNER JOIN ${chat_previous_monthly_activity.SQL_TABLE_NAME} as pdt4
             on pdt5.mapc_key = pdt4.mapc_key  ;;
  }
 
