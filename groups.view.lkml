@@ -2,7 +2,6 @@ view: groups {
   sql_table_name: petalmd.groups ;;
 
   dimension: parent_group_id {
-    primary_key: yes
     type: number
     sql: ${TABLE}.parent_group_id ;;
   }
@@ -219,6 +218,7 @@ view: groups {
 
   dimension: id {
     type: number
+    primary_key: yes
     sql: ${TABLE}.id ;;
   }
 

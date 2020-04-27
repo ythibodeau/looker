@@ -25,8 +25,7 @@ view: messages {
       d.id as parent_id
       FROM comments c
       INNER JOIN accounts a on a.id = c.account_id
-      INNER JOIN discussions d on d.id = c.discussion_id
-      WHERE d.topic_type IS NULL
+      INNER JOIN (select * from discussions d where d.topic_type IS NULL and YEAR(d.created_at) >= 2019) d ON d.id = c.discussion_id
        ;;
   }
 

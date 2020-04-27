@@ -3,9 +3,10 @@ view: active_users_messaging {
     sql_trigger_value: SELECT CURDATE() ;;
     indexes: ["account_id", "xdate"]
     sql: SELECT daily_use.account_id,
-       CONVERT_TZ(wd.day_date, 'UTC','America/New_York') as xdate,
+       -- CONVERT_TZ(wd.day_date, 'UTC','America/New_York') as xdate,
+       wd.day_date as xdate,
        MIN(DATEDIFF(wd.day_date, daily_use.action_date)) as days_since_last_action
-FROM ${date_series_table.SQL_TABLE_NAME} as wd
+FROM ${date_series_table_light.SQL_TABLE_NAME} as wd
 LEFT JOIN (
 SELECT ma.account_id, DATE_FORMAT(CONVERT_TZ(ma.action_date, 'UTC','America/New_York'), '%Y-%m-%d') as action_date
 FROM ${messaging_actions.SQL_TABLE_NAME} ma
@@ -18,6 +19,7 @@ GROUP BY 1,2 ;;
     type: time
     timeframes: [
       date,
+      time,
       week,
       month,
       quarter,
@@ -52,14 +54,14 @@ GROUP BY 1,2 ;;
     label: "Monthly Active Users"
     type: count_distinct
     sql: ${account_id} ;;
-    drill_fields: [accounts.id, accounts.name]
+    drill_fields: [accounts.id, accounts.full_name]
   }
 
   measure: user_count_active_this_day {
     label: "Daily Active Users"
     type: count_distinct
     sql: ${account_id} ;;
-    drill_fields: [accounts.id, accounts.name]
+    drill_fields: [accounts.id, accounts.full_name]
 
     filters: {
       field: active_this_day
@@ -71,7 +73,7 @@ GROUP BY 1,2 ;;
     label: "Weekly Active Users"
     type: count_distinct
     sql: ${account_id} ;;
-    drill_fields: [accounts.id, accounts.name]
+    drill_fields: [accounts.id, accounts.full_name]
 
     filters: {
       field: active_last_7_days

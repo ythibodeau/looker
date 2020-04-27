@@ -2161,7 +2161,15 @@ explore: account_kinds {
 # Petal Message
 #####################################################################
 
-explore: messaging_actions {}
+explore: messaging_actions {
+  join: accounts {
+    type: inner
+    sql_on: ${messaging_actions.account_id} = ${accounts.id} ;;
+    relationship: many_to_one
+  }
+}
+
+explore: messaging_lifecycle {}
 
 explore: health_messages_retention_lifecycle {
   join: accounts {
@@ -2480,7 +2488,18 @@ explore: comments_retention_lifecycle {
   }
 }
 
-explore: active_users_messaging {}
+explore: active_users_messaging {
+  join: accounts {
+    type: left_outer
+    sql_on: ${active_users_messaging.account_id} = ${accounts.id} ;;
+    relationship: many_to_one
+  }
+
+#   join: messaging_actions {
+#     type: left_outer
+#     sql_on: active_users ;;
+#   }
+}
 
 explore: active_users {
   join: accounts {
@@ -4457,6 +4476,8 @@ explore:  patient_users {}
 explore: date_series_table_patients {}
 
 explore: date_series_quarters {}
+
+explore: month_series_table {}
 
 explore: date_series_table {
 

@@ -1,6 +1,6 @@
-view: health_messages_monthly_activity {
+view: messaging_lifecycle {
   derived_table: {
-    datagroup_trigger: messages_health
+    sql_trigger_value: SELECT CURDATE() ;;
     sql: SELECT
           accounts.id as account_id
         -- , date_add('1900-01-02', interval TIMESTAMPDIFF(MONTH, '1900-01-02', (CONVERT_TZ(TIMESTAMP(accounts.confirmed_at),'America/New_York','UTC'))) MONTH) as signup_month
@@ -45,15 +45,15 @@ view: health_messages_monthly_activity {
 
   dimension_group: signup {
     type: time
-       timeframes: [
-        raw,
-        time,
-        date,
-        week,
-        month,
-        quarter,
-        year
-      ]
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
     sql: ${TABLE}.signup_month ;;
     convert_tz: no
   }

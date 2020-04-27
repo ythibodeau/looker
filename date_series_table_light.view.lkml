@@ -1,9 +1,6 @@
-view: date_series_table {
+view: date_series_table_light {
   derived_table: {
-    sql_trigger_value: SELECT CURDATE() ;;
-    indexes: ["day_date"]
-    sql:
-SELECT
+    sql: SELECT
  num,
  day_date,
  quarter_start_date,
@@ -32,11 +29,21 @@ SELECT
                 CROSS JOIN (select 0 as a union all select 1 union all select 2 union all select 3 union all select 4 union all select 5 union all select 6 union all select 7 union all select 8 union all select 9) as d
                 CROSS JOIN (select 0 as a union all select 1 union all select 2 union all select 3 union all select 4 union all select 5 union all select 6 union all select 7 union all select 8 union all select 9) as e
                  ) dates,  (SELECT @row_number:=0) AS t
-            WHERE day_date >= '2010-04-01'
+            WHERE day_date >= '2019-01-01'
     ) dates
   ) dates_with_quarter
 ORDER BY day_date
-               ;;
+ ;;
+  }
+
+  measure: count {
+    type: count
+    drill_fields: [detail*]
+  }
+
+  dimension: num {
+    type: number
+    sql: ${TABLE}.num ;;
   }
 
   dimension_group: day_date {
@@ -53,14 +60,7 @@ ORDER BY day_date
     sql: ${TABLE}.day_date ;;
   }
 
-  dimension: week {
-    type: date_week
-    sql: ${TABLE}.day_date ;;
+  set: detail {
+    fields: [num, day_date_date]
   }
-
-
-  measure: count {
-    type: count
-  }
-
 }
