@@ -2,7 +2,7 @@ connection: "production_database"
 
 # include all the views
 include: "*.view"
-include: "*.dashboard"
+# include: "*.dashboard"
 
 datagroup: test_yves_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
@@ -48,9 +48,6 @@ map_layer: economic_regions_layer {
 #####################################################################
 
 
-explore: periods_last_year {}
-explore: all_released_periods {}
-explore: min_next_released_period {}
 explore: publication_average_delay {
   join: min_next_released_period {
     type: left_outer
@@ -151,11 +148,6 @@ explore: health_messages_previous_monthly_activity {
   group_label: "Product Health"
 }
 
-
-explore: action_monitorings {}
-
-explore: users_products {}
-
 explore: users_by_product {
   join: accounts {
     type: inner
@@ -212,10 +204,6 @@ explore: users_by_product {
   }
 }
 
-explore: date_series_datetime {}
-
-explore: territories {}
-
 explore: economic_regions {
 
   join: territories {
@@ -263,10 +251,6 @@ explore: economic_regions {
 
 }
 
-explore: group_highest_scheduling_plans {
-
-}
-
 explore: account_with_one_group {
   join: accounts {
     type: inner
@@ -304,13 +288,6 @@ explore: group_billing_profiles {
     type: left_outer
     sql_on: ${account_billing_subscriptions.account_id} = ${accounts.id} ;;
   }
-}
-
-explore: health_institutions {
-#   access_filter: {
-#     field: health_institutions.short_name
-#     user_attribute: institution_name
-#   }
 }
 
 explore: health_clusters {
@@ -409,13 +386,6 @@ explore: specialties {
     relationship: one_to_many
   }
 }
-explore: locations {}
-
-explore: year_month_accounts {}
-explore: year_month_accounts_light {}
-explore: year_month_patients {}
-
-explore: year_month_table_patients {}
 
 explore: year_month_table {
 
@@ -550,6 +520,12 @@ explore: accounts {
   join: account_tenth_comment {
     type: left_outer
     sql_on: ${accounts.id} = ${account_tenth_comment.account_id} ;;
+    relationship: one_to_one
+  }
+
+  join: booking_tenth_action {
+    type: left_outer
+    sql_on: ${accounts.id} = ${booking_tenth_action.account_id} ;;
     relationship: one_to_one
   }
 
@@ -995,8 +971,6 @@ explore: deliveries {
   }
 }
 
-explore: delivery_services {}
-
 explore: group_absence_slot_kinds {
   group_label: "Global"
   join: groups {
@@ -1110,10 +1084,6 @@ explore: group_export_datas {
     relationship: many_to_one
   }
 }
-
-explore: groups_churn_booking {}
-explore: groups_churn_scheduling {}
-explore: groups_churn_messaging {}
 
 explore: groups {
   group_label: "Global"
@@ -2088,92 +2058,6 @@ explore: profiles {
 
 explore: noti__notifications {}
 
-#explore: notification_kinds {}
-
-#explore: mobile_devices {
-#     join: accounts {
-#       type: left_outer
-#       sql_on: ${mobile_devices.account_id} = ${accounts.id} ;;
-#       relationship: many_to_one
-#     }
-#
-#     join: account_first_comment {
-#       type: left_outer
-#       sql_on: ${accounts.id} = ${account_first_comment.account_id} ;;
-#       relationship: one_to_one
-#     }
-#
-#     join: comments {
-#       type: left_outer
-#       sql_on: ${accounts.id} = ${comments.account_id} ;;
-#       relationship: one_to_many
-#     }
-#
-#     join: discussions {
-#       type: left_outer
-#       sql: ${comments.discussion_id} = ${discussions.id} ;;
-#       relationship: many_to_one
-#     }
-#
-#     join: timezones {
-#       type: left_outer
-#       sql_on: ${accounts.timezone_id} = ${timezones.id} ;;
-#       relationship: many_to_one
-#     }
-#   }
-
-#explore: meeting_billing_codes {
-#     join: groups {
-#       type: left_outer
-#       sql_on: ${meeting_billing_codes.group_id} = ${groups.parent_group_id} ;;
-#       relationship: many_to_one
-#     }
-#
-#     join: centres {
-#       type: left_outer
-#       sql_on: ${groups.centre_id} = ${centres.parent_centre_id} ;;
-#       relationship: many_to_one
-#     }
-#
-#     join: locations {
-#       type: left_outer
-#       sql_on: ${groups.location_id} = ${locations.id} ;;
-#       relationship: many_to_one
-#     }
-#
-#     join: timezones {
-#       type: left_outer
-#       sql_on: ${groups.timezone_id} = ${timezones.id} ;;
-#       relationship: many_to_one
-#     }
-#   }
-
-#explore: meeting_delegations {}
-
-#explore: membership_change_kinds {}
-
-#explore: membership_kinds {}
-
-#explore: locations {}
-
-#explore: holiday_options {}
-
-#explore: group_kinds {}
-
-#explore: group_export_data_kinds {}
-
-#explore: contact_methods {}
-
-#explore: countries {}
-
-#explore: custom_tokens {}
-
-explore: centres {}
-
-#explore: attendee_answers {}
-
-#explore: account_statuses {}
-
 explore: account_kinds {
   join: accounts {
     type: left_outer
@@ -2199,20 +2083,6 @@ explore: account_kinds {
     relationship: many_to_one
   }
 }
-
-#explore: account_kinds_specialties {}
-
-# explore: product_audience_kinds {}
-#
-# explore: product_audiences {
-#   join: products {
-#     type: left_outer
-#     sql_on: ${product_audiences.product_id} = ${products.id} ;;
-#     relationship: many_to_one
-#   }
-# }
-#
-# explore: products {}
 
 #####################################################################
 # Petal Message
@@ -2262,8 +2132,6 @@ explore: hlth_messaging_actions {
     relationship: many_to_one
   }
 }
-
-explore: messaging_lifecycle {}
 
 explore: health_messages_retention_lifecycle {
   group_label: "Product Health"
@@ -2322,11 +2190,6 @@ explore: health_messages_retention_lifecycle {
   }
 }
 
-explore: chat_previous_monthly_activity {}
-explore: chats_retention_lifecycle {}
-explore: chats_monthly_activity {}
-explore: messages_participants {}
-explore: mess__mobile_notif_preferences {}
 explore: distribution_lists {
   join: accounts {
     type: left_outer
@@ -2417,8 +2280,7 @@ explore: messages {
 }
 
 # --- Product Health --- #
-explore: monthly_activity_previous_comments
- {
+explore: monthly_activity_previous_comments {
   group_label: "Petal Message"
  }
 
@@ -3513,8 +3375,6 @@ explore: mess__conversers {
     }
   }
 
-explore: mess__history_conversers {}
-
 explore: mess__message_mentions {
     join: accounts {
       type: left_outer
@@ -3842,10 +3702,6 @@ explore: shared_distribution_lists {
       relationship: many_to_one
     }
   }
-
-#explore: distribution_lists {}
-
-#explore: attachments {}
 
 #####################################################################
 # Petal Agenda
@@ -4505,8 +4361,6 @@ explore: booking_tenth_action {
     relationship: many_to_one
   }
 }
-
-
 
 explore: scheduling_accounts {
   join: accounts {
@@ -5367,45 +5221,11 @@ explore: weekly_comments {
     }
   }
 
-#explore: category_slots_values {}
-
-#explore: absence_report_configs_categories {}
-
-#explore: absence_slot_kinds {}
-
-#explore: absence_unit_combinations {}
-
-#explore: absence_notification_actions {}
-
-#explore: absence_report_config_templates {}
-
 #####################################################################
 # Petal Patient
 #####################################################################
 
-# explore: appointments_retention_lifecycle {}
-
-# explore: active_patients {}
-
-explore: monthly_activity_appointments {}
-
-explore: monthly_activity_previous_appointments {}
-
-explore: questionnaire_appointments {}
-
-explore:  patient_users {}
-
-explore: date_series_table_patients {}
-
-explore: date_series_quarters {}
-
-explore: month_series_table {}
-
 explore: date_series_table {
-
-  join: health_groups_by_product {
-    type: cross
-  }
 
   join: accounts {
     type: left_outer
@@ -5425,76 +5245,11 @@ explore: date_series_table {
     relationship: one_to_one
   }
 
-  #join: active_users_scheduling {
-  #  type: left_outer
-  #  sql_on: ${accounts.id} = ${active_users_scheduling.account_id} ;;
-  #  relationship: one_to_many
-  #}
-
   join: users_by_product {
     type: left_outer
     sql_on: ${users_by_product.date_serie_quarter} = ${users_by_product.date_serie_quarter} ;;
     relationship: one_to_one
   }
-
-#   join:pati__appointments {
-#     type: left_outer
-#     sql_on: ${date_series_table.date_date} = ${pati__appointments.created_date} ;;
-#   }
-#
-#   join: pati__availabilities {
-#     type: inner
-#     sql_on: ${pati__appointments.availability_id} = ${pati__availabilities.id} ;;
-#     relationship: one_to_one
-#   }
-#
-#   join: pati__account_tasks {
-#     type: inner
-#     sql_on: ${pati__availabilities.account_task_id} = ${pati__account_tasks.id} ;;
-#     relationship: many_to_one
-#   }
-#
-#   join: pati__tasks {
-#     type: inner
-#     sql_on: ${pati__account_tasks.task_id} = ${pati__tasks.id} ;;
-#     relationship: many_to_one
-#   }
-#
-#   join: pati__reasons {
-#     type: inner
-#     sql_on: ${pati__tasks.reason_id} = ${pati__reasons.id} ;;
-#     relationship: many_to_one
-#   }
-#
-#   join: clinics {
-#     type: inner
-#     sql_on: ${pati__reasons.group_id} = ${clinics.id} ;;
-#     relationship: many_to_one
-#   }
-#
-#   join: appointment_reminders  {
-#     type: left_outer
-#     sql_on: ${date_series_table.date_date} = ${appointment_reminders.sent_date_date} ;;
-#   }
-#
-#   join: accounts {
-#     view_label: "Confirmed accounts"
-#     type: left_outer
-#     sql_on: ${date_series_table.date_date} = ${accounts.confirmed_date} ;;
-#     relationship: one_to_many
-#   }
-#
-#   join: comments {
-#     type: left_outer
-#     sql_on: ${accounts.id} = ${comments.account_id} ;;
-#     relationship: one_to_many
-#   }
-#
-#   join: memberships {
-#     type: left_outer
-#     sql_on:  ;;
-#   }
-
 }
 
 explore: pati__appointments {
@@ -5504,6 +5259,12 @@ explore: pati__appointments {
     type: inner
     relationship: many_to_one
     sql_on: ${pati__appointments.patient_id} = ${pati__patients.id} ;;
+  }
+
+  join: pati__subscriptions {
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${pati__patients.id} = ${pati__subscriptions.patient_id} ;;
   }
 
   join: pati__availabilities {
@@ -6401,153 +6162,7 @@ explore: pati__waiting_rooms {
     }
   }
 
-#explore: pati__appointment_check_in_patients {}
-
-#   explore: pati__appointment_patient_statuses {}
-#
-#   explore: pati__attachments {}
-
-#   explore: pati__form_answers {}
-#
-#   explore: pati__form_choices {}
-#
-#   explore: pati__form_form_answers {}
-
-#   explore: pati__omnimeds {}
-#
-#   explore: pati__patient_filters {}
-
-#   explore: pati__form_headers {}
-#
-#   explore: pati__form_questions {}
-#
-#   explore: pati__kinlogixes {}
-
-#   explore: pati__softinfos {}
-#
-#   explore: pati__standalones {}
-#
-#   explore: pati__subscription_links {}
-
-#   explore: pati__task_task_fallbacks {}
-#
-#   explore: pati__tasks {}
-#
-#   explore: pati__teluses {}
-#
-#   explore: pati__template_items {}
-
-#explore: pati__visibility_blocks {}
-
-#explore: pati__waiting_room_patients {}
-
-#explore: pati__purkinjes {}
-
-# explore: book__notification_deliveries {
-#   join: notifications {
-#     type: left_outer
-#     sql_on: ${book__notification_deliveries.notification_id} = ${notifications.id} ;;
-#     relationship: many_to_one
-#   }
-#
-#   join: accounts {
-#     type: left_outer
-#     sql_on: ${notifications.account_id} = ${accounts.id} ;;
-#     relationship: many_to_one
-#   }
-#
-#   join: account_first_comment {
-#     type: left_outer
-#     sql_on: ${accounts.id} = ${account_first_comment.account_id} ;;
-#     relationship: one_to_one
-#   }
-#
-#   join: comments {
-#     type: left_outer
-#     sql_on: ${accounts.id} = ${comments.account_id} ;;
-#     relationship: one_to_many
-#   }
-#
-#   join: discussions {
-#     type: left_outer
-#     sql_on: ${notifications.discussion_id} = ${discussions.id} ;;
-#     relationship: many_to_one
-#   }
-#
-#   join: notification_kinds {
-#     type: left_outer
-#     sql_on: ${notifications.notification_kind_id} = ${notification_kinds.id} ;;
-#     relationship: many_to_one
-#   }
-#
-#   join: timezones {
-#     type: left_outer
-#     sql_on: ${accounts.timezone_id} = ${timezones.id} ;;
-#     relationship: many_to_one
-#   }
-#
-#   join: groups {
-#     type: left_outer
-#     sql_on: ${discussions.group_id} = ${groups.parent_group_id} ;;
-#     relationship: many_to_one
-#   }
-#
-#   join: distribution_lists {
-#     type: left_outer
-#     sql_on: ${discussions.distribution_list_id} = ${distribution_lists.id} ;;
-#     relationship: many_to_one
-#   }
-#
-#   join: centres {
-#     type: left_outer
-#     sql_on: ${groups.centre_id} = ${centres.parent_centre_id} ;;
-#     relationship: many_to_one
-#   }
-#
-#   join: locations {
-#     type: left_outer
-#     sql_on: ${groups.location_id} = ${locations.id} ;;
-#     relationship: many_to_one
-#   }
-# }
-#
-# explore: book__notification_template_contents {
-#   join: attachments {
-#     type: left_outer
-#     sql_on: ${book__notification_template_contents.attachment_id} = ${attachments.id} ;;
-#     relationship: many_to_one
-#   }
-# }
-#
-# explore: book__notification_template_groups {
-#   join: groups {
-#     type: left_outer
-#     sql_on: ${book__notification_template_groups.group_id} = ${groups.parent_group_id} ;;
-#     relationship: many_to_one
-#   }
-#
-#   join: centres {
-#     type: left_outer
-#     sql_on: ${groups.centre_id} = ${centres.parent_centre_id} ;;
-#     relationship: many_to_one
-#   }
-#
-#   join: locations {
-#     type: left_outer
-#     sql_on: ${groups.location_id} = ${locations.id} ;;
-#     relationship: many_to_one
-#   }
-#
-#   join: timezones {
-#     type: left_outer
-#     sql_on: ${groups.timezone_id} = ${timezones.id} ;;
-#     relationship: many_to_one
-#   }
-# }
-#
-# explore: book__notification_templates {}
-#
- explore: book__notifications {
+explore: book__notifications {
    join: book__notification_deliveries {
      type: left_outer
      sql_on: ${book__notifications.id} = ${book__notification_deliveries.notification_id} ;;
@@ -6578,82 +6193,6 @@ explore: pati__waiting_rooms {
     relationship: one_to_one
   }
  }
-#
-# explore: book__queued_notifications {
-#   join: groups {
-#     type: left_outer
-#     sql_on: ${book__queued_notifications.group_id} = ${groups.parent_group_id} ;;
-#     relationship: many_to_one
-#   }
-#
-#   join: centres {
-#     type: left_outer
-#     sql_on: ${groups.centre_id} = ${centres.parent_centre_id} ;;
-#     relationship: many_to_one
-#   }
-#
-#   join: locations {
-#     type: left_outer
-#     sql_on: ${groups.location_id} = ${locations.id} ;;
-#     relationship: many_to_one
-#   }
-#
-#   join: timezones {
-#     type: left_outer
-#     sql_on: ${groups.timezone_id} = ${timezones.id} ;;
-#     relationship: many_to_one
-#   }
-# }
-
-#explore: assistant_notes {
-#   join: accounts {
-#     type: left_outer
-#     sql_on: ${assistant_notes.account_id} = ${accounts.id} ;;
-#     relationship: many_to_one
-#   }
-#
-#   join: account_first_comment {
-#     type: left_outer
-#     sql_on: ${accounts.id} = ${account_first_comment.account_id} ;;
-#     relationship: one_to_one
-#   }
-#
-#   join: comments {
-#     type: left_outer
-#     sql_on: ${accounts.id} = ${comments.account_id} ;;
-#     relationship: one_to_many
-#   }
-#
-#   join: discussions {
-#     type: left_outer
-#     sql: ${comments.discussion_id} = ${discussions.id} ;;
-#     relationship: many_to_one
-#   }
-#
-#   join: groups {
-#     type: left_outer
-#     sql_on: ${assistant_notes.group_id} = ${groups.parent_group_id} ;;
-#     relationship: many_to_one
-#   }
-#
-#   join: timezones {
-#     type: left_outer
-#     sql_on: ${accounts.timezone_id} = ${timezones.id} ;;
-#     relationship: many_to_one
-#   }
-#
-#   join: centres {
-#     type: left_outer
-#     sql_on: ${groups.centre_id} = ${centres.parent_centre_id} ;;
-#     relationship: many_to_one
-#   }
-#
-#   join: locations {
-#     type: left_outer
-#     sql_on: ${groups.location_id} = ${locations.id} ;;
-#     relationship: many_to_one
-#   }
-# }
 
 #####################################################################
 # Petal Hub
@@ -6764,11 +6303,6 @@ join: groups_plans {
 }
 
 explore: console_access_groups {
-#   join: console_content_groups {
-#     type: left_outer
-#     sql_on: ${console_access_groups.console_group_id} = ${console_content_groups.console_group_id} ;;
-#     relationship: many_to_many
-#   }
 
   join: console_groups {
     from: groups
@@ -6830,13 +6364,3 @@ explore: dashboard_calls {
     relationship: many_to_one
   }
 }
-
-
-
-#explore: console_access_groups {}
-
-#explore: console_content_groups {}
-
-#####################################################################
-# Admin
-#####################################################################
