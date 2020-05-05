@@ -6,7 +6,7 @@ view: account_first_message_read {
        MIN(MA.action_date) AS first_comment_read,
        MAX(MA.action_date) AS last_comment_read,
        TIMESTAMPDIFF(DAY, MA.signup, MIN(MA.action_date)) as first_usage_delay
-    FROM ${messaging_actions.SQL_TABLE_NAME} MA
+    FROM ${hlth_messaging_actions.SQL_TABLE_NAME} MA
     WHERE MA.action in ("read_comm", "read_chat")
     GROUP BY account_id;
  ;;
@@ -14,6 +14,12 @@ view: account_first_message_read {
 
   measure: count {
     type: count
+    drill_fields: [detail*]
+  }
+
+  measure: count_distinct_account_id {
+    type: count_distinct
+    sql: ${TABLE}.account_id ;;
     drill_fields: [detail*]
   }
 

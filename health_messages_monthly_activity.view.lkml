@@ -16,7 +16,7 @@ view: health_messages_monthly_activity {
         (
           SELECT
            DISTINCT(date_add('1900-01-02', interval TIMESTAMPDIFF(MONTH, '1900-01-02', m.action_date) MONTH)) as message_month
-          FROM ${messaging_actions.SQL_TABLE_NAME} m
+          FROM ${hlth_messaging_actions.SQL_TABLE_NAME} m
         ) as month_list
       ON month_list.message_month >= date_add('1900-01-02', interval TIMESTAMPDIFF(MONTH, '1900-01-02', (CONVERT_TZ(TIMESTAMP(accounts.confirmed_at),'America/New_York','UTC'))) MONTH)
       LEFT JOIN
@@ -25,7 +25,7 @@ view: health_messages_monthly_activity {
                 m.account_id
               , date_add('1900-01-02', interval TIMESTAMPDIFF(MONTH, '1900-01-02', m.action_date) MONTH) as message_month
               , COUNT(distinct m.id) AS monthly_messages
-          FROM ${messaging_actions.SQL_TABLE_NAME} m
+          FROM ${hlth_messaging_actions.SQL_TABLE_NAME} m
           GROUP BY 1,2
         ) as data_x
       ON data_x.message_month = month_list.message_month

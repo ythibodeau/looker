@@ -1,4 +1,4 @@
-view: messaging_actions {
+view: hlth_messaging_actions {
   derived_table: {
     indexes: ["account_id", "action_date"]
     sql_trigger_value: SELECT CURDATE() ;;
@@ -79,6 +79,7 @@ WHERE YEAR(CONVERT_TZ(mc.read_at,'UTC','America/New_York')) >= 2019) as x
       year
     ]
     sql: ${TABLE}.signup ;;
+    convert_tz: no
   }
 
   dimension_group: action_date {
@@ -93,6 +94,7 @@ WHERE YEAR(CONVERT_TZ(mc.read_at,'UTC','America/New_York')) >= 2019) as x
       year
     ]
     sql: ${TABLE}.action_date ;;
+    convert_tz: no
   }
 
   set: detail {

@@ -9,7 +9,7 @@ view: active_users_messaging {
 FROM ${date_series_table_light.SQL_TABLE_NAME} as wd
 LEFT JOIN (
 SELECT ma.account_id, DATE_FORMAT(CONVERT_TZ(ma.action_date, 'UTC','America/New_York'), '%Y-%m-%d') as action_date
-FROM ${messaging_actions.SQL_TABLE_NAME} ma
+FROM ${hlth_messaging_actions.SQL_TABLE_NAME} ma
 WHERE YEAR(ma.action_date) >= 2019) as daily_use
 ON wd.day_date BETWEEN daily_use.action_date AND DATE_ADD(daily_use.action_date, INTERVAL 30 DAY)
 GROUP BY 1,2 ;;

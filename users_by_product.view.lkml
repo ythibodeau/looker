@@ -94,6 +94,7 @@ view: users_by_product {
       year
     ]
     sql: ${TABLE}.date_serie ;;
+    convert_tz: no
   }
 
   set: detail {

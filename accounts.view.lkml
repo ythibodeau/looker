@@ -595,6 +595,9 @@ view: accounts {
           WHEN ${kind_id} IN (2, 9, 11, 12, 13, 15, 16) THEN "Resident"
           WHEN ${kind_id} = 7  THEN "Other Healthcare Professional"
           WHEN ${kind_id} IN (5,6) THEN "Assistant"
+          WHEN ${kind_id} = 23 THEN "Dentist"
+          WHEN ${kind_id} = 29 THEN "Pharmacist"
+          WHEN ${kind_id} = 32 THEN "Pharmacy Technician"
           ELSE "Other"
           END ;;
   }
