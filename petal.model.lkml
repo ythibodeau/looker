@@ -307,10 +307,10 @@ explore: group_billing_profiles {
 }
 
 explore: health_institutions {
-  access_filter: {
-    field: health_institutions.short_name
-    user_attribute: institution_name
-  }
+#   access_filter: {
+#     field: health_institutions.short_name
+#     user_attribute: institution_name
+#   }
 }
 
 explore: health_clusters {
@@ -518,10 +518,10 @@ explore: account_locations {
 
 explore: accounts {
   group_label: "Global"
-  access_filter: {
-    field: health_institutions.short_name
-    user_attribute: institution_name
-  }
+#   access_filter: {
+#     field: health_institutions.short_name
+#     user_attribute: institution_name
+#   }
 
   join: timezones {
     type: left_outer
@@ -1117,10 +1117,10 @@ explore: groups_churn_messaging {}
 
 explore: groups {
   group_label: "Global"
-  access_filter: {
-    field: health_institutions.short_name
-    user_attribute: institution_name
-  }
+#   access_filter: {
+#     field: health_institutions.short_name
+#     user_attribute: institution_name
+#   }
   cancel_grouping_fields: [accounts.highest_paying_plan, groups.is_scheduling, groups.pricing_plan_test]
 
   join: group_kinds {
