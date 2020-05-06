@@ -47,6 +47,7 @@ view: account_tenth_comment {
   dimension: id {
     type: number
     sql: ${TABLE}.id ;;
+    primary_key: yes
   }
 
   dimension: account_id {

@@ -326,10 +326,10 @@ explore: account_locations {
 
 explore: accounts {
   group_label: "Global"
-#   access_filter: {
-#     field: health_institutions.short_name
-#     user_attribute: institution_name
-#   }
+  access_filter: {
+    field: health_institutions.short_name
+    user_attribute: institution_name
+  }
 
   join: timezones {
     type: left_outer
@@ -892,10 +892,10 @@ explore: group_export_datas {
 
 explore: groups {
   group_label: "Global"
-#   access_filter: {
-#     field: health_institutions.short_name
-#     user_attribute: institution_name
-#   }
+  access_filter: {
+    field: health_institutions.short_name
+    user_attribute: institution_name
+  }
   cancel_grouping_fields: [accounts.highest_paying_plan, groups.is_scheduling, groups.pricing_plan_test]
 
   join: group_kinds {
@@ -1801,108 +1801,6 @@ explore: account_kinds {
 #####################################################################
 # Petal Message
 #####################################################################
-
-explore: hlth_messaging_actions {
-  group_label: "Product Health"
-  join: accounts {
-    type: inner
-    sql_on: ${hlth_messaging_actions.account_id} = ${accounts.id} ;;
-    relationship: many_to_one
-  }
-
-  join: specialties {
-    type: left_outer
-    sql_on: ${accounts.specialty_id} = ${specialties.id} ;;
-    relationship: many_to_one
-  }
-
-  join: memberships {
-    type: left_outer
-    sql_on: ${accounts.id} = ${memberships.account_id};;
-    relationship: one_to_many
-  }
-
-  join: groups {
-    type: inner
-    sql_on: ${memberships.group_id} = ${groups.id} ;;
-    relationship: one_to_one
-  }
-
-  join: health_institutions {
-    type: left_outer
-    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
-    relationship: many_to_one
-  }
-
-  join: territories {
-    type: left_outer
-    sql_on: ${health_institutions.territory_id} = ${territories.id} ;;
-    relationship: many_to_one
-  }
-
-  join: health_clusters {
-    type: left_outer
-    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
-    relationship: many_to_one
-  }
-}
-
-explore: health_messages_retention_lifecycle {
-  group_label: "Product Health"
-  join: accounts {
-    type: inner
-    sql_on: ${health_messages_retention_lifecycle.account_id} = ${accounts.id} ;;
-    relationship: many_to_one
-  }
-
-  join: account_kinds {
-    type: inner
-    sql_on: ${accounts.kind_id} = ${account_kinds.id} ;;
-    relationship: one_to_one
-  }
-
-  join: specialties {
-    type: left_outer
-    sql_on: ${accounts.specialty_id} = ${specialties.id} ;;
-    relationship: many_to_one
-  }
-
-  join: memberships {
-    type: left_outer
-    sql_on: ${accounts.id} = ${memberships.account_id} ;;
-    relationship: one_to_many
-  }
-
-  join: groups {
-    type: inner
-    sql_on: ${memberships.group_id} = ${groups.id} ;;
-    relationship: one_to_one
-  }
-
-  join: centres {
-    type: left_outer
-    sql_on: ${groups.centre_id} = ${centres.id} ;;
-    relationship: one_to_one
-  }
-
-  join: health_institutions {
-    type: left_outer
-    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
-    relationship: many_to_one
-  }
-
-  join: territories {
-    type: left_outer
-    sql_on: ${health_institutions.territory_id} = ${territories.id} ;;
-    relationship: many_to_one
-  }
-
-  join: health_clusters {
-    type: left_outer
-    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
-    relationship: many_to_one
-  }
-}
 
 explore: distribution_lists {
   join: accounts {
@@ -6336,6 +6234,108 @@ explore: booking_tenth_action {
   join: groups {
     type: inner
     sql_on: ${memberships.group_id} = ${groups.id} ;;
+    relationship: one_to_one
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: territories {
+    type: left_outer
+    sql_on: ${health_institutions.territory_id} = ${territories.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+    relationship: many_to_one
+  }
+}
+
+explore: hlth_messaging_actions {
+  group_label: "Product Health"
+  join: accounts {
+    type: inner
+    sql_on: ${hlth_messaging_actions.account_id} = ${accounts.id} ;;
+    relationship: many_to_one
+  }
+
+  join: specialties {
+    type: left_outer
+    sql_on: ${accounts.specialty_id} = ${specialties.id} ;;
+    relationship: many_to_one
+  }
+
+  join: memberships {
+    type: left_outer
+    sql_on: ${accounts.id} = ${memberships.account_id};;
+    relationship: one_to_many
+  }
+
+  join: groups {
+    type: inner
+    sql_on: ${memberships.group_id} = ${groups.id} ;;
+    relationship: one_to_one
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: territories {
+    type: left_outer
+    sql_on: ${health_institutions.territory_id} = ${territories.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+    relationship: many_to_one
+  }
+}
+
+explore: health_messages_retention_lifecycle {
+  group_label: "Product Health"
+  join: accounts {
+    type: inner
+    sql_on: ${health_messages_retention_lifecycle.account_id} = ${accounts.id} ;;
+    relationship: many_to_one
+  }
+
+  join: account_kinds {
+    type: inner
+    sql_on: ${accounts.kind_id} = ${account_kinds.id} ;;
+    relationship: one_to_one
+  }
+
+  join: specialties {
+    type: left_outer
+    sql_on: ${accounts.specialty_id} = ${specialties.id} ;;
+    relationship: many_to_one
+  }
+
+  join: memberships {
+    type: left_outer
+    sql_on: ${accounts.id} = ${memberships.account_id} ;;
+    relationship: one_to_many
+  }
+
+  join: groups {
+    type: inner
+    sql_on: ${memberships.group_id} = ${groups.id} ;;
+    relationship: one_to_one
+  }
+
+  join: centres {
+    type: left_outer
+    sql_on: ${groups.centre_id} = ${centres.id} ;;
     relationship: one_to_one
   }
 
