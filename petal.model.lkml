@@ -42,6 +42,10 @@ map_layer: economic_regions_layer {
 # Global
 #####################################################################
 
+explore: attachments {
+
+}
+
 explore: users_by_product {
   join: accounts {
     type: inner
@@ -579,6 +583,12 @@ explore: accounts {
     type: left_outer
     sql_on: ${accounts.id} = ${crisis_availabilities.account_id} ;;
     relationship: one_to_one
+  }
+
+  join: attachments {
+    type: left_outer
+    sql_on: ${accounts.id} = ${attachments.created_by_id} ;;
+    relationship: one_to_many
   }
 
 }
@@ -1889,6 +1899,7 @@ explore: messages {
     sql_on: ${health_institutions.territory_id} = ${territories.id} ;;
     relationship: one_to_many
   }
+
 }
 
 explore: account_distribution_lists {
@@ -2876,6 +2887,88 @@ explore: shared_distribution_lists {
 #####################################################################
 # Petal Agenda
 #####################################################################
+
+explore: sche__assignments {
+
+  join: sche__requirements {
+    type: left_outer
+    sql_on: ${sche__assignments.requirement_id} = ${sche__requirements.id} ;;
+    relationship: one_to_one
+  }
+
+  join: sche__tasks {
+    type: left_outer
+    sql_on: ${sche__requirements.task_id} = ${sche__tasks.id}  ;;
+    relationship: many_to_one
+  }
+
+  join: sche__blocks {
+    type: left_outer
+    sql_on: ${sche__tasks.block_id} = ${sche__blocks.id} ;;
+    relationship: many_to_one
+  }
+
+  join: sche__block_kinds {
+    type: left_outer
+    sql_on: ${sche__blocks.kind_id} = ${sche__block_kinds.id} ;;
+    relationship: many_to_one
+  }
+
+  join: sche__task_kinds {
+    type: left_outer
+    sql_on: ${sche__tasks.kind_id} = ${sche__task_kinds.id} ;;
+    relationship: many_to_one
+  }
+
+  join: sche__resources {
+    type: left_outer
+    sql_on: ${sche__assignments.resource_id} = ${sche__resources.id} ;;
+    relationship: one_to_many
+  }
+
+  join: accounts {
+    type: left_outer
+    sql_on: ${sche__resources.account_id} = ${accounts.id} ;;
+    relationship: many_to_one
+  }
+
+  join: specialties {
+    type: left_outer
+    sql_on: ${accounts.specialty_id} = ${specialties.id} ;;
+    relationship: many_to_one
+  }
+
+  join: memberships {
+    type: left_outer
+    sql_on: ${accounts.id} = ${memberships.account_id};;
+    relationship: one_to_many
+  }
+
+  join: groups {
+    type: inner
+    sql_on: ${memberships.group_id} = ${groups.id} ;;
+    relationship: one_to_one
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: territories {
+    type: left_outer
+    sql_on: ${health_institutions.territory_id} = ${territories.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+    relationship: many_to_one
+  }
+}
+
 
 explore: publication_average_delay {
   join: min_next_released_period {

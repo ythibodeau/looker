@@ -87,6 +87,11 @@ view: attachments {
     sql: ${TABLE}.guid ;;
   }
 
+  dimension: duration {
+    type: number
+    sql: ${TABLE}.duration ;;
+  }
+
   dimension: name {
     type: string
     sql: ${TABLE}.name ;;
