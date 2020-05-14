@@ -432,7 +432,7 @@ explore: accounts {
   }
 
   join: groups {
-    type: inner
+    type: left_outer
     sql_on: ${memberships.group_id} = ${groups.id} ;;
     relationship: one_to_one
   }
@@ -1984,9 +1984,15 @@ explore: comm__documents {
     relationship: many_to_one
   }
 
-  join: centres {
+  join: health_institutions {
     type: left_outer
-    sql_on: ${groups.centre_id} = ${centres.parent_centre_id} ;;
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
     relationship: many_to_one
   }
 
@@ -4046,6 +4052,8 @@ explore: weekly_comments {
 #####################################################################
 # Petal Patient
 #####################################################################
+
+explore: noti__notifications {}
 
 explore: date_series_table {
 

@@ -96,6 +96,7 @@ view: accounts {
   }
 
   dimension_group: confirmed {
+    label: "confirmed_date"
     type: time
     timeframes: [
       raw,
@@ -384,6 +385,20 @@ view: accounts {
     {% endif %} ;;
   }
 
+  dimension: state_nice {
+    type: string
+    sql:
+    CASE
+      WHEN ${TABLE}.state = "created" THEN "Compté Créé"
+      WHEN ${TABLE}.state = "pending_invite" THEN "Courriel d'activation non-reçu"
+      WHEN ${TABLE}.state = "activated" THEN "Courriel d'activation reçu"
+      WHEN ${TABLE}.state = "confirmed" THEN "Activé"
+      WHEN ${TABLE}.state = "deactivated" THEN "Désactivé"
+    END
+
+    ;;
+  }
+
   dimension: stripe_id {
     type: string
     sql: ${TABLE}.stripe_id ;;
@@ -486,11 +501,13 @@ view: accounts {
   measure: count {
     type: count
     drill_fields: [detail*]
+    label: "accounts"
   }
 
   measure: count_unique {
     type: count_distinct
     sql: ${accounts.id} ;;
+    label: "accounts"
   }
 
   measure: confirmed_count {
@@ -511,6 +528,19 @@ view: accounts {
     sql: ${id} ;;
   }
 
+  parameter: date_filter {
+    type: date
+  }
+
+  measure: count_unique_confirmed_test {
+    type: count_distinct
+    filters: {
+      field: state
+      value: "confirmed"
+    }
+    sql: CASE WHEN ${confirmed_date} >= {% parameter date_filter %} THEN ${id} END ;;
+  }
+
   measure: activated_count {
     label: "Activated Count"
     type: count
@@ -521,12 +551,13 @@ view: accounts {
   }
 
   measure: deactivated_count {
-    label: "Deactivated Count"
+    label: "deactivated_count"
     type: count
     filters: {
       field: state
       value: "deactivated"
     }
+    drill_fields: [accounts.id, accounts.first_name, accounts.last_name, accounts.simplified_kind, accounts.deactivated_at]
   }
 
   measure: deactivated_and_previously_confirmed_count {
@@ -549,6 +580,34 @@ view: accounts {
       value: "activated"
     }
     sql: ${id} ;;
+  }
+
+  measure: count_unique_created {
+    type: count_distinct
+    filters: {
+      field: state
+      value: "created"
+    }
+    sql: ${id} ;;
+  }
+
+  measure: count_unique_pending_invite {
+    label: "count_unique_pending_invite"
+    type: count_distinct
+    filters: {
+      field: state
+      value: "pending_invite"
+    }
+    sql: ${id} ;;
+    drill_fields: [accounts.id, accounts.first_name, accounts.last_name, accounts.simplified_kind, accounts.activation_email_status, accounts.activation_email_bounce_description, accounts.groups_acronym]
+  }
+
+  measure: count_no_email {
+    label: "accounts_without_email"
+    type: count_distinct
+    sql: ${id} ;;
+    filters: [email: "%@prod.petaltest.com"]
+    drill_fields: [detail*]
   }
 
   measure: count_last_active_30_days {
@@ -589,15 +648,31 @@ view: accounts {
   }
 
   dimension: simplified_kind {
+    label: "simplified_kind"
     type: string
     sql: CASE
-          WHEN ${kind_id} IN (1,14,17) THEN "Doctor"
-          WHEN ${kind_id} IN (2, 9, 11, 12, 13, 15, 16) THEN "Resident"
-          WHEN ${kind_id} = 7  THEN "Other Healthcare Professional"
-          WHEN ${kind_id} IN (5,6) THEN "Assistant"
-          WHEN ${kind_id} = 23 THEN "Dentist"
-          WHEN ${kind_id} = 29 THEN "Pharmacist"
-          WHEN ${kind_id} = 32 THEN "Pharmacy Technician"
+          WHEN ${kind_id} IN (1,14,17) THEN "{{ _localization['doctor'] }}"
+          WHEN ${kind_id} = 3 THEN "{{ _localization['extern'] }}"
+          WHEN ${kind_id} IN (2, 9, 11, 12, 13, 15, 16) THEN "{{ _localization['resident'] }}"
+          WHEN ${kind_id} = 7  THEN "{{ _localization['other_health_professional'] }}"
+          WHEN ${kind_id} = 5 THEN "{{ _localization['assistant'] }}"
+          WHEN ${kind_id} = 6 THEN "{{ _localization['administrator'] }}"
+          WHEN ${kind_id} = 23 THEN "{{ _localization['dentist'] }}"
+          WHEN ${kind_id} = 29 THEN "{{ _localization['pharmacist'] }}"
+          WHEN ${kind_id} = 32 THEN "{{ _localization['pharmarcy_technician'] }}"
+          WHEN ${kind_id} = 8 THEN "{{ _localization['generic_doctor'] }}"
+          WHEN ${kind_id} = 10 THEN "{{ _localization['generic_assistant'] }}"
+          WHEN ${kind_id} = 19 THEN "Undefined"
+          WHEN ${kind_id} = 20 THEN "{{ _localization['other'] }}"
+          WHEN ${kind_id} = 26 THEN "{{ _localization['maccs'] }}"
+          WHEN ${kind_id} = 35 THEN "{{ _localization['social_worker'] }}"
+          WHEN ${kind_id} = 38 THEN "{{ _localization['psychologist'] }}"
+          WHEN ${kind_id} = 41 THEN "{{ _localization['physiotherapist'] }}"
+          WHEN ${kind_id} = 44 THEN "{{ _localization['medical_physicist'] }}"
+          WHEN ${kind_id} = 53 THEN "{{ _localization['veterinarian'] }}"
+          WHEN ${kind_id} = 56 THEN "{{ _localization['engineer'] }}"
+          WHEN ${kind_id} = 47 THEN "{{ _localization['technologist'] }}"
+          WHEN ${kind_id} = 4 THEN "{{ _localization['nurse_practitioner'] }}"
           ELSE "Other"
           END ;;
   }
