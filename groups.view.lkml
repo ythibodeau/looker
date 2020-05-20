@@ -356,6 +356,7 @@ view: groups {
   }
 
   dimension: name {
+    label: "group_name"
     type: string
     sql: ${TABLE}.name ;;
     link: {
@@ -627,11 +628,6 @@ view: groups {
     sql: ${TABLE}.health_institution_id ;;
   }
 
-  dimension: pricing_plan {
-    type: string
-    sql: ${pricing_plans.name_en} ;;
-  }
-
   dimension: plans {
     type: string
     sql: ${groups_plans.plans} ;;
@@ -653,7 +649,26 @@ view: groups {
     sql: ${nb_scheduling} > 0 ;;
   }
 
+  dimension: pricing_plan {
+    type: string
+    sql:
+    CASE
+      WHEN ${pricing_plans.code} = "basic_sched" THEN "{{ _localization['pricing_plan_basic_sched'] }}"
+      WHEN ${pricing_plans.code} = "standard_sched" THEN "{{ _localization['pricing_plan_standard_sched'] }}"
+      WHEN ${pricing_plans.code} = "advanced_sched" THEN "{{ _localization['pricing_plan_advanced_sched'] }}"
+      WHEN ${pricing_plans.code} = "message_basic" THEN "{{ _localization['pricing_plan_basic_messaging'] }}"
+      WHEN ${pricing_plans.code} = "message_standard" THEN "{{ _localization['pricing_plan_standard_messaging'] }}"
+      WHEN ${pricing_plans.code} ="hopital_basic_scheduling" THEN "{{ _localization['pricing_plan_hospital_basic'] }}"
+      WHEN ${pricing_plans.code} = "hospital_standard" THEN "{{ _localization['pricing_plan_hospital_standard'] }}"
+      WHEN ${pricing_plans.code} = "hospital_advanced" THEN "{{ _localization['pricing_plan_hospital_advanced'] }}"
+      WHEN ${pricing_plans.code} = "advanced_hospital" THEN "{{ _localization['pricing_plan_hospital_advanced'] }}"
+    ELSE
+      ${pricing_plans.name_en}
+    END ;;
+  }
+
   measure: pricing_plans {
+    label: "group_pricing_plans"
     type: list
     list_field: pricing_plan
   }
@@ -664,12 +679,37 @@ view: groups {
     drill_fields: [detail*]
   }
 
+  measure: count_scheduling {
+    label: "count_scheduling"
+    type: count_distinct
+    sql: ${groups.id} ;;
+    drill_fields: [detail*]
+    filters: [kind_id: "1"]
+  }
+
+  measure: count_console_groups {
+    label: "count_console_groups"
+    type: count_distinct
+    sql: ${groups.id} ;;
+    drill_fields: [detail*]
+    filters: [console_enabled: "yes"]
+  }
+
+  measure: count_communication_groups {
+    label: "count_communication_groups"
+    type: count_distinct
+    sql: ${groups.id} ;;
+    drill_fields: [detail*]
+    filters: [kind_id: "5"]
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
       id,
       name,
       health_institutions.short_name,
+      pricing_plans,
       memberships.count
     ]
   }

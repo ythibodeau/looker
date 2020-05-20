@@ -32,6 +32,7 @@ view: accounts {
   }
 
   dimension_group: activated {
+    label: "activated_date"
     type: time
     timeframes: [
       raw,
@@ -111,6 +112,7 @@ view: accounts {
   }
 
   dimension_group: created {
+    label: "created_date"
     type: time
     timeframes: [
       raw,
@@ -164,6 +166,7 @@ view: accounts {
   }
 
   dimension: first_name {
+    label: "first_name"
     type: string
     sql: ${TABLE}.first_name ;;
   }
@@ -238,6 +241,7 @@ view: accounts {
   }
 
   dimension_group: last_active {
+    label: "account_last_active"
     type: time
     timeframes: [
       raw,
@@ -253,9 +257,9 @@ view: accounts {
   }
 
   dimension: last_name {
+    label: "last_name"
     type: string
     sql: ${TABLE}.last_name ;;
-    html: <span title="This is a test {{accounts.cumulative_confirmed._value}}">{{rendered_value}}</span>;;
   }
 
   dimension: full_name {
@@ -360,14 +364,14 @@ view: accounts {
   }
 
   dimension: state_ordered {
-    type: string
+    type: number
     sql:
       CASE
-      WHEN ${TABLE}.state = "created" THEN "1-created"
-      WHEN ${TABLE}.state = "pending_invite" THEN "2-pending_invite"
-      WHEN ${TABLE}.state = "activated" THEN "3-activated"
-      WHEN ${TABLE}.state = "confirmed" THEN "4-confirmed"
-      WHEN ${TABLE}.state = "deactivated" THEN "5-deactivated"
+      WHEN ${TABLE}.state = "created" THEN 1
+      WHEN ${TABLE}.state = "pending_invite" THEN 2
+      WHEN ${TABLE}.state = "activated" THEN 3
+      WHEN ${TABLE}.state = "confirmed" THEN 4
+      WHEN ${TABLE}.state = "deactivated" THEN 5
     END
      ;;
     html:
@@ -386,15 +390,28 @@ view: accounts {
   }
 
   dimension: state_nice {
+    label: "account_state"
     type: string
     sql:
     CASE
-      WHEN ${TABLE}.state = "created" THEN "Compté Créé"
-      WHEN ${TABLE}.state = "pending_invite" THEN "Courriel d'activation non-reçu"
-      WHEN ${TABLE}.state = "activated" THEN "Courriel d'activation reçu"
-      WHEN ${TABLE}.state = "confirmed" THEN "Activé"
-      WHEN ${TABLE}.state = "deactivated" THEN "Désactivé"
-    END
+      WHEN ${TABLE}.state = "created" THEN "{{ _localization['account_state_created'] }}"
+      WHEN ${TABLE}.state = "pending_invite" THEN "{{ _localization['account_state_pending_invite'] }}"
+      WHEN ${TABLE}.state = "activated" THEN "{{ _localization['account_state_activated'] }}"
+      WHEN ${TABLE}.state = "confirmed" THEN "{{ _localization['account_state_confirmed'] }}"
+      WHEN ${TABLE}.state = "deactivated" THEN "{{ _localization['account_state_deactivated'] }}"
+    END;;
+    html:
+    {% if value ==  _localization['account_state_confirmed'] %}
+       <p style="color: #26b830;">{{ rendered_value }}</p>
+    {% elsif value == _localization['account_state_activated'] %}
+      <p style="color: #c5ac00;">{{ rendered_value }}</p>
+    {% elsif value == _localization['account_state_pending_invite'] %}
+      <p style="color: #ec5821;">{{ rendered_value }}</p>
+    {% elsif value == _localization['account_state_created'] %}
+      <p style="color: #cb3d49;">{{ rendered_value }}</p>
+    {% elsif value == _localization['account_state_deactivated'] %}
+      <p style="color: #9e9890;">{{ rendered_value }}</p>
+    {% endif %}
 
     ;;
   }
@@ -510,6 +527,20 @@ view: accounts {
     label: "accounts"
   }
 
+  measure: count_unique_console_accounts {
+    type: count_distinct
+    sql: ${accounts.id} ;;
+    label: "console_accounts"
+    drill_fields: [detail*]
+  }
+
+  measure: count_unique_non_console_accounts {
+    type: count_distinct
+    sql: ${accounts.id} ;;
+    label: "non_console_accounts"
+    drill_fields: [detail*]
+  }
+
   measure: confirmed_count {
     label: "Confirmed Count"
     type: count
@@ -517,28 +548,18 @@ view: accounts {
       field: state
       value: "confirmed"
     }
+    drill_fields: [detail*]
   }
 
   measure: count_unique_confirmed {
+    label: "count_unique_confirmed"
     type: count_distinct
     filters: {
       field: state
       value: "confirmed"
     }
     sql: ${id} ;;
-  }
-
-  parameter: date_filter {
-    type: date
-  }
-
-  measure: count_unique_confirmed_test {
-    type: count_distinct
-    filters: {
-      field: state
-      value: "confirmed"
-    }
-    sql: CASE WHEN ${confirmed_date} >= {% parameter date_filter %} THEN ${id} END ;;
+    drill_fields: [detail*]
   }
 
   measure: activated_count {
@@ -574,6 +595,8 @@ view: accounts {
   }
 
   measure: count_unique_activated {
+    drill_fields: [detail*]
+    label: "count_unique_activated"
     type: count_distinct
     filters: {
       field: state
@@ -606,7 +629,7 @@ view: accounts {
     label: "accounts_without_email"
     type: count_distinct
     sql: ${id} ;;
-    filters: [email: "%@prod.petaltest.com"]
+    filters: [state: "created"]
     drill_fields: [detail*]
   }
 
@@ -693,6 +716,7 @@ view: accounts {
   }
 
   measure: groups_acronym {
+    label: "groups_acronym"
     type: list
     list_field: group_acronym
   }
@@ -911,6 +935,7 @@ view: accounts {
       field: state
       value: "confirmed"
     }
+    drill_fields: [detail*]
   }
 
   measure: scheduled_accounts_active_l30days {
@@ -965,11 +990,13 @@ view: accounts {
     fields: [
       id,
       first_name,
-      middle_name,
       last_name,
-      state,
+      state_nice,
       last_active_date,
       simplified_kind,
+      created_date,
+      activated_date,
+      confirmed_date,
       groups_acronym
     ]
   }

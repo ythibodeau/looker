@@ -401,6 +401,7 @@ view: memberships {
   }
 
   measure: count {
+    label: "membership_count"
     type: count
     drill_fields: [detail*]
   }

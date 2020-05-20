@@ -453,6 +453,14 @@ explore: accounts {
     from: groups
     type: left_outer
     sql_on: ${membership_changes.group_id} = ${membership_changes_groups.id} ;;
+    relationship: many_to_one
+  }
+
+  join: membership_changes_institutions {
+    from: health_institutions
+    type: left_outer
+    sql_on: ${membership_changes_groups.health_institution_id} =  ${membership_changes_institutions.id};;
+    relationship: many_to_one
   }
 
   join: groups_pricing_plans {
@@ -1312,6 +1320,12 @@ explore: membership_changes {
   join: groups {
     type: left_outer
     sql_on: ${membership_changes.group_id} = ${groups.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
     relationship: many_to_one
   }
 
@@ -5198,6 +5212,13 @@ explore: dashboard_calls {
 #####################################################################
 # PRODUCT HEALTH
 #####################################################################
+
+explore: health_institutions {
+  access_filter: {
+    field: health_institutions.short_name
+    user_attribute: institution_name
+  }
+}
 
 explore: health_messages_monthly_activity {
   group_label: "Product Health"

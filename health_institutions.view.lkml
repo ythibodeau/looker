@@ -58,6 +58,7 @@ view: health_institutions {
   }
 
   dimension: short_name {
+    label: "institution_short_name"
     type: string
     sql: ${TABLE}.short_name ;;
   }
