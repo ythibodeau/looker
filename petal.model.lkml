@@ -283,6 +283,18 @@ explore: specialties {
     sql_on: ${specialties.id} = ${accounts.specialty_id} ;;
     relationship: one_to_many
   }
+
+  join: account_kinds_specialties {
+    type: left_outer
+    sql_on: ${specialties.id} = ${account_kinds_specialties.specialty_id} ;;
+    relationship: many_to_many
+  }
+
+  join: account_kinds {
+    type: left_outer
+    sql_on: ${account_kinds_specialties.kind_id} = ${account_kinds.id} ;;
+    relationship: many_to_many
+  }
 }
 
 explore: year_month_table {
@@ -521,6 +533,12 @@ explore: accounts {
     relationship: many_to_one
   }
 
+join: contact_methods {
+  type: left_outer
+  sql_on: ${accounts.id} = ${contact_methods.contactable_id} AND ${contact_methods.contactable_type} = "Account" ;;
+  relationship: one_to_many
+}
+
   join: pati__account_tasks {
     type: left_outer
     sql_on: ${accounts.id} = ${pati__account_tasks.account_id} ;;
@@ -715,6 +733,49 @@ explore: authentication_tokens {
   join: timezones {
     type: left_outer
     sql_on: ${accounts.timezone_id} = ${timezones.id} ;;
+    relationship: many_to_one
+  }
+}
+
+explore: contact_methods {
+  always_filter: {
+    filters: [contactable_type: "Account"]
+  }
+  group_label: "Global"
+
+  join: accounts {
+    type: inner
+    sql_on: ${contact_methods.contactable_id} = ${accounts.id} ;;
+    relationship: many_to_one
+  }
+
+  join: memberships {
+    type: left_outer
+    sql_on: ${accounts.id} = ${memberships.account_id};;
+    relationship: one_to_many
+  }
+
+  join: groups {
+    type: left_outer
+    sql_on: ${memberships.group_id} = ${groups.id} ;;
+    relationship: one_to_one
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: territories {
+    type: left_outer
+    sql_on: ${health_institutions.territory_id} = ${territories.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
     relationship: many_to_one
   }
 }
@@ -1795,6 +1856,20 @@ explore: profiles {
       relationship: many_to_one
     }
   }
+
+explore: account_kinds_specialties {
+  join: account_kinds {
+    type: inner
+    relationship: many_to_many
+    sql_on: ${account_kinds_specialties.kind_id} = ${account_kinds.id} ;;
+  }
+
+  join: specialties {
+    type: inner
+    relationship: many_to_many
+    sql_on: ${account_kinds_specialties.specialty_id} = ${specialties.id} ;;
+  }
+}
 
 explore: account_kinds {
   join: accounts {
@@ -3608,6 +3683,62 @@ explore: absences {
     relationship: many_to_one
   }
 
+  join: categories_task_night {
+    from: categories
+    type: left_outer
+    sql_on: ${absences.task_night_category_id} = ${categories_task_night.id} ;;
+    relationship: many_to_one
+  }
+
+  join: categories_task_evening {
+    from: categories
+    type: left_outer
+    sql_on: ${absences.task_night_category_id} = ${categories_task_evening.id} ;;
+    relationship: many_to_one
+  }
+
+  join: categories_task_morning {
+    from: categories
+    type: left_outer
+    sql_on: ${absences.task_morning_category_id} = ${categories_task_morning.id} ;;
+    relationship: many_to_one
+  }
+
+  join: categories_task_afternoon {
+    from: categories
+    type: left_outer
+    sql_on: ${absences.task_afternoon_category_id} = ${categories_task_afternoon.id} ;;
+    relationship: many_to_one
+  }
+
+  join: categories_oncall_night {
+    from: categories
+    type: left_outer
+    sql_on: ${absences.oncall_night_category_id} = ${categories_oncall_night.id} ;;
+    relationship: many_to_one
+  }
+
+  join: categories_oncall_evening {
+    from: categories
+    type: left_outer
+    sql_on: ${absences.oncall_evening_category_id} = ${categories_oncall_evening.id} ;;
+    relationship: many_to_one
+  }
+
+  join: categories_oncall_morning {
+    from: categories
+    type: left_outer
+    sql_on: ${absences.oncall_morning_category_id} = ${categories_oncall_morning.id} ;;
+    relationship: many_to_one
+  }
+
+  join: categories_oncall_afternoon {
+    from: categories
+    type: left_outer
+    sql_on: ${absences.oncall_afternoon_category_id} = ${categories_oncall_afternoon.id} ;;
+    relationship: many_to_one
+  }
+
   join: account_first_comment {
     type: left_outer
     sql_on: ${accounts.id} = ${account_first_comment.account_id} ;;
@@ -3628,7 +3759,25 @@ explore: absences {
 
   join: groups {
     type: left_outer
-    sql_on: ${absences.group_id} = ${groups.parent_group_id} ;;
+    sql_on: ${absences.group_id} = ${groups.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: territories {
+    type: left_outer
+    sql_on: ${health_institutions.territory_id} = ${territories.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
     relationship: many_to_one
   }
 

@@ -531,6 +531,7 @@ view: accounts {
     type: count_distinct
     sql: ${accounts.id} ;;
     label: "console_accounts"
+    filters: [last_name: "-%PetalMD%"]
     drill_fields: [detail*]
   }
 
@@ -560,6 +561,19 @@ view: accounts {
     }
     sql: ${id} ;;
     drill_fields: [detail*]
+  }
+
+  measure: count_unique_with_contact_methods {
+    label: "count_unique_with_contact_methods"
+    sql: ${TABLE}.id ;;
+    type: count_distinct
+    filters: [contact_methods.contactable_id: "NOT NULL"]
+  }
+
+  measure: percent_of_users_with_contact_methods {
+    type: number
+    sql: ${count_unique_with_contact_methods} / ${count_unique} ;;
+
   }
 
   measure: activated_count {
@@ -629,7 +643,15 @@ view: accounts {
     label: "accounts_without_email"
     type: count_distinct
     sql: ${id} ;;
-    filters: [state: "created"]
+    filters: [state: "created", email: "%@prod.petaltest.com"]
+    drill_fields: [detail*]
+  }
+
+  measure: count_created {
+    label: "accounts_created"
+    type: count_distinct
+    sql: ${id} ;;
+    filters: [state: "created", email: "-%@prod.petaltest.com"]
     drill_fields: [detail*]
   }
 
@@ -698,6 +720,12 @@ view: accounts {
           WHEN ${kind_id} = 4 THEN "{{ _localization['nurse_practitioner'] }}"
           ELSE "Other"
           END ;;
+
+#     link: {
+#       label: "Drill Look"
+#       url:"/looks/334?&f[accounts.simplified_kind]={{ value }}"
+#     }
+     drill_fields: [specialties.description, count]
   }
 
   dimension: is_gp {

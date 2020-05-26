@@ -703,6 +703,14 @@ view: groups {
     filters: [kind_id: "5"]
   }
 
+  measure: count_implementation {
+    label: "count_implementation_groups"
+    type: count_distinct
+    sql: ${groups.id} ;;
+    drill_fields: [detail*]
+    filters: [implementation: "yes"]
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [

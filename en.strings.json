@@ -27,6 +27,7 @@
   "deactivated_count": "Deactivated user(s)",
   "accounts": "Users",
   "accounts_without_email": "Users without email address",
+  "accounts_created": "User(s) created",
   "specialty.description": "Specialty",
 "allergy_immunology": "Allergy and Clinical Immunology",
 "anesthesiology": "Anesthesiology",
@@ -195,5 +196,8 @@
 "pricing_plan_hospital_basic": "Hospital - Basic",
 "pricing_plan_hospital_standard": "Hospital - Standard",
 "pricing_plan_hospital_advanced": "Hospital - Advanced",
-"pricing_plan_communication_group": "Communication group"
+"pricing_plan_communication_group": "Communication group",
+"count_implementation_groups": "Group(s) being configured",
+"pricing_plan_name": "Pricing plan",
+"count_unique_with_contact_methods": "User(s) with contact information"
 }

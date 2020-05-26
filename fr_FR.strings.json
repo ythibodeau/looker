@@ -27,6 +27,7 @@
   "deactivated_count": "Utilisateur(s) désactivé(s)",
   "accounts": "Utilisateurs",
   "accounts_without_email": "Utilisateur(s) sans courriel",
+  "accounts_created": "Utilisateur(s) créé(s)",
   "specialty.description": "Spécialité",
 "allergy_immunology": "Allergie et immunologie clinique",
 "anesthesiology": "Anesthésiologie",
@@ -194,5 +195,8 @@
 "pricing_plan_hospital_basic": "Hôpital - Base",
 "pricing_plan_hospital_standard": "Hôpital - Standard",
 "pricing_plan_hospital_advanced": "Hôpital - Avancé",
-"pricing_plan_communication_group": "Groupe de Communication"
+"pricing_plan_communication_group": "Groupe de Communication",
+"count_implementation_groups": "Groupes en implémentation",
+"pricing_plan_name": "Plan de tarif",
+"count_unique_with_contact_methods": "Utilisateur(s) avec informations de contact"
 }

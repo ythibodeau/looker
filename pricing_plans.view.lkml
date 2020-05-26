@@ -31,6 +31,19 @@ view: pricing_plans {
     sql: ${TABLE}.hubspot_id ;;
   }
 
+  dimension: name {
+    label: "pricing_plan_name"
+    type: string
+    sql:
+
+    CASE
+      WHEN ${code} = "basic_sched" THEN "{{_localization['pricing_plan_basic_sched']}}"
+      WHEN ${code} = "standard_sched" THEN "{{_localization['pricing_plan_standard_sched']}}"
+      WHEN ${code} = "advanced_sched" THEN "{{_localization['pricing_plan_advanced_sched']}}"
+      else ${name_fr_ca}
+    END;;
+  }
+
   dimension: name_en {
     type: string
     sql: ${TABLE}.name_en ;;
