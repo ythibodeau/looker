@@ -570,6 +570,13 @@ view: accounts {
     filters: [contact_methods.contactable_id: "NOT NULL"]
   }
 
+  measure: count_unique_without_group {
+    label: "count_unique_without_group"
+    sql: ${TABLE}.id ;;
+    type: count_distinct
+    filters: [memberships.account_id: "NULL"]
+  }
+
   measure: percent_of_users_with_contact_methods {
     type: number
     sql: ${count_unique_with_contact_methods} / ${count_unique} ;;
