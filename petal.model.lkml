@@ -4445,15 +4445,15 @@ explore: appointment_reminders {
     relationship: many_to_one
     sql_on: ${pati__reasons.offering_id} = ${pati__offerings.id};;
   }
-  join: clinics {
+  join: groups {
     type: inner
     relationship: many_to_one
-    sql_on: ${pati__reasons.group_id} = ${clinics.id};;
+    sql_on: ${pati__reasons.group_id} = ${groups.id};;
   }
 
   join: locations {
     type: left_outer
-    sql_on: ${clinics.location_id} = ${locations.id} ;;
+    sql_on: ${groups.location_id} = ${locations.id} ;;
     relationship: many_to_one
   }
 
