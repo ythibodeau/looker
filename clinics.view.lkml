@@ -8,24 +8,12 @@ view: clinics {
       column: location_id {}
       column: adapterable_type { field: pati__providers.adapterable_type }
       filters: {
-        field: pricing_suites.code
-        value: "booking"
-      }
-      filters: {
         field: groups.is_trial
         value: "No"
       }
       filters: {
         field: groups.trial_subscription_id
         value: "NULL"
-      }
-      filters: {
-        field: groups_pricing_plans.end_date
-        value: "NULL"
-      }
-      filters: {
-        field: pati__providers.adapterable_type
-        value: "-NULL"
       }
     }
   }
