@@ -24,10 +24,6 @@ view: clinics {
         value: "NULL"
       }
       filters: {
-        field: groups.inactive
-        value: "No"
-      }
-      filters: {
         field: pati__providers.adapterable_type
         value: "-NULL"
       }

@@ -40,6 +40,10 @@ view: pricing_plans {
       WHEN ${code} = "basic_sched" THEN "{{_localization['pricing_plan_basic_sched']}}"
       WHEN ${code} = "standard_sched" THEN "{{_localization['pricing_plan_standard_sched']}}"
       WHEN ${code} = "advanced_sched" THEN "{{_localization['pricing_plan_advanced_sched']}}"
+      WHEN ${code} = "hopital_basic_scheduling" THEN "{{_localization['pricing_plan_hospital_basic']}}"
+      WHEN ${code} = "hospital_standard" THEN "{{_localization['pricing_plan_hospital_standard']}}"
+      WHEN ${code} = "hospital_advanced" THEN "{{_localization['pricing_plan_hospital_advanced']}}"
+      WHEN ${code} = "advanced_hospital" THEN "{{_localization['pricing_plan_hospital_advanced']}}"
       else ${name_fr_ca}
     END;;
   }

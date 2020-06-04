@@ -46,6 +46,12 @@ view: sche__change_requests {
     sql: ${TABLE}.approved ;;
   }
 
+  dimension: is_absence_related {
+    type: yesno
+    #sql: ${sche__absence_changes.request_id} IS NOT NULL ;;
+    sql: EXISTS (SELECT id FROM sche__absence_changes AC WHERE AC.request_id = ${TABLE}.id) ;;
+  }
+
   dimension_group: approved {
     type: time
     timeframes: [
@@ -269,6 +275,11 @@ view: sche__change_requests {
     sql: ${TABLE}.updated_at ;;
   }
 
+  dimension: is_initiated_by_md {
+    type: yesno
+    sql: ${accounts.kind_id} = 1 ;;
+  }
+
   dimension: is_executed_by_md  {
     type: yesno
     sql: ${accounts.kind_id} = 1 ;;
@@ -319,6 +330,16 @@ view: sche__change_requests {
       value: "No"
     }
 
+  }
+
+  dimension: initiated_by_admin {
+    type: string
+    sql:
+    CASE
+      WHEN ${accounts.kind_id} IN (5,6) THEN "Initiés par l'administrateur"
+      ELSE "Initiés par le Médecin"
+    END
+     ;;
   }
 
   measure: initiated_by_admin_count  {

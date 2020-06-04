@@ -113,6 +113,12 @@ view: absences {
     drill_fields: [detail*]
   }
 
+  measure: count_distinct_account {
+    type: count_distinct
+    sql: ${account_id} ;;
+    drill_fields: [detail*]
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [

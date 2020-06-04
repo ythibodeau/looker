@@ -32,6 +32,17 @@ view: mobile_devices {
     sql: ${TABLE}.device_token ;;
   }
 
+  dimension: os {
+    type: string
+    sql:
+    CASE
+      WHEN SUBSTRING_INDEX(${TABLE}.device_token, '-', 1) = "android" THEN "Android"
+      WHEN SUBSTRING_INDEX(${TABLE}.device_token, '-', 1) = "iphone" THEN "iOS"
+      ELSE ${TABLE}.device_token
+    END
+    ;;
+  }
+
   dimension: endpoint_arn {
     type: string
     sql: ${TABLE}.endpoint_arn ;;

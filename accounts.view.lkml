@@ -563,11 +563,31 @@ view: accounts {
     drill_fields: [detail*]
   }
 
+  dimension: has_contact_info_managed_by_admin {
+    type: yesno
+    sql: EXISTS (SELECT CM.contactable_id FROM contact_methods CM WHERE CM.contactable_id = ${TABLE}.id
+     AND CM.managed_by_admin = 1 AND CM. contactable_type = "Account")  ;;
+  }
+
+  measure: count_unique_with_contact_methods_by_admin {
+    label: "count_unique_with_contact_methods_by_admin"
+    sql: ${TABLE}.id ;;
+    type: count_distinct
+    filters: [contact_methods.contactable_id: "NOT NULL", contact_methods.managed_by_admin: "Yes"]
+  }
+
   measure: count_unique_with_contact_methods {
     label: "count_unique_with_contact_methods"
     sql: ${TABLE}.id ;;
     type: count_distinct
-    filters: [contact_methods.contactable_id: "NOT NULL"]
+    filters: [contact_methods.contactable_id: "NOT NULL", contact_methods.managed_by_admin: "No"]
+  }
+
+  measure: count_unique_mobile_devices {
+    label: "count_unique_mobile_devices"
+    sql: ${TABLE}.id ;;
+    type: count_distinct
+    filters: [account_mobile.account_id: "NOT NULL"]
   }
 
   measure: count_unique_without_group {
@@ -575,6 +595,12 @@ view: accounts {
     sql: ${TABLE}.id ;;
     type: count_distinct
     filters: [memberships.account_id: "NULL"]
+  }
+
+  measure: activated_users_rate {
+    label: "activated_users_rate"
+    type: number
+    sql: ${count_unique_confirmed} / ${count_unique} ;;
   }
 
   measure: percent_of_users_with_contact_methods {
@@ -697,6 +723,16 @@ view: accounts {
     type: yesno
     sql: EXISTS(SELECT ${memberships.id} FROM ${memberships.SQL_TABLE_NAME})
     WHERE ${accounts.id} = ${memberships.account_id} AND ${memberships.is_scheduled} = 1);;
+  }
+
+  dimension: is_confirmed {
+    type: string
+    sql:
+    CASE
+      WHEN ${state} = "confirmed" THEN "{{ _localization['count_unique_confirmed'] }}"
+      ELSE "{{ _localization['non_activated_users'] }}"
+    END
+    ;;
   }
 
   dimension: simplified_kind {

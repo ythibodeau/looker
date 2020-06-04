@@ -199,5 +199,10 @@
 "pricing_plan_communication_group": "Communication group",
 "count_implementation_groups": "Group(s) being configured",
 "pricing_plan_name": "Pricing plan",
-"count_unique_with_contact_methods": "User(s) with contact information"
+"count_unique_with_contact_methods_by_admin": "User(s) with contact information - Managed by Admin",
+"count_unique_with_contact_methods": "User(s) with contact information - Managed by User",
+"count_unique_mobile_devices": "User(s) with smart phone",
+"non_activated_users": "Non-activated user(s)",
+"activated_users_rate": "% of activated users"
+
 }

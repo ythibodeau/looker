@@ -39,6 +39,56 @@ map_layer: economic_regions_layer {
 }
 
 #####################################################################
+# POC - ACCOUNT AND BILLING
+#####################################################################
+explore: catalog {}
+explore: contract_lines {}
+
+explore: contracts {
+  join: contract_lines {
+    type: left_outer
+    sql_on: ${contracts.id} = ${contract_lines.contract_id} ;;
+    relationship: one_to_many
+  }
+
+  join: catalog {
+    type: left_outer
+    sql_on: ${contract_lines.catalog_id} = ${catalog.id} ;;
+    relationship: one_to_one
+  }
+
+  join: client_clusters {
+    from: health_clusters
+    type: left_outer
+    sql_on: ${contracts.contractable_id} = ${client_clusters.id}
+    AND ${contracts.contractable_type} = "HealthCluster" ;;
+    relationship: many_to_one
+  }
+
+  join: client_institutions {
+    from: health_institutions
+    type: left_outer
+    sql_on: ${contracts.contractable_id} = ${client_institutions.id}
+      AND ${contracts.contractable_type} = "HealthInstitution" ;;
+    relationship: many_to_one
+  }
+
+  join: client_groups {
+    from: groups
+    type: left_outer
+    sql_on: ${contracts.contractable_id} = ${client_groups.id}
+      AND ${contracts.contractable_type} = "Group" ;;
+    relationship: many_to_one
+  }
+
+  join: account_kinds {
+    type: left_outer
+    sql_on: ${contract_lines.account_kind_id} = ${account_kinds.id}  ;;
+    relationship: many_to_one
+  }
+}
+
+#####################################################################
 # Global
 #####################################################################
 
@@ -307,6 +357,7 @@ explore: year_month_table {
 
 explore: year_month_table_light {}
 
+
 explore: account_locations {
   group_label: "Global"
   join: accounts {
@@ -340,11 +391,25 @@ explore: account_locations {
   }
 }
 
+explore: account_mobile {}
+
 explore: accounts {
   group_label: "Global"
   access_filter: {
     field: health_institutions.short_name
     user_attribute: institution_name
+  }
+
+  join: mobile_devices {
+    type: left_outer
+    sql_on: ${accounts.id} = ${mobile_devices.account_id} ;;
+    relationship: one_to_many
+  }
+
+  join: account_mobile {
+    type: left_outer
+    sql_on: ${accounts.id} = ${account_mobile.account_id} ;;
+    relationship: one_to_one
   }
 
   join: timezones {

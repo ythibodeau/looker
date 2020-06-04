@@ -198,5 +198,9 @@
 "pricing_plan_communication_group": "Groupe de Communication",
 "count_implementation_groups": "Groupes en implémentation",
 "pricing_plan_name": "Plan de tarif",
-"count_unique_with_contact_methods": "Utilisateur(s) avec informations de contact"
+"count_unique_with_contact_methods_by_admin": "Utilisateur(s) avec informations de contact - Géré par Admin",
+"count_unique_with_contact_methods": "Utilisateur(s) avec informations de contact",
+"count_unique_mobile_devices": "Utilisateur(s) avec appareil mobile",
+"non_activated_users": "Utilisateur(s) non-activé(s)",
+"activated_users_rate": "% des utilisateurs activés"
 }
