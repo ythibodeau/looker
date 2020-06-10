@@ -37,6 +37,7 @@ SELECT
   }
 
   dimension: nb_years {
+    label: "contract_nb_years"
     type: number
     sql: ${TABLE}.nb_years ;;
   }
@@ -45,10 +46,9 @@ SELECT
     type: count
   }
 
-
   measure: total_amount_cad {
     type: sum
-    sql: contract_lines.total_amount_cad ;;
+    sql:  ${contract_lines.quantity} * catalog.price_cad * (1-${contract_lines.discount}) ;;
     value_format_name: usd
   }
 }

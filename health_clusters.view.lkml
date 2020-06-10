@@ -61,6 +61,11 @@ view: health_clusters {
      ;;
   }
 
+  dimension: address {
+    type: string
+    sql: "1234 Rue de la Preuve de Concept \r\n Québec, QC, G1G 2Z2" ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [parent_health_cluster_id, name, health_institutions.count]

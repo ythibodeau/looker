@@ -45,6 +45,13 @@ explore: catalog {}
 explore: contract_lines {}
 
 explore: contracts {
+
+  join: contract_dates {
+    type: left_outer
+    sql_on: ${contracts.id} = ${contract_dates.contract_id} ;;
+    relationship: one_to_one
+  }
+
   join: contract_lines {
     type: left_outer
     sql_on: ${contracts.id} = ${contract_lines.contract_id} ;;
@@ -55,6 +62,12 @@ explore: contracts {
     type: left_outer
     sql_on: ${contract_lines.catalog_id} = ${catalog.id} ;;
     relationship: one_to_one
+  }
+
+  join: pricing_plans {
+    type: left_outer
+    sql_on: ${catalog.pricing_plan_id} = ${pricing_plans.id} ;;
+    relationship: one_to_many
   }
 
   join: client_clusters {
@@ -81,16 +94,63 @@ explore: contracts {
     relationship: many_to_one
   }
 
+  join: contract_line_licences {
+    type: left_outer
+    sql_on: ${contract_lines.id} = ${contract_line_licences.contract_line_id} ;;
+    relationship: one_to_many
+  }
+
   join: account_kinds {
     type: left_outer
-    sql_on: ${contract_lines.account_kind_id} = ${account_kinds.id}  ;;
+    sql_on: ${contract_line_licences.kind_id} = ${account_kinds.id}  ;;
     relationship: many_to_one
+  }
+
+  join: contract_contacts {
+    type: left_outer
+    sql_on: ${contracts.id} = ${contract_contacts.contract_id};;
+    relationship: one_to_many
+  }
+
+  join: contacts {
+    from: accounts
+    type: inner
+    sql_on: ${contract_contacts.account_id} = ${contacts.id} ;;
+    relationship: one_to_one
+  }
+
+  join: contact_methods {
+    type: left_outer
+    sql_on: ${contacts.id} = ${contact_methods.contactable_id} AND ${contact_methods.contactable_type} = "Account" ;;
+    relationship: one_to_many
+  }
+
+  join: contract_account_managers {
+    type: left_outer
+    sql_on: ${contracts.id} = ${contract_account_managers.contract_id};;
+    relationship: one_to_many
+  }
+
+  join: account_managers {
+    from: accounts
+    type: inner
+    sql_on: ${contract_account_managers.account_id} = ${account_managers.id} ;;
+    relationship: one_to_one
+  }
+
+  join: manager_contact_methods {
+    from: contact_methods
+    type: left_outer
+    sql_on: ${contacts.id} = ${manager_contact_methods.contactable_id} AND ${manager_contact_methods.contactable_type} = "Account" ;;
+    relationship: one_to_many
   }
 }
 
 #####################################################################
 # Global
 #####################################################################
+
+explore: account_without_contact_methods {}
 
 explore: attachments {
 
@@ -149,6 +209,31 @@ explore: users_by_product {
     type: left_outer
     sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
     relationship: many_to_one
+  }
+
+  join: contracts {
+    type: left_outer
+    sql_on: ${health_clusters.id} = ${contracts.contractable_id}
+    AND ${contracts.contractable_type} = "HealthCluster" ;;
+    relationship: one_to_many
+  }
+
+  join: contract_lines {
+    type: left_outer
+    sql_on: ${contracts.id} = ${contract_lines.contract_id} ;;
+    relationship: one_to_many
+  }
+
+  join: contract_line_licences {
+    type: left_outer
+    sql_on: ${contract_lines.id} = ${contract_line_licences.contract_line_id} ;;
+    relationship: one_to_many
+  }
+
+  join: catalog {
+    type: left_outer
+    sql_on: ${contract_lines.catalog_id} = ${catalog.id} ;;
+    relationship: one_to_one
   }
 }
 
@@ -809,7 +894,7 @@ explore: contact_methods {
   group_label: "Global"
 
   join: accounts {
-    type: inner
+    type: left_outer
     sql_on: ${contact_methods.contactable_id} = ${accounts.id} ;;
     relationship: many_to_one
   }
@@ -3048,6 +3133,88 @@ explore: shared_distribution_lists {
 # Petal Agenda
 #####################################################################
 
+explore: assignments_for_contact_mehods {
+  from: sche__assignments
+
+  join: sche__requirements {
+    type: left_outer
+    sql_on: ${assignments_for_contact_mehods.requirement_id} = ${sche__requirements.id} ;;
+    relationship: one_to_one
+  }
+
+  join: sche__tasks {
+    type: left_outer
+    sql_on: ${sche__requirements.task_id} = ${sche__tasks.id}  ;;
+    relationship: many_to_one
+  }
+
+  join: sche__blocks {
+    type: left_outer
+    sql_on: ${sche__tasks.block_id} = ${sche__blocks.id} ;;
+    relationship: many_to_one
+  }
+
+  join: sche__block_kinds {
+    type: left_outer
+    sql_on: ${sche__blocks.kind_id} = ${sche__block_kinds.id} ;;
+    relationship: many_to_one
+  }
+
+  join: sche__task_kinds {
+    type: left_outer
+    sql_on: ${sche__tasks.kind_id} = ${sche__task_kinds.id} ;;
+    relationship: many_to_one
+  }
+
+  join: sche__resources {
+    type: left_outer
+    sql_on: ${assignments_for_contact_mehods.resource_id} = ${sche__resources.id} ;;
+    relationship: one_to_many
+  }
+
+  join: account_without_contact_methods {
+    type: left_outer
+    sql_on: ${sche__resources.account_id} = ${account_without_contact_methods.id} ;;
+    relationship: many_to_one
+  }
+
+  join: specialties {
+    type: left_outer
+    sql_on: ${account_without_contact_methods.specialty_id} = ${specialties.id} ;;
+    relationship: many_to_one
+  }
+
+  join: memberships {
+    type: left_outer
+    sql_on: ${account_without_contact_methods.id} = ${memberships.account_id};;
+    relationship: one_to_many
+  }
+
+  join: groups {
+    type: inner
+    sql_on: ${memberships.group_id} = ${groups.id} ;;
+    relationship: one_to_one
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: territories {
+    type: left_outer
+    sql_on: ${health_institutions.territory_id} = ${territories.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+    relationship: many_to_one
+  }
+}
+
 explore: sche__assignments {
 
   join: sche__requirements {
@@ -3092,6 +3259,12 @@ explore: sche__assignments {
     relationship: many_to_one
   }
 
+  join: account_without_contact_methods {
+    type: left_outer
+    sql_on: ${sche__resources.account_id} = ${account_without_contact_methods.id} ;;
+    relationship: many_to_one
+  }
+
   join: specialties {
     type: left_outer
     sql_on: ${accounts.specialty_id} = ${specialties.id} ;;
@@ -3108,6 +3281,24 @@ explore: sche__assignments {
     type: inner
     sql_on: ${memberships.group_id} = ${groups.id} ;;
     relationship: one_to_one
+  }
+
+  join: sche__plans {
+    type: inner
+    sql_on: ${sche__assignments.plan_id} = ${sche__plans.id} ;;
+    relationship: many_to_one
+  }
+
+  join: sche__periods {
+    type: inner
+    sql_on: ${sche__plans.period_id} = ${sche__periods.id} ;;
+    relationship: one_to_one
+  }
+
+  join: assignment_groups {
+    from: groups
+    type: left_outer
+    sql_on: ${sche__periods.group_id} = ${assignment_groups.id} ;;
   }
 
   join: health_institutions {

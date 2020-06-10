@@ -31,6 +31,15 @@ view: sche__tasks {
     sql: ${TABLE}.end_moment ;;
   }
 
+  dimension: end_time {
+    type: string
+    sql:  CASE
+     WHEN CAST((${TABLE}.end_moment/60) AS CHAR) LIKE "%.5%"
+          THEN CONCAT(SUBSTRING_INDEX(CAST((${TABLE}.end_moment/60) AS CHAR), ".", 1), "h30")
+     ELSE      CONCAT(SUBSTRING_INDEX(CAST((${TABLE}.end_moment/60) AS CHAR), ".", 1), "h00")
+    END;;
+  }
+
   dimension: generation_guid {
     type: string
     sql: ${TABLE}.generation_guid ;;
@@ -54,6 +63,16 @@ view: sche__tasks {
   dimension: start_moment {
     type: number
     sql: ${TABLE}.start_moment ;;
+  }
+
+  dimension: start_time {
+    type: string
+    sql:
+    CASE
+     WHEN CAST((${TABLE}.start_moment/60) AS CHAR) LIKE "%.5%"
+          THEN CONCAT(SUBSTRING_INDEX(CAST((${TABLE}.start_moment/60) AS CHAR), ".", 1), "h30")
+     ELSE      CONCAT(SUBSTRING_INDEX(CAST((${TABLE}.start_moment/60) AS CHAR), ".", 1), "h00")
+    END;;
   }
 
   dimension: units {

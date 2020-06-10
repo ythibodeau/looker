@@ -7,139 +7,145 @@ view: contract_lines {
   derived_table: {
     sql:
       SELECT
-        28 AS id, 1 AS contract_id, 1 AS year, 12 AS catalog_id, 1 AS account_kind_id, 500 AS nb_licences, 0 AS discount, NULL AS comment, CAST('2017-04-01' AS DATE) AS start_date, CAST('2018-03-31' AS DATE) AS end_date
+        28 AS id, 1 AS contract_id, 1 AS year, 12 AS catalog_id, 500 AS nb_units, 0 AS discount, NULL AS comment, CAST('2017-04-01' AS DATE) AS start_date, CAST('2018-03-31' AS DATE) AS end_date
       UNION ALL
       SELECT
-        29 AS id, 1 AS contract_id, 1 AS year, 18 AS catalog_id, 5 AS account_kind_id, 196 AS nb_licences, 0 AS discount, 'Option 1 - Mode lecture et écriture' AS comment, CAST('2017-04-01' AS DATE) AS start_date, CAST('2018-03-31' AS DATE) AS end_date
+        29 AS id, 1 AS contract_id, 1 AS year, 18 AS catalog_id, 196 AS nb_units, 0 AS discount, 'Option 1 - Mode lecture et écriture' AS comment, CAST('2017-04-01' AS DATE) AS start_date, CAST('2018-03-31' AS DATE) AS end_date
       UNION ALL
       SELECT
-        30 AS id, 1 AS contract_id, 1 AS year, 22 AS catalog_id, 5 AS account_kind_id, 196 AS nb_licences, 0 AS discount, 'Option 2 - Acces Public (IP)' AS comment, CAST('2017-04-01' AS DATE) AS start_date, CAST('2018-03-31' AS DATE) AS end_date
+        30 AS id, 1 AS contract_id, 1 AS year, 22 AS catalog_id, 196 AS nb_units, 0 AS discount, 'Option 2 - Acces Public (IP)' AS comment, CAST('2017-04-01' AS DATE) AS start_date, CAST('2018-03-31' AS DATE) AS end_date
       UNION ALL
       SELECT
-        31 AS id, 1 AS contract_id, 1 AS year, 36 AS catalog_id, 1 AS account_kind_id, 318 AS nb_licences, 0.1 AS discount, NULL AS comment, CAST('2017-04-01' AS DATE) AS start_date, CAST('2018-03-31' AS DATE) AS end_date
+        31 AS id, 1 AS contract_id, 1 AS year, 36 AS catalog_id, 318 AS nb_units, 0.1 AS discount, NULL AS comment, CAST('2017-04-01' AS DATE) AS start_date, CAST('2018-03-31' AS DATE) AS end_date
       UNION ALL
       SELECT
-        32 AS id, 1 AS contract_id, 1 AS year, 24 AS catalog_id, 1 AS account_kind_id, 208 AS nb_licences, 0.1 AS discount, NULL AS comment, CAST('2017-04-01' AS DATE) AS start_date, CAST('2018-03-31' AS DATE) AS end_date
+        32 AS id, 1 AS contract_id, 1 AS year, 24 AS catalog_id, 208 AS nb_units, 0.1 AS discount, NULL AS comment, CAST('2017-04-01' AS DATE) AS start_date, CAST('2018-03-31' AS DATE) AS end_date
       UNION ALL
       SELECT
-        33 AS id, 1 AS contract_id, 2 AS year, 12 AS catalog_id, 1 AS account_kind_id, 500 AS nb_licences, 0 AS discount, NULL AS comment, CAST('2018-04-01' AS DATE) AS start_date, CAST('2019-03-31' AS DATE) AS end_date
+        33 AS id, 1 AS contract_id, 2 AS year, 12 AS catalog_id, 500 AS nb_units, 0 AS discount, NULL AS comment, CAST('2018-04-01' AS DATE) AS start_date, CAST('2019-03-31' AS DATE) AS end_date
       UNION ALL
       SELECT
-        34 AS id, 1 AS contract_id, 2 AS year, 18 AS catalog_id, 5 AS account_kind_id, 196 AS nb_licences, 0 AS discount, 'Option 1 - Mode lecture et écriture' AS comment, CAST('2018-04-01' AS DATE) AS start_date, CAST('2019-03-31' AS DATE) AS end_date
+        34 AS id, 1 AS contract_id, 2 AS year, 18 AS catalog_id, 196 AS nb_units, 0 AS discount, 'Option 1 - Mode lecture et écriture' AS comment, CAST('2018-04-01' AS DATE) AS start_date, CAST('2019-03-31' AS DATE) AS end_date
       UNION ALL
       SELECT
-        35 AS id, 1 AS contract_id, 2 AS year, 22 AS catalog_id, 5 AS account_kind_id, 196 AS nb_licences, 0 AS discount, 'Option 2 - Accès Public (IP)' AS comment, CAST('2018-04-01' AS DATE) AS start_date, CAST('2019-03-31' AS DATE) AS end_date
+        35 AS id, 1 AS contract_id, 2 AS year, 22 AS catalog_id, 196 AS nb_units, 0 AS discount, 'Option 2 - Accès Public (IP)' AS comment, CAST('2018-04-01' AS DATE) AS start_date, CAST('2019-03-31' AS DATE) AS end_date
       UNION ALL
       SELECT
-        36 AS id, 1 AS contract_id, 2 AS year, 36 AS catalog_id, 1 AS account_kind_id, 318 AS nb_licences, 0.1 AS discount, NULL AS comment, CAST('2018-04-01' AS DATE) AS start_date, CAST('2019-03-31' AS DATE) AS end_date
+        36 AS id, 1 AS contract_id, 2 AS year, 36 AS catalog_id, 318 AS nb_units, 0.1 AS discount, NULL AS comment, CAST('2018-04-01' AS DATE) AS start_date, CAST('2019-03-31' AS DATE) AS end_date
       UNION ALL
       SELECT
-        37 AS id, 1 AS contract_id, 2 AS year, 24 AS catalog_id, 1 AS account_kind_id, 208 AS nb_licences, 0.1 AS discount, NULL AS comment, CAST('2018-04-01' AS DATE) AS start_date, CAST('2019-03-31' AS DATE) AS end_date
+        37 AS id, 1 AS contract_id, 2 AS year, 24 AS catalog_id, 208 AS nb_units, 0.1 AS discount, NULL AS comment, CAST('2018-04-01' AS DATE) AS start_date, CAST('2019-03-31' AS DATE) AS end_date
       UNION ALL
       SELECT
-        38 AS id, 1 AS contract_id, 3 AS year, 12 AS catalog_id, 1 AS account_kind_id, 500 AS nb_licences, 0 AS discount, NULL AS comment, CAST('2019-04-01' AS DATE) AS start_date, CAST('2020-03-31' AS DATE) AS end_date
+        38 AS id, 1 AS contract_id, 3 AS year, 12 AS catalog_id, 500 AS nb_units, 0 AS discount, NULL AS comment, CAST('2019-04-01' AS DATE) AS start_date, CAST('2020-03-31' AS DATE) AS end_date
       UNION ALL
       SELECT
-        39 AS id, 1 AS contract_id, 3 AS year, 18 AS catalog_id, 5 AS account_kind_id, 196 AS nb_licences, 0 AS discount, 'Option 1 - Mode lecture et écriture' AS comment, CAST('2019-04-01' AS DATE) AS start_date, CAST('2020-03-31' AS DATE) AS end_date
+        39 AS id, 1 AS contract_id, 3 AS year, 18 AS catalog_id, 196 AS nb_units, 0 AS discount, 'Option 1 - Mode lecture et écriture' AS comment, CAST('2019-04-01' AS DATE) AS start_date, CAST('2020-03-31' AS DATE) AS end_date
       UNION ALL
       SELECT
-        40 AS id, 1 AS contract_id, 3 AS year, 22 AS catalog_id, 5 AS account_kind_id, 196 AS nb_licences, 0 AS discount, 'Option 2 - Accès Public (IP)' AS comment, CAST('2019-04-01' AS DATE) AS start_date, CAST('2020-03-31' AS DATE) AS end_date
+        40 AS id, 1 AS contract_id, 3 AS year, 22 AS catalog_id, 196 AS nb_units, 0 AS discount, 'Option 2 - Accès Public (IP)' AS comment, CAST('2019-04-01' AS DATE) AS start_date, CAST('2020-03-31' AS DATE) AS end_date
       UNION ALL
       SELECT
-        41 AS id, 1 AS contract_id, 3 AS year, 36 AS catalog_id, 1 AS account_kind_id, 318 AS nb_licences, 0.1 AS discount, NULL AS comment, CAST('2019-04-01' AS DATE) AS start_date, CAST('2020-03-31' AS DATE) AS end_date
+        41 AS id, 1 AS contract_id, 3 AS year, 36 AS catalog_id, 318 AS nb_units, 0.1 AS discount, NULL AS comment, CAST('2019-04-01' AS DATE) AS start_date, CAST('2020-03-31' AS DATE) AS end_date
       UNION ALL
       SELECT
-        42 AS id, 1 AS contract_id, 3 AS year, 24 AS catalog_id, 1 AS account_kind_id, 208 AS nb_licences, 0.1 AS discount, NULL AS comment, CAST('2019-04-01' AS DATE) AS start_date, CAST('2020-03-31' AS DATE) AS end_date
+        42 AS id, 1 AS contract_id, 3 AS year, 24 AS catalog_id, 208 AS nb_units, 0.1 AS discount, NULL AS comment, CAST('2019-04-01' AS DATE) AS start_date, CAST('2020-03-31' AS DATE) AS end_date
       UNION ALL
       SELECT
-        43 AS id, 1 AS contract_id, 4 AS year, 12 AS catalog_id, 1 AS account_kind_id, 500 AS nb_licences, 0 AS discount, NULL AS comment, CAST('2020-04-01' AS DATE) AS start_date, CAST('2021-03-31' AS DATE) AS end_date
+        43 AS id, 1 AS contract_id, 4 AS year, 12 AS catalog_id, 500 AS nb_units, 0 AS discount, NULL AS comment, CAST('2020-04-01' AS DATE) AS start_date, CAST('2021-03-31' AS DATE) AS end_date
       UNION ALL
       SELECT
-        44 AS id, 1 AS contract_id, 4 AS year, 18 AS catalog_id, 5 AS account_kind_id, 196 AS nb_licences, 0 AS discount, 'Option 1 - Mode lecture et écriture' AS comment, CAST('2020-04-01' AS DATE) AS start_date, CAST('2021-03-31' AS DATE) AS end_date
+        44 AS id, 1 AS contract_id, 4 AS year, 18 AS catalog_id, 196 AS nb_units, 0 AS discount, 'Option 1 - Mode lecture et écriture' AS comment, CAST('2020-04-01' AS DATE) AS start_date, CAST('2021-03-31' AS DATE) AS end_date
       UNION ALL
       SELECT
-        45 AS id, 1 AS contract_id, 4 AS year, 22 AS catalog_id, 5 AS account_kind_id, 196 AS nb_licences, 0 AS discount, 'Option 2 - Accès Public (IP)' AS comment, CAST('2020-04-01' AS DATE) AS start_date, CAST('2021-03-31' AS DATE) AS end_date
+        45 AS id, 1 AS contract_id, 4 AS year, 22 AS catalog_id, 196 AS nb_units, 0 AS discount, 'Option 2 - Accès Public (IP)' AS comment, CAST('2020-04-01' AS DATE) AS start_date, CAST('2021-03-31' AS DATE) AS end_date
       UNION ALL
       SELECT
-        46 AS id, 1 AS contract_id, 4 AS year, 36 AS catalog_id, 1 AS account_kind_id, 318 AS nb_licences, 0.1 AS discount, NULL AS comment, CAST('2020-04-01' AS DATE) AS start_date, CAST('2021-03-31' AS DATE) AS end_date
+        46 AS id, 1 AS contract_id, 4 AS year, 36 AS catalog_id, 318 AS nb_units, 0.1 AS discount, NULL AS comment, CAST('2020-04-01' AS DATE) AS start_date, CAST('2021-03-31' AS DATE) AS end_date
       UNION ALL
       SELECT
-        47 AS id, 1 AS contract_id, 4 AS year, 24 AS catalog_id, 1 AS account_kind_id, 208 AS nb_licences, 0.1 AS discount, NULL AS comment, CAST('2020-04-01' AS DATE) AS start_date, CAST('2021-03-31' AS DATE) AS end_date
+        47 AS id, 1 AS contract_id, 4 AS year, 24 AS catalog_id, 208 AS nb_units, 0.1 AS discount, NULL AS comment, CAST('2020-04-01' AS DATE) AS start_date, CAST('2021-03-31' AS DATE) AS end_date
       UNION ALL
       SELECT
-        48 AS id, 1 AS contract_id, 5 AS year, 12 AS catalog_id, 1 AS account_kind_id, 500 AS nb_licences, 0 AS discount, NULL AS comment, CAST('2021-04-01' AS DATE) AS start_date, CAST('2022-03-31' AS DATE) AS end_date
+        48 AS id, 1 AS contract_id, 5 AS year, 12 AS catalog_id, 500 AS nb_units, 0 AS discount, NULL AS comment, CAST('2021-04-01' AS DATE) AS start_date, CAST('2022-03-31' AS DATE) AS end_date
       UNION ALL
       SELECT
-        49 AS id, 1 AS contract_id, 5 AS year, 18 AS catalog_id, 5 AS account_kind_id, 196 AS nb_licences, 0 AS discount, 'Option 1 - Mode lecture et écriture' AS comment, CAST('2021-04-01' AS DATE) AS start_date, CAST('2022-03-31' AS DATE) AS end_date
+        49 AS id, 1 AS contract_id, 5 AS year, 18 AS catalog_id, 196 AS nb_units, 0 AS discount, 'Option 1 - Mode lecture et écriture' AS comment, CAST('2021-04-01' AS DATE) AS start_date, CAST('2022-03-31' AS DATE) AS end_date
       UNION ALL
       SELECT
-        50 AS id, 1 AS contract_id, 5 AS year, 22 AS catalog_id, 5 AS account_kind_id, 196 AS nb_licences, 0 AS discount, 'Option 2 - Accès Public (IP)' AS comment, CAST('2021-04-01' AS DATE) AS start_date, CAST('2022-03-31' AS DATE) AS end_date
+        50 AS id, 1 AS contract_id, 5 AS year, 22 AS catalog_id, 196 AS nb_units, 0 AS discount, 'Option 2 - Accès Public (IP)' AS comment, CAST('2021-04-01' AS DATE) AS start_date, CAST('2022-03-31' AS DATE) AS end_date
       UNION ALL
       SELECT
-        51 AS id, 1 AS contract_id, 5 AS year, 36 AS catalog_id, 1 AS account_kind_id, 318 AS nb_licences, 0.1 AS discount, NULL AS comment, CAST('2021-04-01' AS DATE) AS start_date, CAST('2022-03-31' AS DATE) AS end_date
+        51 AS id, 1 AS contract_id, 5 AS year, 36 AS catalog_id, 318 AS nb_units, 0.1 AS discount, NULL AS comment, CAST('2021-04-01' AS DATE) AS start_date, CAST('2022-03-31' AS DATE) AS end_date
       UNION ALL
       SELECT
-        52 AS id, 1 AS contract_id, 5 AS year, 24 AS catalog_id, 1 AS account_kind_id, 208 AS nb_licences, 0.1 AS discount, NULL AS comment, CAST('2021-04-01' AS DATE) AS start_date, CAST('2022-03-31' AS DATE) AS end_date
+        52 AS id, 1 AS contract_id, 5 AS year, 24 AS catalog_id, 208 AS nb_units, 0.1 AS discount, NULL AS comment, CAST('2021-04-01' AS DATE) AS start_date, CAST('2022-03-31' AS DATE) AS end_date
       UNION ALL
       SELECT
-        53 AS id, 2 AS contract_id, 1 AS year, 12 AS catalog_id, 1 AS account_kind_id, 650 AS nb_licences, 0.769 AS discount, NULL AS comment, CAST('2018-03-31' AS DATE) AS start_date, CAST('2019-03-30' AS DATE) AS end_date
+        53 AS id, 2 AS contract_id, 1 AS year, 12 AS catalog_id, 650 AS nb_units, 0.0769 AS discount, NULL AS comment, CAST('2018-03-31' AS DATE) AS start_date, CAST('2019-03-30' AS DATE) AS end_date
       UNION ALL
       SELECT
-        54 AS id, 2 AS contract_id, 1 AS year, 18 AS catalog_id, 1 AS account_kind_id, 650 AS nb_licences, 0.769 AS discount, NULL AS comment, CAST('2018-03-31' AS DATE) AS start_date, CAST('2019-03-30' AS DATE) AS end_date
+        54 AS id, 2 AS contract_id, 1 AS year, 18 AS catalog_id, 650 AS nb_units, 0.0769 AS discount, 'Option 1 - Mode lecture et écriture' AS comment, CAST('2018-03-31' AS DATE) AS start_date, CAST('2019-03-30' AS DATE) AS end_date
       UNION ALL
       SELECT
-        55 AS id, 2 AS contract_id, 1 AS year, 22 AS catalog_id, 1 AS account_kind_id, 650 AS nb_licences, 0.769 AS discount, NULL AS comment, CAST('2018-03-31' AS DATE) AS start_date, CAST('2019-03-30' AS DATE) AS end_date
+        55 AS id, 2 AS contract_id, 1 AS year, 22 AS catalog_id, 650 AS nb_units, 0.0769 AS discount, 'Option 2 - Acces Public (IP)' AS comment, CAST('2018-03-31' AS DATE) AS start_date, CAST('2019-03-30' AS DATE) AS end_date
       UNION ALL
       SELECT
-        56 AS id, 2 AS contract_id, 1 AS year, 6 AS catalog_id, 1 AS account_kind_id, 650 AS nb_licences, 0.1429 AS discount, NULL AS comment, CAST('2018-03-31' AS DATE) AS start_date, CAST('2019-03-30' AS DATE) AS end_date
+        56 AS id, 2 AS contract_id, 1 AS year, 6 AS catalog_id, 650 AS nb_units, 0.1429 AS discount, NULL AS comment, CAST('2018-03-31' AS DATE) AS start_date, CAST('2019-03-30' AS DATE) AS end_date
       UNION ALL
       SELECT
-        57 AS id, 2 AS contract_id, 2 AS year, 12 AS catalog_id, 1 AS account_kind_id, 650 AS nb_licences, 0.769 AS discount, NULL AS comment, CAST('2019-03-31' AS DATE) AS start_date, CAST('2020-03-30' AS DATE) AS end_date
+        57 AS id, 2 AS contract_id, 2 AS year, 12 AS catalog_id, 650 AS nb_units, 0.0769 AS discount, NULL AS comment, CAST('2019-03-31' AS DATE) AS start_date, CAST('2020-03-30' AS DATE) AS end_date
       UNION ALL
       SELECT
-        58 AS id, 2 AS contract_id, 2 AS year, 18 AS catalog_id, 1 AS account_kind_id, 650 AS nb_licences, 0.769 AS discount, NULL AS comment, CAST('2019-03-31' AS DATE) AS start_date, CAST('2020-03-30' AS DATE) AS end_date
+        58 AS id, 2 AS contract_id, 2 AS year, 18 AS catalog_id, 650 AS nb_units, 0.0769 AS discount, 'Option 1 - Mode lecture et écriture' AS comment, CAST('2019-03-31' AS DATE) AS start_date, CAST('2020-03-30' AS DATE) AS end_date
       UNION ALL
       SELECT
-        59 AS id, 2 AS contract_id, 2 AS year, 22 AS catalog_id, 1 AS account_kind_id, 650 AS nb_licences, 0.769 AS discount, NULL AS comment, CAST('2019-03-31' AS DATE) AS start_date, CAST('2020-03-30' AS DATE) AS end_date
+        59 AS id, 2 AS contract_id, 2 AS year, 22 AS catalog_id, 650 AS nb_units, 0.0769 AS discount, 'Option 2 - Acces Public (IP)' AS comment, CAST('2019-03-31' AS DATE) AS start_date, CAST('2020-03-30' AS DATE) AS end_date
       UNION ALL
       SELECT
-        60 AS id, 2 AS contract_id, 2 AS year, 6 AS catalog_id, 1 AS account_kind_id, 650 AS nb_licences, 0.1429 AS discount, NULL AS comment, CAST('2019-03-31' AS DATE) AS start_date, CAST('2020-03-30' AS DATE) AS end_date
+        60 AS id, 2 AS contract_id, 2 AS year, 6 AS catalog_id, 650 AS nb_units, 0.1429 AS discount, NULL AS comment, CAST('2019-03-31' AS DATE) AS start_date, CAST('2020-03-30' AS DATE) AS end_date
       UNION ALL
       SELECT
-        61 AS id, 2 AS contract_id, 3 AS year, 12 AS catalog_id, 1 AS account_kind_id, 650 AS nb_licences, 0.769 AS discount, NULL AS comment, CAST('2020-03-31' AS DATE) AS start_date, CAST('2021-03-30' AS DATE) AS end_date
+        61 AS id, 2 AS contract_id, 3 AS year, 12 AS catalog_id, 650 AS nb_units, 0.0769 AS discount, NULL AS comment, CAST('2020-03-31' AS DATE) AS start_date, CAST('2021-03-30' AS DATE) AS end_date
       UNION ALL
       SELECT
-        62 AS id, 2 AS contract_id, 3 AS year, 18 AS catalog_id, 1 AS account_kind_id, 650 AS nb_licences, 0.769 AS discount, NULL AS comment, CAST('2020-03-31' AS DATE) AS start_date, CAST('2021-03-30' AS DATE) AS end_date
+        62 AS id, 2 AS contract_id, 3 AS year, 18 AS catalog_id, 650 AS nb_units, 0.0769 AS discount, 'Option 1 - Mode lecture et écriture' AS comment, CAST('2020-03-31' AS DATE) AS start_date, CAST('2021-03-30' AS DATE) AS end_date
       UNION ALL
       SELECT
-        63 AS id, 2 AS contract_id, 3 AS year, 22 AS catalog_id, 1 AS account_kind_id, 650 AS nb_licences, 0.769 AS discount, NULL AS comment, CAST('2020-03-31' AS DATE) AS start_date, CAST('2021-03-30' AS DATE) AS end_date
+        63 AS id, 2 AS contract_id, 3 AS year, 22 AS catalog_id, 650 AS nb_units, 0.0769 AS discount, 'Option 2 - Acces Public (IP)' AS comment, CAST('2020-03-31' AS DATE) AS start_date, CAST('2021-03-30' AS DATE) AS end_date
       UNION ALL
       SELECT
-        64 AS id, 2 AS contract_id, 3 AS year, 6 AS catalog_id, 1 AS account_kind_id, 650 AS nb_licences, 0.1429 AS discount, NULL AS comment, CAST('2020-03-31' AS DATE) AS start_date, CAST('2021-03-30' AS DATE) AS end_date
+        64 AS id, 2 AS contract_id, 3 AS year, 6 AS catalog_id, 650 AS nb_units, 0.1429 AS discount, NULL AS comment, CAST('2020-03-31' AS DATE) AS start_date, CAST('2021-03-30' AS DATE) AS end_date
       UNION ALL
       SELECT
-        65 AS id, 2 AS contract_id, 4 AS year, 12 AS catalog_id, 1 AS account_kind_id, 650 AS nb_licences, 0.769 AS discount, NULL AS comment, CAST('2021-03-31' AS DATE) AS start_date, CAST('2022-03-30' AS DATE) AS end_date
+        65 AS id, 2 AS contract_id, 4 AS year, 12 AS catalog_id, 650 AS nb_units, 0.0769 AS discount, NULL AS comment, CAST('2021-03-31' AS DATE) AS start_date, CAST('2022-03-30' AS DATE) AS end_date
       UNION ALL
       SELECT
-        66 AS id, 2 AS contract_id, 4 AS year, 18 AS catalog_id, 1 AS account_kind_id, 650 AS nb_licences, 0.769 AS discount, NULL AS comment, CAST('2021-03-31' AS DATE) AS start_date, CAST('2022-03-30' AS DATE) AS end_date
+        66 AS id, 2 AS contract_id, 4 AS year, 18 AS catalog_id, 650 AS nb_units, 0.0769 AS discount, 'Option 1 - Mode lecture et écriture' AS comment, CAST('2021-03-31' AS DATE) AS start_date, CAST('2022-03-30' AS DATE) AS end_date
       UNION ALL
       SELECT
-        67 AS id, 2 AS contract_id, 4 AS year, 22 AS catalog_id, 1 AS account_kind_id, 650 AS nb_licences, 0.769 AS discount, NULL AS comment, CAST('2021-03-31' AS DATE) AS start_date, CAST('2022-03-30' AS DATE) AS end_date
+        67 AS id, 2 AS contract_id, 4 AS year, 22 AS catalog_id, 650 AS nb_units, 0.0769 AS discount, 'Option 2 - Acces Public (IP)' AS comment, CAST('2021-03-31' AS DATE) AS start_date, CAST('2022-03-30' AS DATE) AS end_date
       UNION ALL
       SELECT
-        68 AS id, 2 AS contract_id, 4 AS year, 6 AS catalog_id, 1 AS account_kind_id, 650 AS nb_licences, 0.1429 AS discount, NULL AS comment, CAST('2021-03-31' AS DATE) AS start_date, CAST('2022-03-30' AS DATE) AS end_date
+        68 AS id, 2 AS contract_id, 4 AS year, 6 AS catalog_id, 650 AS nb_units, 0.1429 AS discount, NULL AS comment, CAST('2021-03-31' AS DATE) AS start_date, CAST('2022-03-30' AS DATE) AS end_date
       UNION ALL
       SELECT
-        69 AS id, 2 AS contract_id, 5 AS year, 12 AS catalog_id, 1 AS account_kind_id, 650 AS nb_licences, 0.769 AS discount, NULL AS comment, CAST('2022-03-31' AS DATE) AS start_date, CAST('2023-03-30' AS DATE) AS end_date
+        69 AS id, 2 AS contract_id, 5 AS year, 12 AS catalog_id, 650 AS nb_units, 0.0769 AS discount, NULL AS comment, CAST('2022-03-31' AS DATE) AS start_date, CAST('2023-03-30' AS DATE) AS end_date
       UNION ALL
       SELECT
-        70 AS id, 2 AS contract_id, 5 AS year, 18 AS catalog_id, 1 AS account_kind_id, 650 AS nb_licences, 0.769 AS discount, NULL AS comment, CAST('2022-03-31' AS DATE) AS start_date, CAST('2023-03-30' AS DATE) AS end_date
+        70 AS id, 2 AS contract_id, 5 AS year, 18 AS catalog_id, 650 AS nb_units, 0.0769 AS discount, 'Option 1 - Mode lecture et écriture' AS comment, CAST('2022-03-31' AS DATE) AS start_date, CAST('2023-03-30' AS DATE) AS end_date
       UNION ALL
       SELECT
-        71 AS id, 2 AS contract_id, 5 AS year, 22 AS catalog_id, 1 AS account_kind_id, 650 AS nb_licences, 0.769 AS discount, NULL AS comment, CAST('2022-03-31' AS DATE) AS start_date, CAST('2023-03-30' AS DATE) AS end_date
+        71 AS id, 2 AS contract_id, 5 AS year, 22 AS catalog_id, 650 AS nb_units, 0.0769 AS discount, 'Option 2 - Acces Public (IP)' AS comment, CAST('2022-03-31' AS DATE) AS start_date, CAST('2023-03-30' AS DATE) AS end_date
       UNION ALL
       SELECT
-        72 AS id, 2 AS contract_id, 5 AS year, 6 AS catalog_id, 1 AS account_kind_id, 650 AS nb_licences, 0.1429 AS discount, NULL AS comment, CAST('2022-03-31' AS DATE) AS start_date, CAST('2023-03-30' AS DATE) AS end_date
+        72 AS id, 2 AS contract_id, 5 AS year, 6 AS catalog_id, 650 AS nb_units, 0.1429 AS discount, NULL AS comment, CAST('2022-03-31' AS DATE) AS start_date, CAST('2023-03-30' AS DATE) AS end_date
+      UNION ALL
+      SELECT
+        73 AS id, 2 AS contract_id, 1 AS year, 14 AS catalog_id, 650 AS nb_units, 0.1667 AS discount, 'Deploiement' AS comment, CAST('2018-03-31' AS DATE) AS start_date, CAST('2019-03-30' AS DATE) AS end_date
+      UNION ALL
+      SELECT
+        74 AS id, 2 AS contract_id, 1 AS year, 4 AS catalog_id, 650 AS nb_units, 0.2 AS discount, 'Deploiement' AS comment, CAST('2018-03-31' AS DATE) AS start_date, CAST('2019-03-30' AS DATE) AS end_date
 
       ;;
   }
@@ -165,19 +171,15 @@ view: contract_lines {
     sql: ${TABLE}.catalog_id ;;
   }
 
-  dimension: account_kind_id {
+  dimension: nb_units {
     type: number
-    sql: ${TABLE}.account_kind_id ;;
-  }
-
-  dimension: nb_licences {
-    type: number
-    sql: ${TABLE}.nb_licences ;;
+    sql: ${TABLE}.nb_units ;;
   }
 
   dimension: discount {
     type: number
     sql: ${TABLE}.discount ;;
+    value_format: "0.##%"
   }
 
   dimension: comment {
@@ -203,7 +205,12 @@ view: contract_lines {
 
   measure: total_amount_cad {
     type: sum
-    sql: ${nb_licences} * catalog.price_cad * (1-${discount})  ;;
+    sql: ${TABLE}.nb_units * catalog.price_cad * (1-${TABLE}.discount)  ;;
     value_format_name: usd
+  }
+
+  dimension: readable_year {
+    type: string
+    sql: CONCAT(DATE_FORMAT(${TABLE}.start_date,"%Y-%m-%d"),"-", DATE_FORMAT(${TABLE}.end_date,"%Y-%m-%d")) ;;
   }
 }

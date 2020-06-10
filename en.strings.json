@@ -203,6 +203,8 @@
 "count_unique_with_contact_methods": "User(s) with contact information - Managed by User",
 "count_unique_mobile_devices": "User(s) with smart phone",
 "non_activated_users": "Non-activated user(s)",
-"activated_users_rate": "% of activated users"
-
+"activated_users_rate": "% of activated users",
+"contract_start_date": "Contract start date",
+"contract_end_date": "Contract end date",
+"contract_nb_years": "Contract duration"
 }

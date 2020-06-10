@@ -7,128 +7,65 @@ view: catalog {
   derived_table: {
     persist_for: "24 hours"
     sql:
-      SELECT
-        1 AS id, 'PMB' AS code, 'PROD' AS type, 'Messagerie Securisee - Plan Base' AS name, 'Frais annuel / utilisateur (1GB chacun). Communication médecins.' AS description, 28.8 AS unit_cost, 96 AS price_cad, 72 AS price_usd, 72 AS price_eur, 'P3Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        2 AS id, 'PMB-E' AS code, 'PROD' AS type, 'Secure Messaging - Basic Plan' AS name, 'Annual Fee / User (1GB ea). MD to MD Chat' AS description, 28.8 AS unit_cost, 96 AS price_cad, 72 AS price_usd, 72 AS price_eur, 'P3Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        3 AS id, 'PMB-E' AS code, 'PROD' AS type, 'Secure Messaging - Basic Plan' AS name, 'Annual Fee / User (1GB ea). MD to MD Chat' AS description, 28.8 AS unit_cost, 96 AS price_cad, 72 AS price_usd, 72 AS price_eur, 'P3Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        4 AS id, 'PMD' AS code, 'SERV' AS type, 'Deploiement de Messagerie Securisee' AS name, 'Frais de déploiement uniques par utilisateur' AS description, 4.5 AS unit_cost, 15 AS price_cad, 10 AS price_usd, 8 AS price_eur, 'P1Y' AS term, 'Once' AS billing_frequency
-      UNION ALL
-      SELECT
-        5 AS id, 'PMD-E' AS code, 'SERV' AS type, 'Secure Messaging Deployment' AS name, 'One-time deployment fee per user' AS description, 4.5 AS unit_cost, 15 AS price_cad, 10 AS price_usd, 8 AS price_eur, 'P1Y' AS term, 'Once' AS billing_frequency
-      UNION ALL
-      SELECT
-        6 AS id, 'PMS' AS code, 'PROD' AS type, 'Messagerie Securisee - Plan Standard' AS name, 'Frais annuel / utilisateur (5GB chacun). Communication hospitalière.' AS description, 43.2 AS unit_cost, 144 AS price_cad, 120 AS price_usd, 120 AS price_eur, 'P3Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        7 AS id, 'PMS-E' AS code, 'PROD' AS type, 'Secure Messaging - Standard Plan' AS name, 'Annual Fee / User (5GB ea). Hospital Communication with Medical Staff' AS description, 43.2 AS unit_cost, 144 AS price_cad, 120 AS price_usd, 120 AS price_eur, 'P3Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        8 AS id, 'POA' AS code, 'PROD' AS type, 'Console Hospitaliere - Accès administratifs supplémentaires' AS name, 'Frais annuel / utilisateur supplémentaire' AS description, 306 AS unit_cost, 1020 AS price_cad, 780 AS price_usd, 816 AS price_eur, 'P3Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        9 AS id, 'POA-E' AS code, 'PROD' AS type, 'Hospital Console - Additional Administrative Access' AS name, 'Annual Fee / Additional Admin User' AS description, 306 AS unit_cost, 1020 AS price_cad, 780 AS price_usd, 816 AS price_eur, 'P3Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        10 AS id, 'POAI' AS code, 'PROD' AS type, 'Console Hospitaliere Option - Intégration API' AS name, 'Frais annuel' AS description, 7200 AS unit_cost, 24000 AS price_cad, 19200 AS price_usd, 24000 AS price_eur, 'P3Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        11 AS id, 'POAI-E' AS code, 'PROD' AS type, 'Hospital Console Option - API Integration' AS name, 'Annual Fee' AS description, 7200 AS unit_cost, 24000 AS price_cad, 19200 AS price_usd, 24000 AS price_eur, 'P3Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        12 AS id, 'POB' AS code, 'PROD' AS type, 'Console Hospitaliere - Plan Base' AS name, 'Frais annuel / professionnel de la santé (inclut 20 utilisateurs)' AS description, 32.4 AS unit_cost, 108 AS price_cad, 84 AS price_usd, 84 AS price_eur, 'P3Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        13 AS id, 'POB-E' AS code, 'PROD' AS type, 'Hospital Console - Basic Plan' AS name, 'Annual Fee / Healthcare Professional (includes 20 admin users)' AS description, 32.4 AS unit_cost, 108 AS price_cad, 84 AS price_usd, 84 AS price_eur, 'P3Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        14 AS id, 'POD' AS code, 'SERV' AS type, 'Deploiement de Console Hospitaliere' AS name, 'Frais de déploiement uniques par professionnel de la santé.' AS description, 30 AS unit_cost, 95 AS price_cad, 70 AS price_usd, 65 AS price_eur, 'P1Y' AS term, 'Once' AS billing_frequency
-      UNION ALL
-      SELECT
-        15 AS id, 'POD-E' AS code, 'SERV' AS type, 'Hospital Console Deployment' AS name, 'One-time deployment fee per healthcare professional' AS description, 30 AS unit_cost, 95 AS price_cad, 70 AS price_usd, 65 AS price_eur, 'P1Y' AS term, 'Once' AS billing_frequency
-      UNION ALL
-      SELECT
-        16 AS id, 'POM' AS code, 'PROD' AS type, 'Console Hospitaliere Option - Intégration de PetalMessage' AS name, 'Frais annuel / professionnel de la santé' AS description, 18 AS unit_cost, 60 AS price_cad, 48 AS price_usd, 48 AS price_eur, 'P3Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        17 AS id, 'POM-E' AS code, 'PROD' AS type, 'Hospital Console Option - PetalMessage Integration' AS name, 'Annual Fee / Healthcare Professionnal' AS description, 18 AS unit_cost, 60 AS price_cad, 48 AS price_usd, 48 AS price_eur, 'P3Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        18 AS id, 'POR' AS code, 'PROD' AS type, 'Console Hospitaliere Option - Accès en mode lecture/écriture' AS name, 'Frais annuel / professionnel de la santé. Autorise le personnel administratifà modifier les horaires des professionnels de la santé à partir de la console.' AS description, 21.6 AS unit_cost, 72 AS price_cad, 60 AS price_usd, 60 AS price_eur, 'P3Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        19 AS id, 'POR-E' AS code, 'PROD' AS type, 'Hospital Console Option - Read/Write Access' AS name, 'Annual Fee / Healthcare Professionnal. Read/Write access authorizes administrative staff to modify the schedules of health professionals from the dashboards.' AS description, 21.6 AS unit_cost, 72 AS price_cad, 60 AS price_usd, 60 AS price_eur, 'P3Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        20 AS id, 'POS' AS code, 'PROD' AS type, 'Console Hospitalière - Plan Standard' AS name, 'Frais annuel / professionnel de la santé (inclut 20 utilisateurs)' AS description, 43.2 AS unit_cost, 144 AS price_cad, 108 AS price_usd, 120 AS price_eur, 'P3Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        21 AS id, 'POS-E' AS code, 'PROD' AS type, 'Hospital Console - Standard Plan' AS name, 'Annual Fee / Healthcare Professional (includes 20 admin users)' AS description, 43.2 AS unit_cost, 144 AS price_cad, 108 AS price_usd, 120 AS price_eur, 'P3Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        22 AS id, 'POV' AS code, 'PROD' AS type, 'Console Hospitaliere Option - Accès public (Console IP)' AS name, 'Frais annuel / professionnel de la santé. Permet au personnel de l’hôpitalde visualiser les horaires en mode lecture seulement sans avoir à payer pour une licence complète.' AS description, 21.6 AS unit_cost, 72 AS price_cad, 60 AS price_usd, 60 AS price_eur, 'P3Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        23 AS id, 'POV-E' AS code, 'PROD' AS type, 'Hospital Console Option - Public Access (Console IP)' AS name, 'Annual Fee / Healthcare Professional. Allows hospital staff to view schedules in read-only mode without having to pay for a full license.' AS description, 21.6 AS unit_cost, 72 AS price_cad, 60 AS price_usd, 60 AS price_eur, 'P3Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        24 AS id, 'PSA' AS code, 'PROD' AS type, 'Gestion des horaires - Plan Avance' AS name, 'Frais annuel / professionnel de la santé' AS description, 126 AS unit_cost, 420 AS price_cad, 300 AS price_usd, 240 AS price_eur, 'P1Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        25 AS id, 'PSA-E' AS code, 'PROD' AS type, 'Scheduling management - Advanced Plan' AS name, 'Annual Fee / Healthcare Professional' AS description, 126 AS unit_cost, 420 AS price_cad, 300 AS price_usd, 240 AS price_eur, 'P1Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        26 AS id, 'PSAA' AS code, 'PROD' AS type, 'Gestion des horaires - Accès administratifs supplémentaires' AS name, 'Un accès gratuit est inclut pour le personnel administratif de chaque groupe de professionnels de la santé mais un accès additionnel est facturé.' AS description, 90 AS unit_cost, 300 AS price_cad, 240 AS price_usd, 240 AS price_eur, 'P1Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        27 AS id, 'PSAA-E' AS code, 'PROD' AS type, 'Scheduling management option - Additional Administrative Access' AS name, 'A free administrative staff access is included for each provider group but additional access is charged.' AS description, 90 AS unit_cost, 300 AS price_cad, 240 AS price_usd, 240 AS price_eur, 'P1Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        28 AS id, 'PSAR' AS code, 'PROD' AS type, 'Gestion des horaires - Plan Avancé - Résidents' AS name, 'Frais annuel / résident étudiant' AS description, 63 AS unit_cost, 210 AS price_cad, 150 AS price_usd, 120 AS price_eur, 'P1Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        29 AS id, 'PSAR-E' AS code, 'PROD' AS type, 'Scheduling management - Advanced Plan - Residents' AS name, 'Annual Fee / Resident student' AS description, 63 AS unit_cost, 210 AS price_cad, 150 AS price_usd, 120 AS price_eur, 'P1Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        30 AS id, 'PSDA' AS code, 'SERV' AS type, 'Deploiement de gestion des horaires - Plan Avancé' AS name, 'Frais de déploiement uniques par professionnel de la santé' AS description, 45 AS unit_cost, 150 AS price_cad, 120 AS price_usd, 120 AS price_eur, 'P1Y' AS term, 'Once' AS billing_frequency
-      UNION ALL
-      SELECT
-        31 AS id, 'PSDA-E' AS code, 'SERV' AS type, 'Scheduling management deployment - Advanced Plan' AS name, 'One-time deployment fee per Healthcare Professional' AS description, 45 AS unit_cost, 150 AS price_cad, 120 AS price_usd, 120 AS price_eur, 'P1Y' AS term, 'Once' AS billing_frequency
-      UNION ALL
-      SELECT
-        32 AS id, 'PSDS' AS code, 'SERV' AS type, 'Deploiement de gestion des horaires - Plan Standard' AS name, 'Frais de déploiement uniques par professionnel de la santé' AS description, 22.5 AS unit_cost, 75 AS price_cad, 60 AS price_usd, 60 AS price_eur, 'P1Y' AS term, 'Once' AS billing_frequency
-      UNION ALL
-      SELECT
-        33 AS id, 'PSDS-E' AS code, 'SERV' AS type, 'Scheduling management deployment - Standard Plan' AS name, 'One-time deployment fee per healthcare professional' AS description, 22.5 AS unit_cost, 75 AS price_cad, 60 AS price_usd, 60 AS price_eur, 'P1Y' AS term, 'Once' AS billing_frequency
-      UNION ALL
-      SELECT
-        34 AS id, 'PSL' AS code, 'PROD' AS type, 'Gestion des horaires option - Suppléants et temps partiel' AS name, 'Pour les professionnels de la santé qui n’ont pas plus d’un quart de travail planifié par semaine.' AS description, 32.4 AS unit_cost, 108 AS price_cad, 84 AS price_usd, 60 AS price_eur, 'P1Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        35 AS id, 'PSL-E' AS code, 'PROD' AS type, 'Scheduling management option - Locums and Part-time' AS name, 'For healthcare professionals with no more than one shift scheduled per week.' AS description, 32.4 AS unit_cost, 108 AS price_cad, 84 AS price_usd, 60 AS price_eur, 'P1Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        36 AS id, 'PSS' AS code, 'PROD' AS type, 'Gestion des horaires - Plan Standard' AS name, 'Frais annuel / professionnel de la santé' AS description, 54 AS unit_cost, 180 AS price_cad, 132 AS price_usd, 96 AS price_eur, 'P1Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        37 AS id, 'PSS-E' AS code, 'PROD' AS type, 'Scheduling management - Standard Plan' AS name, 'Annual Fee / Healthcare Professional' AS description, 54 AS unit_cost, 180 AS price_cad, 132 AS price_usd, 96 AS price_eur, 'P1Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        38 AS id, 'PSSR' AS code, 'PROD' AS type, 'Gestion des horaires - Plan Standard - Résidents' AS name, 'Frais annuel / résident étudiant' AS description, 27 AS unit_cost, 90 AS price_cad, 66 AS price_usd, 48 AS price_eur, 'P1Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        39 AS id, 'PSSR-E' AS code, 'PROD' AS type, 'Scheduling management - Standard Plan - Residents' AS name, 'Annual fee / resident student' AS description, 27 AS unit_cost, 90 AS price_cad, 66 AS price_usd, 48 AS price_eur, 'P1Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        40 AS id, 'PSV' AS code, 'PROD' AS type, 'Gestion des horaires option - Accès public (IP)' AS name, 'Permettez à tout le personnel d’accéder à une version en lecture seule de la console sans devoir acheter des licences d’utilisation complètes.' AS description, 360 AS unit_cost, 1200 AS price_cad, 900 AS price_usd, 960 AS price_eur, 'P1Y' AS term, 'Annually' AS billing_frequency
-      UNION ALL
-      SELECT
-        41 AS id, 'PSV-E' AS code, 'PROD' AS type, 'Scheduling management option - Public Access (IP)' AS name, 'Allow all staff to access a read-only version of team schedule without them paying for a full license.' AS description, 30 AS unit_cost, 1200 AS price_cad, 900 AS price_usd, 960 AS price_eur, 'P1Y' AS term, 'Annually' AS billing_frequency
+     SELECT
+  1 AS id, 'PROD' AS type, 'PMB' AS code, 'Messagerie Securisee - Plan Base' AS name, 'Frais annuel / utilisateur (1GB chacun). Communication médecins.' AS description, 28.8 AS unit_cost, 96 AS price_cad, 72 AS price_usd, 72 AS price_eur, 'P3Y' AS term, 'Annually' AS billing_frequency, 171 AS pricing_plan_id
+UNION ALL
+SELECT
+  4 AS id, 'SERV' AS type, 'PMD' AS code, 'Deploiement de Messagerie Securisee' AS name, 'Frais de déploiement uniques par utilisateur' AS description, 4.5 AS unit_cost, 15 AS price_cad, 10 AS price_usd, 8 AS price_eur, 'P1Y' AS term, 'Once' AS billing_frequency, NULL AS pricing_plan_id
+UNION ALL
+SELECT
+  6 AS id, 'PROD' AS type, 'PMS' AS code, 'Messagerie Securisee - Plan Standard' AS name, 'Frais annuel / utilisateur (5GB chacun). Communication hospitalière.' AS description, 43.2 AS unit_cost, 144 AS price_cad, 120 AS price_usd, 120 AS price_eur, 'P3Y' AS term, 'Annually' AS billing_frequency, 174 AS pricing_plan_id
+UNION ALL
+SELECT
+  8 AS id, 'PROD' AS type, 'POA' AS code, 'Console Hospitaliere - Accès administratifs supple?mentaires' AS name, 'Frais annuel / utilisateur supplémentaire' AS description, 306 AS unit_cost, 1020 AS price_cad, 780 AS price_usd, 816 AS price_eur, 'P3Y' AS term, 'Annually' AS billing_frequency, NULL AS pricing_plan_id
+UNION ALL
+SELECT
+  10 AS id, 'PROD' AS type, 'POAI' AS code, 'Console Hospitaliere Option - Intégration API' AS name, 'Frais annuel' AS description, 7200 AS unit_cost, 24000 AS price_cad, 19200 AS price_usd, 24000 AS price_eur, 'P3Y' AS term, 'Annually' AS billing_frequency, NULL AS pricing_plan_id
+UNION ALL
+SELECT
+  12 AS id, 'PROD' AS type, 'POB' AS code, 'Console Hospitaliere - Plan Base' AS name, 'Frais annuel / professionnel de la santé (inclut 20 utilisateurs)' AS description, 32.4 AS unit_cost, 108 AS price_cad, 84 AS price_usd, 84 AS price_eur, 'P3Y' AS term, 'Annually' AS billing_frequency, NULL AS pricing_plan_id
+UNION ALL
+SELECT
+  14 AS id, 'SERV' AS type, 'POD' AS code, 'Deploiement de Console Hospitaliere' AS name, 'Frais de déploiement uniques par professionnel de la santé.' AS description, 30 AS unit_cost, 95 AS price_cad, 70 AS price_usd, 65 AS price_eur, 'P1Y' AS term, 'Once' AS billing_frequency, NULL AS pricing_plan_id
+UNION ALL
+SELECT
+  16 AS id, 'PROD' AS type, 'POM' AS code, 'Console Hospitaliere Option - Intégration de PetalMessage' AS name, 'Frais annuel / professionnel de la santé' AS description, 18 AS unit_cost, 60 AS price_cad, 48 AS price_usd, 48 AS price_eur, 'P3Y' AS term, 'Annually' AS billing_frequency, NULL AS pricing_plan_id
+UNION ALL
+SELECT
+  18 AS id, 'PROD' AS type, 'POR' AS code, 'Console Hospitaliere Option - Accès en mode lecture/écriture' AS name, 'Frais annuel / professionnel de la santé. Autorise le personnel administratifà modifier les horaires des professionnels de la santé à partir de la console.' AS description, 21.6 AS unit_cost, 72 AS price_cad, 60 AS price_usd, 60 AS price_eur, 'P3Y' AS term, 'Annually' AS billing_frequency, NULL AS pricing_plan_id
+UNION ALL
+SELECT
+  20 AS id, 'PROD' AS type, 'POS' AS code, 'Console Hospitalie?re - Plan Standard' AS name, 'Frais annuel / professionnel de la santé (inclut 20 utilisateurs)' AS description, 43.2 AS unit_cost, 144 AS price_cad, 108 AS price_usd, 120 AS price_eur, 'P3Y' AS term, 'Annually' AS billing_frequency, NULL AS pricing_plan_id
+UNION ALL
+SELECT
+  22 AS id, 'PROD' AS type, 'POV' AS code, 'Console Hospitaliere Option - Accès public (Console IP)' AS name, 'Frais annuel / professionnel de la santé. Permet au personnel de l’hôpitalde visualiser les horaires en mode lecture seulement sans avoir à payer pour une licence complète.' AS description, 21.6 AS unit_cost, 72 AS price_cad, 60 AS price_usd, 60 AS price_eur, 'P3Y' AS term, 'Annually' AS billing_frequency, NULL AS pricing_plan_id
+UNION ALL
+SELECT
+  24 AS id, 'PROD' AS type, 'PSA' AS code, 'Gestion des horaires - Plan Avance' AS name, 'Frais annuel / professionnel de la santé' AS description, 126 AS unit_cost, 420 AS price_cad, 300 AS price_usd, 240 AS price_eur, 'P1Y' AS term, 'Annually' AS billing_frequency, 129 AS pricing_plan_id
+UNION ALL
+SELECT
+  26 AS id, 'PROD' AS type, 'PSAA' AS code, 'Gestion des horaires - Accès administratifs supple?mentaires' AS name, 'Un accès gratuit est inclut pour le personnel administratif de chaque groupe de professionnels de la santé mais un accès additionnel est facturé.' AS description, 90 AS unit_cost, 300 AS price_cad, 240 AS price_usd, 240 AS price_eur, 'P1Y' AS term, 'Annually' AS billing_frequency, NULL AS pricing_plan_id
+UNION ALL
+SELECT
+  28 AS id, 'PROD' AS type, 'PSAR' AS code, 'Gestion des horaires - Plan Avancé - Résidents' AS name, 'Frais annuel / résident étudiant' AS description, 63 AS unit_cost, 210 AS price_cad, 150 AS price_usd, 120 AS price_eur, 'P1Y' AS term, 'Annually' AS billing_frequency, 129 AS pricing_plan_id
+UNION ALL
+SELECT
+  30 AS id, 'SERV' AS type, 'PSDA' AS code, 'Deploiement de gestion des horaires - Plan Avancé' AS name, 'Frais de déploiement uniques par professionnel de la santé' AS description, 45 AS unit_cost, 150 AS price_cad, 120 AS price_usd, 120 AS price_eur, 'P1Y' AS term, 'Once' AS billing_frequency, NULL AS pricing_plan_id
+UNION ALL
+SELECT
+  32 AS id, 'SERV' AS type, 'PSDS' AS code, 'Deploiement de gestion des horaires - Plan Standard' AS name, 'Frais de déploiement uniques par professionnel de la santé' AS description, 22.5 AS unit_cost, 75 AS price_cad, 60 AS price_usd, 60 AS price_eur, 'P1Y' AS term, 'Once' AS billing_frequency, NULL AS pricing_plan_id
+UNION ALL
+SELECT
+  34 AS id, 'PROD' AS type, 'PSL' AS code, 'Gestion des horaires option - Suppléants et temps partiel' AS name, 'Pour les professionnels de la santé qui n’ont pas plus d’un quart de travail planifié par semaine.' AS description, 32.4 AS unit_cost, 108 AS price_cad, 84 AS price_usd, 60 AS price_eur, 'P1Y' AS term, 'Annually' AS billing_frequency, NULL AS pricing_plan_id
+UNION ALL
+SELECT
+  36 AS id, 'PROD' AS type, 'PSS' AS code, 'Gestion des horaires - Plan Standard' AS name, 'Frais annuel / professionnel de la santé' AS description, 54 AS unit_cost, 180 AS price_cad, 132 AS price_usd, 96 AS price_eur, 'P1Y' AS term, 'Annually' AS billing_frequency, 128 AS pricing_plan_id
+UNION ALL
+SELECT
+  38 AS id, 'PROD' AS type, 'PSSR' AS code, 'Gestion des horaires - Plan Standard - Résidents' AS name, 'Frais annuel / résident étudiant' AS description, 27 AS unit_cost, 90 AS price_cad, 66 AS price_usd, 48 AS price_eur, 'P1Y' AS term, 'Annually' AS billing_frequency, 128 AS pricing_plan_id
+UNION ALL
+SELECT
+  40 AS id, 'PROD' AS type, 'PSV' AS code, 'Gestion des horaires option - Accès public (IP)' AS name, 'Permettez à tout le personnel d’accéder à une version en lecture seule de la console sans devoir acheter des licences d’utilisation complètes.' AS description, 360 AS unit_cost, 1200 AS price_cad, 900 AS price_usd, 960 AS price_eur, 'P1Y' AS term, 'Annually' AS billing_frequency, NULL AS pricing_plan_id
 
       ;;
   }
@@ -179,7 +116,7 @@ view: catalog {
   dimension: price_eur {
     type: number
     sql: ${TABLE}.price_eur ;;
-    value_format: "€#.00;($#.00)"
+    value_format: "€#.00;(€#.00)"
   }
 
   dimension: term {
@@ -190,6 +127,11 @@ view: catalog {
   dimension: billing_frequency {
     type: string
     sql: ${TABLE}.billing_frequency ;;
+  }
+
+  dimension: pricing_plan_id {
+    type: number
+    sql: ${TABLE}.pricing_plan_id  ;;
   }
 
   measure: count {

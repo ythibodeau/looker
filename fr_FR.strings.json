@@ -202,5 +202,8 @@
 "count_unique_with_contact_methods": "Utilisateur(s) avec informations de contact",
 "count_unique_mobile_devices": "Utilisateur(s) avec appareil mobile",
 "non_activated_users": "Utilisateur(s) non-activé(s)",
-"activated_users_rate": "% des utilisateurs activés"
+"activated_users_rate": "% des utilisateurs activés",
+"contract_start_date": "Date de début de l'entente",
+"contract_end_date": "Date de fin de l'entente",
+"contract_nb_years": "Durée de l'entente"
 }
