@@ -166,7 +166,7 @@
 "count_console_groups": "Console groups",
 "count_communication_groups": "Communication groups",
 "count_unique_confirmed": "Activated users",
-"count_unique_activated": "User(s) that haven't completed their registration",
+"count_unique_activated": "User(s) - Registration incomplete",
 "simplified_kind": "Account kind",
 "id": "Unique ID",
 "first_name": "First name",

@@ -165,7 +165,7 @@
 "count_console_groups": "Groupes console",
 "count_communication_groups": "Groupes de communication",
 "count_unique_confirmed": "Utilisateur(s) activé(s)",
-"count_unique_activated": "Utilisateur(s) n'ayant pas complété l'inscription",
+"count_unique_activated": "Utilisateur(s) - Inscription incomplète",
 "simplified_kind": "Type de compte",
 "id": "Identifiant unique",
 "first_name": "Prénom",

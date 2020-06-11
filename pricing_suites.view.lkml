@@ -1,3 +1,5 @@
+explore: pricing_suites {}
+
 view: pricing_suites {
   sql_table_name: petalmd.pricing_suites ;;
 

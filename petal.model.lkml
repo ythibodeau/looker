@@ -226,7 +226,8 @@ explore: users_by_product {
 
   join: contract_line_licences {
     type: left_outer
-    sql_on: ${contract_lines.id} = ${contract_line_licences.contract_line_id} ;;
+    sql_on: ${contract_lines.id} = ${contract_line_licences.contract_line_id} AND
+    ${account_kinds.id} = ${contract_line_licences.kind_id};;
     relationship: one_to_many
   }
 
@@ -234,6 +235,18 @@ explore: users_by_product {
     type: left_outer
     sql_on: ${contract_lines.catalog_id} = ${catalog.id} ;;
     relationship: one_to_one
+  }
+
+  join: pricing_plans {
+    type: left_outer
+    sql_on: ${catalog.pricing_plan_id} = ${pricing_plans.id} ;;
+    relationship: many_to_one
+  }
+
+  join: pricing_suites {
+    type: left_outer
+    sql_on: ${pricing_plans.suite_id} = ${pricing_suites.id} ;;
+    relationship: many_to_one
   }
 }
 
@@ -1930,10 +1943,6 @@ explore: pricing_plans_products {
       relationship: many_to_one
     }
   }
-
-explore: pricing_suites {
-  group_label: "Global"
-}
 
 explore: profile_preferences {
     group_label: "Global"
