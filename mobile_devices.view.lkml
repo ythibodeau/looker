@@ -41,6 +41,13 @@ view: mobile_devices {
       ELSE ${TABLE}.device_token
     END
     ;;
+#     html:
+#
+#     {% if value == "Android" %}
+# <img src="//logo.clearbit.com/spotify.com">
+# {% else %}
+#      <img src="//logo.clearbit.com/spotify.com">
+# {% endif %} ;;
   }
 
   dimension: endpoint_arn {

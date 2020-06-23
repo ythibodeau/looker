@@ -41,6 +41,17 @@ view: sche__requirements {
     sql: ${TABLE}.task_id ;;
   }
 
+  dimension: coverage_break {
+    type: string
+    sql: "Coverage Break" ;;
+  }
+
+#   dimension: is_coverage_break {
+#     type: yesno
+#     sql: sche__task_kinds.restriction_kind_id = 2 AND sche__assignments.requirement_id IS NULL
+#          AND ${minimum} >= 1;;
+#   }
+
   dimension_group: updated {
     type: time
     timeframes: [

@@ -16,6 +16,7 @@ view: account_without_contact_methods {
 
   dimension: id {
     type: number
+    primary_key: yes
     sql: ${TABLE}.id ;;
   }
 
@@ -292,6 +293,28 @@ view: account_without_contact_methods {
   dimension: chargebee_customer_id {
     type: string
     sql: ${TABLE}.chargebee_customer_id ;;
+  }
+
+  dimension: group_acronym {
+    type: string
+    sql: ${groups.acronym} ;;
+  }
+
+  measure: groups_acronym {
+    label: "groups_acronym"
+    type: list
+    list_field: group_acronym
+  }
+
+  dimension: institutions_names {
+    type: string
+    sql: ${health_institutions.short_name} ;;
+  }
+
+  measure: institutions {
+    label: "institutions"
+    type: list
+    list_field: institutions_names
   }
 
   set: detail {

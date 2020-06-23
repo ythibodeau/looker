@@ -61,6 +61,11 @@ view: mess__conversers {
     drill_fields: [detail*]
   }
 
+  measure: count_distinct_accounts {
+    type: count_distinct
+    sql: ${account_id} ;;
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [

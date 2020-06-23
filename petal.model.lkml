@@ -150,7 +150,19 @@ explore: contracts {
 # Global
 #####################################################################
 
-explore: account_without_contact_methods {}
+explore: account_without_contact_methods {
+  join: memberships {
+    type: left_outer
+    sql_on: ${account_without_contact_methods.id} = ${memberships.account_id};;
+    relationship: one_to_many
+  }
+
+  join: groups {
+    type: left_outer
+    sql_on: ${memberships.group_id} = ${groups.id} ;;
+    relationship: one_to_one
+  }
+}
 
 explore: attachments {
 
@@ -1138,6 +1150,7 @@ explore: groups {
     field: health_institutions.short_name
     user_attribute: institution_name
   }
+
   cancel_grouping_fields: [accounts.highest_paying_plan, groups.is_scheduling, groups.pricing_plan_test]
 
   join: group_kinds {
@@ -3187,6 +3200,12 @@ explore: assignments_for_contact_mehods {
     relationship: many_to_one
   }
 
+  join: accounts {
+    type: left_outer
+    sql_on: ${sche__resources.account_id} = ${accounts.id} ;;
+    relationship: many_to_one
+  }
+
   join: specialties {
     type: left_outer
     sql_on: ${account_without_contact_methods.specialty_id} = ${specialties.id} ;;
@@ -3203,6 +3222,342 @@ explore: assignments_for_contact_mehods {
     type: inner
     sql_on: ${memberships.group_id} = ${groups.id} ;;
     relationship: one_to_one
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: territories {
+    type: left_outer
+    sql_on: ${health_institutions.territory_id} = ${territories.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+    relationship: many_to_one
+  }
+}
+
+explore: requirements {
+
+  join: sche__assignments {
+    type: left_outer
+    sql_on: ${requirements.id} = ${sche__assignments.requirement_id} ;;
+    relationship: one_to_one
+  }
+
+  join: sche__tasks {
+    type: left_outer
+    sql_on: ${requirements.task_id} = ${sche__tasks.id}  ;;
+    relationship: many_to_one
+  }
+
+  join: sche__blocks {
+    type: left_outer
+    sql_on: ${sche__tasks.block_id} = ${sche__blocks.id} ;;
+    relationship: many_to_one
+  }
+
+  join: sche__block_kinds {
+    type: left_outer
+    sql_on: ${sche__blocks.kind_id} = ${sche__block_kinds.id} ;;
+    relationship: many_to_one
+  }
+
+  join: sche__task_kinds {
+    type: left_outer
+    sql_on: ${sche__tasks.kind_id} = ${sche__task_kinds.id} ;;
+    relationship: many_to_one
+  }
+
+  join: sche__periods {
+    type: left_outer
+    sql_on: ${sche__task_kinds.period_id} = ${sche__periods.id} ;;
+    relationship: many_to_one
+  }
+
+  join: groups {
+    type: left_outer
+    sql_on: ${sche__periods.group_id} = ${groups.id} ;;
+    relationship: many_to_one
+  }
+
+  join: sche__resources {
+    type: left_outer
+    sql_on: ${sche__assignments.resource_id} = ${sche__resources.id} ;;
+    relationship: one_to_many
+  }
+
+  join: accounts {
+    type: left_outer
+    sql_on: ${sche__resources.account_id} = ${accounts.id} ;;
+    relationship: many_to_one
+  }
+
+  join: account_without_contact_methods {
+    type: left_outer
+    sql_on: ${sche__resources.account_id} = ${account_without_contact_methods.id} ;;
+    relationship: many_to_one
+  }
+
+  join: specialties {
+    type: left_outer
+    sql_on: ${accounts.specialty_id} = ${specialties.id} ;;
+    relationship: many_to_one
+  }
+
+  join: memberships {
+    type: left_outer
+    sql_on: ${accounts.id} = ${memberships.account_id};;
+    relationship: one_to_many
+  }
+
+  join: membership_groups {
+    from: groups
+    type: inner
+    sql_on: ${memberships.group_id} = ${membership_groups.id} ;;
+    relationship: one_to_one
+  }
+
+  join: sche__plans {
+    type: inner
+    sql_on: ${sche__assignments.plan_id} = ${sche__plans.id} ;;
+    relationship: many_to_one
+  }
+
+  join: assignment_groups {
+    from: groups
+    type: left_outer
+    sql_on: ${sche__periods.group_id} = ${assignment_groups.id} ;;
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: territories {
+    type: left_outer
+    sql_on: ${health_institutions.territory_id} = ${territories.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+    relationship: many_to_one
+  }
+}
+
+explore: sche__requirements {
+
+  join: sche__assignments {
+    type: left_outer
+    sql_on: ${sche__requirements.id} = ${sche__assignments.requirement_id} ;;
+    relationship: one_to_one
+  }
+
+  join: sche__tasks {
+    type: left_outer
+    sql_on: ${sche__requirements.task_id} = ${sche__tasks.id}  ;;
+    relationship: many_to_one
+  }
+
+  join: sche__blocks {
+    type: left_outer
+    sql_on: ${sche__tasks.block_id} = ${sche__blocks.id} ;;
+    relationship: many_to_one
+  }
+
+  join: sche__block_kinds {
+    type: left_outer
+    sql_on: ${sche__blocks.kind_id} = ${sche__block_kinds.id} ;;
+    relationship: many_to_one
+  }
+
+  join: sche__task_kinds {
+    type: left_outer
+    sql_on: ${sche__tasks.kind_id} = ${sche__task_kinds.id} ;;
+    relationship: many_to_one
+  }
+
+  join: sche__periods {
+    type: left_outer
+    sql_on: ${sche__task_kinds.period_id} = ${sche__periods.id} ;;
+    relationship: many_to_one
+  }
+
+  join: groups {
+    type: left_outer
+    sql_on: ${sche__periods.group_id} = ${groups.id} ;;
+    relationship: many_to_one
+  }
+
+  join: sche__resources {
+    type: left_outer
+    sql_on: ${sche__assignments.resource_id} = ${sche__resources.id} ;;
+    relationship: one_to_many
+  }
+
+  join: accounts {
+    type: left_outer
+    sql_on: ${sche__resources.account_id} = ${accounts.id} ;;
+    relationship: many_to_one
+  }
+
+  join: account_without_contact_methods {
+    type: left_outer
+    sql_on: ${sche__resources.account_id} = ${account_without_contact_methods.id} ;;
+    relationship: many_to_one
+  }
+
+  join: specialties {
+    type: left_outer
+    sql_on: ${accounts.specialty_id} = ${specialties.id} ;;
+    relationship: many_to_one
+  }
+
+  join: memberships {
+    type: left_outer
+    sql_on: ${accounts.id} = ${memberships.account_id};;
+    relationship: one_to_many
+  }
+
+  join: membership_groups {
+    from: groups
+    type: inner
+    sql_on: ${memberships.group_id} = ${membership_groups.id} ;;
+    relationship: one_to_one
+  }
+
+  join: sche__plans {
+    type: inner
+    sql_on: ${sche__assignments.plan_id} = ${sche__plans.id} ;;
+    relationship: many_to_one
+  }
+
+  join: assignment_groups {
+    from: groups
+    type: left_outer
+    sql_on: ${sche__periods.group_id} = ${assignment_groups.id} ;;
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: territories {
+    type: left_outer
+    sql_on: ${health_institutions.territory_id} = ${territories.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+    relationship: many_to_one
+  }
+}
+
+explore: coverage_breaks {
+
+  join: sche__assignments {
+    type: left_outer
+    sql_on: ${coverage_breaks._id} = ${sche__assignments.requirement_id} ;;
+    relationship: one_to_one
+  }
+
+  join: sche__tasks {
+    type: left_outer
+    sql_on: ${coverage_breaks.task_id} = ${sche__tasks.id}  ;;
+    relationship: many_to_one
+  }
+
+  join: sche__blocks {
+    type: left_outer
+    sql_on: ${sche__tasks.block_id} = ${sche__blocks.id} ;;
+    relationship: many_to_one
+  }
+
+  join: sche__block_kinds {
+    type: left_outer
+    sql_on: ${sche__blocks.kind_id} = ${sche__block_kinds.id} ;;
+    relationship: many_to_one
+  }
+
+  join: sche__task_kinds {
+    type: left_outer
+    sql_on: ${sche__tasks.kind_id} = ${sche__task_kinds.id} ;;
+    relationship: many_to_one
+  }
+
+  join: sche__periods {
+    type: left_outer
+    sql_on: ${sche__task_kinds.period_id} = ${sche__periods.id} ;;
+    relationship: many_to_one
+  }
+
+  join: groups {
+    type: left_outer
+    sql_on: ${sche__periods.group_id} = ${groups.id} ;;
+    relationship: many_to_one
+  }
+
+  join: sche__resources {
+    type: left_outer
+    sql_on: ${sche__assignments.resource_id} = ${sche__resources.id} ;;
+    relationship: one_to_many
+  }
+
+  join: accounts {
+    type: left_outer
+    sql_on: ${sche__resources.account_id} = ${accounts.id} ;;
+    relationship: many_to_one
+  }
+
+  join: account_without_contact_methods {
+    type: left_outer
+    sql_on: ${sche__resources.account_id} = ${account_without_contact_methods.id} ;;
+    relationship: many_to_one
+  }
+
+  join: specialties {
+    type: left_outer
+    sql_on: ${accounts.specialty_id} = ${specialties.id} ;;
+    relationship: many_to_one
+  }
+
+  join: memberships {
+    type: left_outer
+    sql_on: ${accounts.id} = ${memberships.account_id};;
+    relationship: one_to_many
+  }
+
+  join: membership_groups {
+    from: groups
+    type: inner
+    sql_on: ${memberships.group_id} = ${membership_groups.id} ;;
+    relationship: one_to_one
+  }
+
+  join: sche__plans {
+    type: inner
+    sql_on: ${sche__assignments.plan_id} = ${sche__plans.id} ;;
+    relationship: many_to_one
+  }
+
+  join: assignment_groups {
+    from: groups
+    type: left_outer
+    sql_on: ${sche__periods.group_id} = ${assignment_groups.id} ;;
   }
 
   join: health_institutions {
@@ -3266,6 +3621,12 @@ explore: sche__assignments {
     type: left_outer
     sql_on: ${sche__resources.account_id} = ${accounts.id} ;;
     relationship: many_to_one
+  }
+
+  join: contact_methods {
+    type: left_outer
+    sql_on: ${accounts.id} = ${contact_methods.contactable_id} AND ${contact_methods.contactable_type} = "Account" ;;
+    relationship: one_to_many
   }
 
   join: account_without_contact_methods {

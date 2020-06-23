@@ -569,6 +569,11 @@ view: accounts {
      AND CM.managed_by_admin = 1 AND CM. contactable_type = "Account")  ;;
   }
 
+  dimension: has_mobile_device {
+    type: yesno
+    sql: EXISTS(select MD.account_id from mobile_devices MD where MD.account_id = ${TABLE}.id)  ;;
+  }
+
   measure: count_unique_with_contact_methods_by_admin {
     label: "count_unique_with_contact_methods_by_admin"
     sql: ${TABLE}.id ;;
@@ -588,6 +593,19 @@ view: accounts {
     sql: ${TABLE}.id ;;
     type: count_distinct
     filters: [account_mobile.account_id: "NOT NULL"]
+  }
+
+  measure: count_unique_no_mobile_devices {
+    label: "count_unique_mobile_devices"
+    sql: ${TABLE}.id ;;
+    type: count_distinct
+    filters: [account_mobile.account_id: "NULL"]
+  }
+
+  measure: mobile_users_rate {
+    type: number
+    sql:${count_unique_mobile_devices}/(${count_unique_mobile_devices}+${count_unique_no_mobile_devices})  ;;
+    value_format: "0.##%"
   }
 
   measure: count_unique_without_group {
@@ -694,6 +712,20 @@ view: accounts {
       field: last_active_30_days
       value: "Yes"
     }
+  }
+
+  measure: count_not_active_30_days {
+    type: count
+    filters: {
+      field: last_active_30_days
+      value: "No"
+    }
+  }
+
+  measure: activity_rate {
+    type: number
+    sql:  ${count_last_active_30_days}/(${count_last_active_30_days}+${count_not_active_30_days});;
+    value_format: "0.##%"
   }
 
   measure: cumulative_confirmed {

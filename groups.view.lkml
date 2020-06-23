@@ -711,6 +711,11 @@ view: groups {
     filters: [implementation: "yes"]
   }
 
+  measure: members_activity_rate {
+    type: number
+    sql: accounts.last_active_30_days/(accounts.last_active_30_days + accounts.count_not_active_30_days) ;;
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [

@@ -81,6 +81,11 @@ view: contact_methods {
     sql: ${TABLE}.public_visible ;;
   }
 
+  dimension: visibility {
+    type: number
+    sql: ${TABLE}.visibility ;;
+  }
+
   dimension_group: updated {
     type: time
     timeframes: [

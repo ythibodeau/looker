@@ -40,6 +40,25 @@ view: sche__tasks {
     END;;
   }
 
+  dimension: event_end_date {
+    type: date
+    sql:
+    CASE
+      WHEN ${start_moment} >= ${end_moment} THEN DATE_ADD(sche__blocks.event_start_date, INTERVAL 2 DAY)
+      ELSE sche__blocks.event_start_date
+    END;;
+  }
+
+  dimension: start {
+    type: string
+    sql: CONCAT(sche__blocks.event_start_date, " ", ${start_time}) ;;
+  }
+
+  dimension: end {
+    type: string
+    sql: CONCAT(event_end_date, " ", ${end_time}) ;;
+  }
+
   dimension: generation_guid {
     type: string
     sql: ${TABLE}.generation_guid ;;
@@ -97,6 +116,25 @@ view: sche__tasks {
   measure: count {
     type: count
     sql: COUNT(${id}) ;;
-    drill_fields: [id]
+    drill_fields: [detail*]
   }
+
+  # ----- Sets of fields for drilling ------
+  set: detail {
+    fields: [
+      id,
+      sche__requirements.id,
+      sche__blocks.event_start_date,
+      start_time,
+      groups.acronym,
+      sche__task_kinds.name
+    ]
+  }
+#   set: detail {
+#     fields: [
+#       sche__blocks.event_start_date,
+#       groups.acronym,
+#       sche__task_kinds.name
+#     ]
+#   }
 }
