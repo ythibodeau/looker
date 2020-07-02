@@ -154,6 +154,7 @@
 "technician": "Technician",
 "intern": "Intern",
 "laboratory_assistant": "Laboratory assistant",
+"administrative_staff": "Administrative staff",
 "orderly":  "Orderly",
 "hemato_patho": "Hematological pathology",
 "hospital_medicine":  "Hospital Medicine",
@@ -206,5 +207,7 @@
 "activated_users_rate": "% of activated users",
 "contract_start_date": "Contract start date",
 "contract_end_date": "Contract end date",
-"contract_nb_years": "Contract duration"
+"contract_nb_years": "Contract duration",
+"average_publication_delay": "Avg days of publication in advance",
+"trigger_date": "Trigger date"
 }

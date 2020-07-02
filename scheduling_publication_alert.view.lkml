@@ -4,11 +4,11 @@ view: scheduling_publication_alert {
     sql: SELECT
         publication_average_delay.`periods_last_year.groups_id` AS group_id,
         min_next_released_period.period_id AS period_id,
-        publication_average_delay.`periods_last_year.average_delay`  AS  average_publication_delay,
+        ROUND(publication_average_delay.`periods_last_year.average_delay`)  AS  average_publication_delay,
         DATE(CONVERT_TZ(min_next_released_period.period_start_date ,'UTC','America/New_York')) AS next_period_start_date,
         DATEDIFF(now(), min_next_released_period.period_start_date) AS days_from_now,
-        (0.67 * publication_average_delay.`periods_last_year.average_delay`) as alert_trigger,
-        DATE_ADD(DATE(CONVERT_TZ(min_next_released_period.period_start_date ,'UTC','America/New_York')), INTERVAL -(0.67 * publication_average_delay.`periods_last_year.average_delay`) DAY) as trigger_date,
+        ROUND((0.67 * publication_average_delay.`periods_last_year.average_delay`)) as alert_trigger,
+        DATE_SUB(DATE(CONVERT_TZ(min_next_released_period.period_start_date ,'UTC','America/New_York')), INTERVAL ABS((0.67 * publication_average_delay.`periods_last_year.average_delay`)) DAY) as trigger_date,
         CASE
           WHEN (DATEDIFF(now(), min_next_released_period.period_start_date) > (0.67 * publication_average_delay.`periods_last_year.average_delay`) OR DATEDIFF(now(), min_next_released_period.period_start_date) >= 0) THEN true
           ELSE false
@@ -35,6 +35,7 @@ view: scheduling_publication_alert {
 
 
   dimension: average_publication_delay {
+    label: "average_publication_delay"
     type: number
     sql: ${TABLE}.average_publication_delay ;;
   }

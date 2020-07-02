@@ -410,6 +410,12 @@ explore: health_clusters {
     relationship: many_to_one
   }
 
+  join: messages {
+    type: left_outer
+    sql_on: ${accounts.id} = ${messages.account_id} ;;
+    relationship: one_to_many
+  }
+
   join: comments {
     type: left_outer
     sql_on: ${accounts.id} = ${comments.account_id} ;;
@@ -2562,97 +2568,127 @@ explore: discussion_flags {
 explore: discussions {
   group_label: "Petal Message"
 
-    join: recipients {
+  join: recipients {
       type: inner
       sql_on: ${recipients.discussion_id} = ${discussions.id} ;;
       relationship: one_to_one
     }
 
-    join: participants {
+  join: participants {
       type: inner
       sql_on: ${discussions.id} = ${participants.discussion_id} ;;
       relationship: one_to_many
     }
 
-    join: comments {
+  join: comment_readers {
+      from: accounts
+      type: left_outer
+      sql_on: ${participants.account_id} = ${comment_readers.id} ;;
+      relationship: many_to_one
+    }
+
+  join: comments {
       type: left_outer
       sql_on: ${discussions.id} = ${comments.discussion_id} ;;
       relationship: one_to_many
     }
 
-  join: accounts {
+  join: comment_authors {
+    from: accounts
     type: left_outer
-    sql_on: ${comments.account_id} = ${accounts.id} ;;
+    sql_on: ${comments.account_id} = ${comment_authors.id} ;;
     relationship: many_to_one
   }
 
   join: memberships {
     type: inner
-    sql_on: ${accounts.id} = ${memberships.account_id} ;;
+    sql_on: ${comment_authors.id} = ${memberships.account_id} ;;
     relationship: one_to_many
   }
 
-    join: account_kinds {
+  join: memberships_reader {
+    from: memberships
+    type: inner
+    sql_on: ${comment_readers.id} = ${memberships_reader.account_id} ;;
+    relationship: one_to_many
+  }
+
+  join: account_kinds {
       type: inner
-      sql_on: ${accounts.kind_id} = ${account_kinds.id} ;;
+      sql_on: ${comment_authors.kind_id} = ${account_kinds.id} ;;
       relationship: one_to_one
     }
 
-    join: account_first_comment {
+  join: account_first_comment {
       type: left_outer
-      sql_on: ${accounts.id} = ${account_first_comment.account_id} ;;
+      sql_on: ${comment_authors.id} = ${account_first_comment.account_id} ;;
       relationship: one_to_one
     }
 
-    join: groups {
+  join: groups {
       type: left_outer
       sql_on: ${memberships.group_id} = ${groups.id} ;;
       relationship: many_to_one
     }
 
-    join: health_institutions {
+  join: groups_reader {
+    from: groups
+    type: left_outer
+    sql_on: ${memberships.group_id} = ${groups_reader.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_institutions {
       type: left_outer
       sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
       relationship: many_to_one
     }
 
-    join: health_clusters {
+  join: health_institutions_reader {
+    from: health_institutions
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions_reader.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
       type: left_outer
       sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
       relationship: many_to_one
     }
 
-    join: distribution_lists {
+  join: health_clusters_reader {
+    from: health_clusters
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters_reader.id} ;;
+    relationship: many_to_one
+  }
+
+  join: distribution_lists {
       type: left_outer
       sql_on: ${discussions.distribution_list_id} = ${distribution_lists.id} ;;
       relationship: many_to_one
     }
 
-    join: timezones {
-      type: left_outer
-      sql_on: ${accounts.timezone_id} = ${timezones.id} ;;
-      relationship: many_to_one
-    }
-
-    join: centres {
+  join: centres {
       type: left_outer
       sql_on: ${groups.centre_id} = ${centres.parent_centre_id} ;;
       relationship: many_to_one
     }
 
-    join: locations {
+  join: locations {
       type: left_outer
       sql_on: ${groups.location_id} = ${locations.id} ;;
       relationship: many_to_one
     }
 
-    join: participant_flags {
+  join: participant_flags {
       type: left_outer
       sql_on: ${participants.id} = ${participant_flags.participant_id} ;;
       relationship: one_to_many
     }
 
-    join: discussion_flags {
+  join: discussion_flags {
       type: left_outer
       sql_on: ${discussions.id} = ${discussion_flags.discussion_id} ;;
       relationship: one_to_many
@@ -2995,6 +3031,13 @@ explore: participants {
       relationship: many_to_one
     }
 
+    join: author {
+      from: accounts
+      type: left_outer
+      sql_on: ${discussions.account_id} = ${author.id} ;;
+      relationship: many_to_one
+    }
+
     join: accounts {
       type: left_outer
       sql_on: ${participants.account_id} = ${accounts.id} ;;
@@ -3034,12 +3077,6 @@ explore: participants {
       type: left_outer
       sql_on: ${accounts.id} = ${comments.account_id} ;;
       relationship: one_to_many
-    }
-
-    join: groups {
-      type: left_outer
-      sql_on: ${discussions.group_id} = ${groups.parent_group_id} ;;
-      relationship: many_to_one
     }
 
     join: distribution_lists {
@@ -3704,6 +3741,18 @@ explore: scheduling_publication_alert {
     type: left_outer
     sql_on: ${scheduling_publication_alert.group_id} = ${groups.id} ;;
     relationship: one_to_one
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+    relationship: many_to_one
   }
 
   join: sche__periods {

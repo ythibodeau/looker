@@ -803,6 +803,23 @@ view: accounts {
      drill_fields: [specialties.description, count]
   }
 
+  dimension: board_simplified_kind {
+    description: "Type de compte utilisé pour les statistiques fournies au CA"
+    type: string
+    sql: CASE
+          WHEN ${kind_id} IN (1,14,17) THEN "{{ _localization['doctor'] }}"
+          WHEN ${kind_id} IN (2, 9, 11, 12, 13, 15, 16, 3) THEN "{{ _localization['resident'] }}"
+          WHEN ${kind_id} IN (5,6) THEN "{{ _localization['administrative_staff'] }}"
+          ELSE "{{ _localization['other_health_professional'] }}"
+          END ;;
+
+#     link: {
+#       label: "Drill Look"
+#       url:"/looks/334?&f[accounts.simplified_kind]={{ value }}"
+#     }
+      drill_fields: [specialties.description, count]
+    }
+
   dimension: is_gp {
     type: yesno
     sql: ${TABLE}.kind_id = 1 AND ${TABLE}.specialty_id = 10 ;;

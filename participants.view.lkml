@@ -96,6 +96,11 @@ view: participants {
     sql: ${account_id} ;;
   }
 
+  measure: count_read {
+    type: count
+    sql: ${TABLE}.`read` IS TRUE ;;
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
