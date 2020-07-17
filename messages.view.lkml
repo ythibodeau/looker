@@ -98,6 +98,16 @@ view: messages {
     sql: ${TABLE}.message_type ;;
   }
 
+  dimension: readable_message_type {
+    label: "readable_message_type"
+    type: string
+    sql: CASE
+           WHEN ${TABLE}.message_type = "CHAT" THEN "{{ _localization['message_type_chat'] }}"
+           WHEN ${TABLE}.message_type = "COMM" THEN "{{ _localization['message_type_comm'] }}"
+         END
+         ;;
+  }
+
   dimension: type_id {
     type: number
     sql: ${TABLE}.type_id ;;
@@ -114,6 +124,7 @@ view: messages {
   }
 
   dimension: urgent {
+    label: "messages.urgent"
     type: yesno
     sql: ${TABLE}.urgent ;;
   }
@@ -131,11 +142,12 @@ view: messages {
 
   set: detail {
     fields: [
-      message_type,
-      account_id,
-      accounts.full_name,
+      readable_message_type,
+      accounts.first_name,
+      accounts.last_name,
       message_date_time,
       accounts.groups_acronym,
+      accounts.institutions,
       urgent,
     ]
   }

@@ -64,17 +64,16 @@ view: mess__conversers {
   measure: count_distinct_accounts {
     type: count_distinct
     sql: ${account_id} ;;
+    drill_fields: [detail*]
   }
 
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
-      id,
-      accounts.id,
-      accounts.username,
       accounts.first_name,
-      accounts.middle_name,
-      accounts.last_name
+      accounts.last_name,
+      accounts.groups_acronym,
+      accounts.institutions,
     ]
   }
 }

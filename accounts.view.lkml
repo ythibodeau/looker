@@ -263,6 +263,7 @@ view: accounts {
   }
 
   dimension: full_name {
+    label: "accounts.full_name"
     type: string
     sql: CONCAT(${first_name}, " ", ${last_name}) ;;
   }
@@ -482,7 +483,15 @@ view: accounts {
 
   dimension: last_active_30_days {
     type: yesno
-    sql: ${last_active_date} BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE()  ;;
+    sql: ${last_active_date} BETWEEN (CURDATE() - INTERVAL 30 DAY) AND CURDATE();;
+  }
+
+  dimension: readable_last_active_30_days {
+    type: string
+    sql:
+    CASE WHEN (${last_active_date} BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE()) THEN "{{ _localization['yes'] }}"
+    ELSE "{{ _localization['no'] }}"
+    END;;
   }
 
   dimension_group: first_comment {
@@ -572,6 +581,14 @@ view: accounts {
   dimension: has_mobile_device {
     type: yesno
     sql: EXISTS(select MD.account_id from mobile_devices MD where MD.account_id = ${TABLE}.id)  ;;
+  }
+
+  dimension: readable_has_mobile_device {
+    type: string
+    sql:
+    CASE WHEN EXISTS(select MD.account_id from mobile_devices MD where MD.account_id = ${TABLE}.id) THEN "{{ _localization['yes'] }}"
+    ELSE "{{ _localization['no'] }}"
+    END;;
   }
 
   measure: count_unique_with_contact_methods_by_admin {
@@ -839,6 +856,17 @@ view: accounts {
     label: "groups_acronym"
     type: list
     list_field: group_acronym
+  }
+
+  dimension: institution {
+    type: string
+    sql: ${health_institutions.short_name} ;;
+  }
+
+  measure: institutions {
+    label: "account.institutions"
+    type: list
+    list_field: institution
   }
 
   dimension: console_group_acronym {
@@ -1117,7 +1145,8 @@ view: accounts {
       created_date,
       activated_date,
       confirmed_date,
-      groups_acronym
+      groups_acronym,
+      institutions
     ]
   }
 }

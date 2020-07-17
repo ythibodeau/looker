@@ -400,6 +400,48 @@ view: memberships {
     sql: TIMESTAMPDIFF(DAY,account_last_active, now()) <= 30 ;;
   }
 
+  dimension: explicit_role {
+    label: "memberships.explicit_role"
+    type: string
+    sql: CASE
+            WHEN ${access_documents} = 1 AND
+                ${manage_dossiers} = 1 AND
+                ${access_phone_registry} = 1 AND
+                ${manage_phone_registry} = 1 AND
+                ${access_planner_list} = 1 AND
+                ${console_edit_assignments} = 1 AND
+                ${access_hospital_analytics} = 1 AND
+                ${manage_memberships} = 1 AND
+                ${manage_phone_registry}
+               THEN "{{_localization['roles.console_administrator']}}"
+            WHEN ${access_documents} = 1 AND
+                ${manage_dossiers} = 1 AND
+                ${access_phone_registry} = 1 AND
+                ${manage_phone_registry} = 1 AND
+                ${access_planner_list} = 1 AND
+                ${console_edit_assignments} = 1
+               THEN "{{_localization['roles.chief_telephonist']}}"
+            WHEN ${access_documents} = 1 AND
+                 ${manage_dossiers} = 1 AND
+                 ${edit_assignments} = 1 AND
+                ${initiate_any_transfers} = 1 AND
+                ${manage_absences} = 1 AND
+                ${manage_memberships} = 1 AND
+                ${manage_schedules} = 1 AND
+                ${create_periods} = 1
+              THEN "{{_localization['roles.planner']}}"
+            WHEN ${access_documents} = 1 AND
+                 ${manage_dossiers} = 1 AND
+                 ${edit_assignments} = 1 AND
+                ${initiate_any_transfers} = 1 AND
+                ${edit_teaching_links} = 1
+               THEN "{{_localization['roles.post_publication_manager']}}"
+            WHEN ${access_documents} = 1
+            THEN "{{_localization['roles.regular']}}"
+          ELSE "{{_localization['roles.undefined']}}"
+         END;;
+  }
+
   measure: count {
     label: "membership_count"
     type: count
@@ -457,16 +499,11 @@ view: memberships {
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
-      id,
-      accounts.id,
-      accounts.username,
       accounts.first_name,
-      accounts.middle_name,
       accounts.last_name,
+      membership_kinds.readable_mnemonic,
+      explicit_role,
       groups.name,
-      groups.parent_group_id,
-      settings.id,
-      schedule_ineligibility_date_ranges.count
     ]
   }
 }

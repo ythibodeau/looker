@@ -42,7 +42,7 @@ view: pricing_suites {
     type: string
     sql: CASE
            WHEN ${code} = 'md_schedule' THEN 'Scheduling'
-           WHEN ${code} = 'hospital' THEN 'Scheduling'
+           WHEN ${code} = 'hospital' THEN 'Hospital'
            WHEN ${code} = 'booking' THEN 'Booking'
            WHEN ${code} = 'petal_message' THEN 'Messaging'
          END

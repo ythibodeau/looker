@@ -25,6 +25,7 @@ GROUP BY 1,2
   }
 
   dimension_group: xdate {
+    label: "date"
     type: time
     timeframes: [
       date,
@@ -54,17 +55,17 @@ GROUP BY 1,2
   }
 
   measure: user_count_active_30_days {
-    label: "Monthly Active Users"
+    label: "mau"
     type: count_distinct
     sql: ${account_id} ;;
-    drill_fields: [accounts.id, accounts.full_name]
+    drill_fields: [detail*]
   }
 
   measure: user_count_active_this_day {
-    label: "Daily Active Users"
+    label: "dau"
     type: count_distinct
     sql: ${account_id} ;;
-    drill_fields: [accounts.id, accounts.full_name]
+    drill_fields: [detail*]
 
     filters: {
       field: active_this_day
@@ -73,10 +74,10 @@ GROUP BY 1,2
   }
 
   measure: user_count_active_7_days {
-    label: "Weekly Active Users"
+    label: "wau"
     type: count_distinct
     sql: ${account_id} ;;
-    drill_fields: [accounts.id, accounts.full_name]
+    drill_fields: [detail*]
 
     filters: {
       field: active_last_7_days
@@ -84,7 +85,16 @@ GROUP BY 1,2
     }
   }
 
+  # ----- Sets of fields for drilling ------
   set: detail {
-    fields: [account_id, xdate_date, days_since_last_action]
+    fields: [
+      accounts.first_name,
+      accounts.last_name,
+      accounts.state_nice,
+      accounts.last_active_date,
+      accounts.simplified_kind,
+      accounts.groups_acronym,
+      accounts.institutions
+    ]
   }
 }

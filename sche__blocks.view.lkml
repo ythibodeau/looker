@@ -23,6 +23,7 @@ view: sche__blocks {
   }
 
   dimension_group: event_start {
+    label: "event_start_date"
     type: time
     timeframes: [
       raw,

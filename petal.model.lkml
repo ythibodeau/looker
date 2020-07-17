@@ -39,6 +39,66 @@ map_layer: economic_regions_layer {
 }
 
 #####################################################################
+# KPIs
+#####################################################################
+explore: accounts_paying_scheduling {
+  join: accounts {
+    type: left_outer
+    sql_on: ${accounts_paying_scheduling.account_id} = ${accounts.id} ;;
+    relationship: one_to_one
+  }
+
+  join: paying_groups {
+    from: groups
+    type: left_outer
+    sql_on: ${accounts_paying_scheduling.paying_group_id} = ${paying_groups.id} ;;
+  }
+
+  join: memberships {
+    type: left_outer
+    sql_on: ${accounts.id} = ${memberships.account_id};;
+    relationship: one_to_many
+  }
+
+  join: groups {
+    type: inner
+    sql_on: ${memberships.group_id} = ${groups.id} ;;
+    relationship: one_to_one
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: territories {
+    type: left_outer
+    sql_on: ${health_institutions.territory_id} = ${territories.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+    relationship: many_to_one
+  }
+
+  join: pricing_plans {
+    type: left_outer
+    sql_on: ${accounts_paying_scheduling.pricing_plan_id} = ${pricing_plans.id} ;;
+    relationship: one_to_one
+  }
+
+  join: pricing_suites {
+    type: left_outer
+    sql_on: ${pricing_plans.suite_id} = ${pricing_suites.id} ;;
+    relationship: many_to_one
+  }
+}
+
+
+#####################################################################
 # POC - ACCOUNT AND BILLING
 #####################################################################
 explore: catalog {}
@@ -798,6 +858,13 @@ join: contact_methods {
     relationship: one_to_many
   }
 
+  # Payment related
+  join: accounts_paying_scheduling {
+    type: left_outer
+    sql_on: ${accounts.id} = ${accounts_paying_scheduling.account_id} ;;
+    relationship: one_to_one
+  }
+
 }
 
 explore: accounts_subspecialties {
@@ -1390,6 +1457,12 @@ explore: groups {
     relationship: one_to_many
   }
 
+  join: group_billing_profiles {
+    type: left_outer
+    sql_on: ${groups.id} = ${group_billing_profiles.group_id} ;;
+    relationship: one_to_one
+  }
+
 }
 
 explore: groups_pricing_plans {
@@ -1643,7 +1716,7 @@ explore: memberships {
 
   join: groups {
     type: left_outer
-    sql_on: ${memberships.group_id} = ${groups.parent_group_id} ;;
+    sql_on: ${memberships.group_id} = ${groups.id} ;;
     relationship: many_to_one
   }
 
@@ -3698,8 +3771,8 @@ explore: sche__assignments {
 
   join: sche__periods {
     type: inner
-    sql_on: ${sche__plans.period_id} = ${sche__periods.id} ;;
-    relationship: one_to_one
+    sql_on: ${groups.id} = ${sche__periods.group_id} ;;
+    relationship: one_to_many
   }
 
   join: assignment_groups {
@@ -3952,6 +4025,13 @@ explore: sche__change_requests {
   join: accounts {
     type: inner
     sql_on: ${accounts.id} = ${sche__change_requests.initiated_by_id} ;;
+    relationship: one_to_many
+  }
+
+  join: executer {
+    from: accounts
+    type: left_outer
+    sql_on: ${executer.id} = ${sche__change_requests.executed_by_id} ;;
     relationship: one_to_many
   }
 
@@ -5865,6 +5945,39 @@ explore: book__notifications {
 #####################################################################
 # Petal Hub
 #####################################################################
+
+explore: sche__console_layouts {
+  join: groups {
+    type: left_outer
+    sql_on: ${sche__console_layouts.group_id} = ${groups.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: territories {
+    type: left_outer
+    sql_on: ${health_institutions.territory_id} = ${territories.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+    relationship: many_to_one
+  }
+
+  join: sche__console_layout_rows {
+    type: left_outer
+    sql_on: ${sche__console_layouts.id} = ${sche__console_layout_rows.console_layout_id} ;;
+    relationship: one_to_many
+  }
+
+}
 
 explore: console_content_groups {
   group_label: "Petal Hub"

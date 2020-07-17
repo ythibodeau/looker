@@ -44,8 +44,16 @@ view: pricing_plans {
       WHEN ${code} = "hospital_standard" THEN "{{_localization['pricing_plan_hospital_standard']}}"
       WHEN ${code} = "hospital_advanced" THEN "{{_localization['pricing_plan_hospital_advanced']}}"
       WHEN ${code} = "advanced_hospital" THEN "{{_localization['pricing_plan_hospital_advanced']}}"
+      WHEN ${code} = "booking_basic" THEN "{{_localization['pricing_plan_booking_basic']}}"
+      WHEN ${code} = "booking_standard" THEN "{{_localization['pricing_plan_booking_standard']}}"
+      WHEN ${code} = "booking_advanced" THEN "{{_localization['pricing_plan_booking_advanced']}}"
       else ${name_fr_ca}
     END;;
+  }
+
+  dimension: is_regular_plan {
+    type: yesno
+    sql: ${code} in ("basic_sched", "standard_sched", "advanced_sched", "booking_standard", "booking_advanced", "booking_basic", "message_basic", "message_standard", "hospital_standard", "hospital_advanced", "advanced_hospital", "hopital_basic_scheduling") ;;
   }
 
   dimension: name_en {

@@ -53,9 +53,21 @@ view: absences {
     sql: ${TABLE}.oncall_afternoon_category_id ;;
   }
 
+  dimension: oncall_afternoon_category_acronym {
+    label: "oncall_afternoon_category_acronym"
+    type: string
+    sql: ${categories_oncall_afternoon.explicit_acronym} ;;
+  }
+
   dimension: oncall_evening_category_id {
     type: number
     sql: ${TABLE}.oncall_evening_category_id ;;
+  }
+
+  dimension: oncall_evening_category_acronym {
+    label: "oncall_afternoon_category_acronym"
+    type: string
+    sql: ${categories_oncall_evening.explicit_acronym} ;;
   }
 
   dimension: oncall_morning_category_id {
@@ -63,9 +75,21 @@ view: absences {
     sql: ${TABLE}.oncall_morning_category_id ;;
   }
 
+  dimension: oncall_morning_category_acronym {
+    label: "oncall_morning_category_acronym"
+    type: number
+    sql: ${categories_oncall_morning.explicit_acronym} ;;
+  }
+
   dimension: oncall_night_category_id {
     type: number
     sql: ${TABLE}.oncall_night_category_id ;;
+  }
+
+  dimension: oncall_night_category_acronym {
+    label: "oncall_night_category_acronym"
+    type: number
+    sql:  ${categories_oncall_night.explicit_acronym} ;;
   }
 
   dimension: task_afternoon_category_id {
@@ -73,9 +97,21 @@ view: absences {
     sql: ${TABLE}.task_afternoon_category_id ;;
   }
 
+  dimension: task_afternoon_category_acronym {
+    label: "task_afternoon_category_acronym"
+    type: number
+    sql: ${categories_task_afternoon.explicit_acronym} ;;
+  }
+
   dimension: task_evening_category_id {
     type: number
     sql: ${TABLE}.task_evening_category_id ;;
+  }
+
+  dimension: task_evening_category_acronym {
+    label: "task_evening_category_acronym"
+    type: number
+    sql: ${categories_task_evening.explicit_acronym};;
   }
 
   dimension: task_morning_category_id {
@@ -83,9 +119,21 @@ view: absences {
     sql: ${TABLE}.task_morning_category_id ;;
   }
 
+  dimension: task_morning_category_acronym {
+    label: "task_morning_category_acronym"
+    type: number
+    sql: ${categories_task_morning.explicit_acronym} ;;
+  }
+
   dimension: task_night_category_id {
     type: number
     sql: ${TABLE}.task_night_category_id ;;
+  }
+
+  dimension: task_night_category_acronym {
+    label: "task_night_category_acronym"
+    type: number
+    sql: ${categories_task_night.explicit_acronym} ;;
   }
 
   dimension: timezone_id {
@@ -122,15 +170,18 @@ view: absences {
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
-      id,
-      accounts.id,
-      accounts.username,
       accounts.first_name,
-      accounts.middle_name,
       accounts.last_name,
+      groups.acronym,
       groups.name,
-      groups.parent_group_id,
-      timezones.id
+      task_morning_category_acronym,
+      oncall_morning_category_acronym,
+      task_afternoon_category_acronym,
+      oncall_afternoon_category_acronym,
+      task_evening_category_acronym,
+      oncall_evening_category_acronym,
+      task_night_category_acronym,
+      oncall_night_category_acronym
     ]
   }
 }

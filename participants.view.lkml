@@ -94,6 +94,7 @@ view: participants {
   measure: count_distinct_accounts {
     type: count_distinct
     sql: ${account_id} ;;
+    drill_fields: [detail*]
   }
 
   measure: count_read {
@@ -104,15 +105,10 @@ view: participants {
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
-      id,
-      discussions.id,
-      accounts.id,
-      accounts.username,
       accounts.first_name,
-      accounts.middle_name,
       accounts.last_name,
-      participant_flags.count,
-      participant_folders.count
+      accounts.groups_acronym,
+      accounts.institutions,
     ]
   }
 }

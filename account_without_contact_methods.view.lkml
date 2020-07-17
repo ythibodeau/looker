@@ -4,8 +4,9 @@ view: account_without_contact_methods {
     sql: select a.* from accounts a
       left join ${account_contact_methods.SQL_TABLE_NAME} cm on cm.contactable_id = a.id
       WHERE
-      a.kind_id = 1 and
-      cm.contactable_id is null;
+      (a.kind_id = 1 and cm.contactable_id is null)
+      OR
+      (a.kind_id = 1 and cm.console_enabled = false);
        ;;
   }
 

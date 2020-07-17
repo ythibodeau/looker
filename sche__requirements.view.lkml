@@ -67,6 +67,7 @@ view: sche__requirements {
   }
 
   measure: count {
+    label: "requirements_count"
     type: count
     drill_fields: [id]
   }

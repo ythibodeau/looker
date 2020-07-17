@@ -46,6 +46,25 @@ view: group_billing_profiles {
     sql: ${TABLE}.recurring_billing_type ;;
   }
 
+  dimension: readable_recurring_billing_type {
+    type: string
+    sql: CASE
+           WHEN ${TABLE}.recurring_billing_type = 0 THEN "{{ _localization['billing_type.disabled'] }}"
+           WHEN ${TABLE}.recurring_billing_type = 1 THEN "{{ _localization['billing_type.paid_by_one'] }}"
+           WHEN ${TABLE}.recurring_billing_type = 2 THEN "{{ _localization['billing_type.paid_by_all'] }}"
+           WHEN ${TABLE}.recurring_billing_type = 3 THEN "{{ _localization['billing_type.paid_by_hospital'] }}"
+         END;;
+  }
+
+  dimension: billing_kind {
+    type: string
+    sql: CASE
+           WHEN ${TABLE}.recurring_billing_type = 0 THEN "{{ _localization['billing_type.disabled'] }}"
+           WHEN ${TABLE}.recurring_billing_type IN (1,2) THEN "B2C"
+           WHEN ${TABLE}.recurring_billing_type = 3 THEN "B2B"
+         END ;;
+  }
+
   dimension_group: updated {
     type: time
     timeframes: [

@@ -77,6 +77,7 @@ view: sche__task_kinds {
   }
 
   dimension: name {
+    label: "task_kind.name"
     type: string
     sql: ${TABLE}.name ;;
   }

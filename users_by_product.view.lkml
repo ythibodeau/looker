@@ -98,6 +98,18 @@ view: users_by_product {
   }
 
   set: detail {
-    fields: [id, simplified_kind, code]
+    fields: [
+      accounts.id,
+      accounts.first_name,
+      accounts.last_name,
+      accounts.state_nice,
+      accounts.last_active_date,
+      accounts.simplified_kind,
+      accounts.created_date,
+      accounts.activated_date,
+      accounts.confirmed_date,
+      accounts.groups_acronym,
+      accounts.institutions
+    ]
   }
 }

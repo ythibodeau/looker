@@ -154,7 +154,17 @@ view: sche__change_requests {
   }
 
   dimension_group: executed {
+    label: "sche__change_requests.executed_at"
     type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
     sql: ${TABLE}.executed_at ;;
   }
 
@@ -174,6 +184,7 @@ view: sche__change_requests {
   }
 
   dimension_group: initiated {
+    label: "sche__change_requests.initiated_at"
     type: time
     timeframes: [
       raw,
@@ -287,7 +298,7 @@ view: sche__change_requests {
 
   measure: count {
     type: count
-    drill_fields: [id]
+    drill_fields: [detail*]
   }
 
   measure: count_distinct_executed_by {
@@ -342,6 +353,7 @@ view: sche__change_requests {
      ;;
   }
 
+
   measure: initiated_by_admin_count  {
     label: "Initiated by Admin"
     type: count
@@ -363,6 +375,16 @@ view: sche__change_requests {
       field: is_marketplace
       value: "Yes"
     }
+  }
+
+  set: detail {
+    fields: [
+      id,
+      accounts.full_name,
+      initiated_date,
+      executer.full_name,
+      executed_date
+    ]
   }
 
 }

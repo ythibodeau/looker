@@ -57,6 +57,7 @@ view: groups {
   }
 
   dimension: acronym {
+    label: "acronym"
     type: string
     sql: ${TABLE}.acronym ;;
   }

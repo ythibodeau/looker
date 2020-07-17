@@ -85,6 +85,7 @@ view: sche__tasks {
   }
 
   dimension: start_time {
+    label: "event_start_time"
     type: string
     sql:
     CASE
@@ -114,6 +115,7 @@ view: sche__tasks {
   }
 
   measure: count {
+    label: "sche__tasks.count"
     type: count
     sql: COUNT(${id}) ;;
     drill_fields: [detail*]
@@ -122,8 +124,6 @@ view: sche__tasks {
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
-      id,
-      sche__requirements.id,
       sche__blocks.event_start_date,
       start_time,
       groups.acronym,

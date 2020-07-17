@@ -1,20 +1,11 @@
-view: categories {
-  sql_table_name: petalmd.categories ;;
+view: sche__console_layouts {
+  sql_table_name: petalmd.sche__console_layouts ;;
+  drill_fields: [id]
 
   dimension: id {
     primary_key: yes
     type: number
     sql: ${TABLE}.id ;;
-  }
-
-  dimension: active {
-    type: yesno
-    sql: ${TABLE}.active ;;
-  }
-
-  dimension: approval_required {
-    type: yesno
-    sql: ${TABLE}.approval_required ;;
   }
 
   dimension_group: created {
@@ -36,36 +27,34 @@ view: categories {
     sql: ${TABLE}.`default` ;;
   }
 
+  dimension: display_account_contact_methods {
+    type: yesno
+    sql: ${TABLE}.display_account_contact_methods ;;
+  }
+
   dimension: display_sequence {
     type: number
     sql: ${TABLE}.display_sequence ;;
   }
 
-  dimension: explicit_acronym {
-    label: "categories.explicit_acronym"
-    type: string
-    sql: ${TABLE}.explicit_acronym ;;
-  }
-
   dimension: group_id {
     type: number
-    # hidden: yes
     sql: ${TABLE}.group_id ;;
   }
 
-  dimension: is_preference {
-    type: yesno
-    sql: ${TABLE}.is_preference ;;
-  }
-
-  dimension: process_moment_id {
-    type: number
-    sql: ${TABLE}.process_moment_id ;;
-  }
-
-  dimension: text {
+  dimension: name {
     type: string
-    sql: ${TABLE}.text ;;
+    sql: ${TABLE}.name ;;
+  }
+
+  dimension: public_visible {
+    type: yesno
+    sql: ${TABLE}.public_visible ;;
+  }
+
+  dimension: published {
+    type: yesno
+    sql: ${TABLE}.published ;;
   }
 
   dimension_group: updated {
@@ -84,6 +73,6 @@ view: categories {
 
   measure: count {
     type: count
-    drill_fields: [id, groups.name, groups.parent_group_id]
+    drill_fields: [id, name]
   }
 }
