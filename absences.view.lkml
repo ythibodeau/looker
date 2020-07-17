@@ -8,6 +8,7 @@ view: absences {
   }
 
   dimension_group: absence {
+    label: "date"
     type: time
     timeframes: [
       raw,
@@ -77,7 +78,7 @@ view: absences {
 
   dimension: oncall_morning_category_acronym {
     label: "oncall_morning_category_acronym"
-    type: number
+    type: string
     sql: ${categories_oncall_morning.explicit_acronym} ;;
   }
 
@@ -88,7 +89,7 @@ view: absences {
 
   dimension: oncall_night_category_acronym {
     label: "oncall_night_category_acronym"
-    type: number
+    type: string
     sql:  ${categories_oncall_night.explicit_acronym} ;;
   }
 
@@ -99,7 +100,7 @@ view: absences {
 
   dimension: task_afternoon_category_acronym {
     label: "task_afternoon_category_acronym"
-    type: number
+    type: string
     sql: ${categories_task_afternoon.explicit_acronym} ;;
   }
 
@@ -110,7 +111,7 @@ view: absences {
 
   dimension: task_evening_category_acronym {
     label: "task_evening_category_acronym"
-    type: number
+    type: string
     sql: ${categories_task_evening.explicit_acronym};;
   }
 
@@ -121,7 +122,7 @@ view: absences {
 
   dimension: task_morning_category_acronym {
     label: "task_morning_category_acronym"
-    type: number
+    type: string
     sql: ${categories_task_morning.explicit_acronym} ;;
   }
 
@@ -132,7 +133,7 @@ view: absences {
 
   dimension: task_night_category_acronym {
     label: "task_night_category_acronym"
-    type: number
+    type: string
     sql: ${categories_task_night.explicit_acronym} ;;
   }
 
@@ -162,12 +163,14 @@ view: absences {
   }
 
   measure: count_distinct_account {
+    label: "accounts"
     type: count_distinct
     sql: ${account_id} ;;
     drill_fields: [detail*]
   }
 
   # ----- Sets of fields for drilling ------
+    # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
       accounts.first_name,

@@ -62,6 +62,7 @@ view: mess__conversers {
   }
 
   measure: count_distinct_accounts {
+    label: "accounts"
     type: count_distinct
     sql: ${account_id} ;;
     drill_fields: [detail*]

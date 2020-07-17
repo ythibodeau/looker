@@ -49,6 +49,7 @@ view: participants {
   }
 
   dimension_group: last_read {
+    label: "date"
     type: time
     timeframes: [
       raw,
@@ -92,6 +93,7 @@ view: participants {
   }
 
   measure: count_distinct_accounts {
+    label: "accounts"
     type: count_distinct
     sql: ${account_id} ;;
     drill_fields: [detail*]

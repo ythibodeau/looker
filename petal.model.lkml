@@ -406,6 +406,12 @@ explore: group_billing_profiles {
     type: left_outer
     sql_on: ${account_billing_subscriptions.account_id} = ${accounts.id} ;;
   }
+
+  join: groups {
+    type: left_outer
+    sql_on: ${group_billing_profiles.group_id} = ${groups.id} ;;
+    relationship: one_to_one
+  }
 }
 
 explore: health_clusters {
@@ -4448,7 +4454,7 @@ explore: absences {
   join: categories_task_evening {
     from: categories
     type: left_outer
-    sql_on: ${absences.task_night_category_id} = ${categories_task_evening.id} ;;
+    sql_on: ${absences.task_evening_category_id} = ${categories_task_evening.id} ;;
     relationship: many_to_one
   }
 

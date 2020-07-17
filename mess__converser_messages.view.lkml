@@ -37,6 +37,7 @@ view: mess__converser_messages {
   }
 
   dimension_group: read {
+    label: "date"
     type: time
     timeframes: [
       raw,

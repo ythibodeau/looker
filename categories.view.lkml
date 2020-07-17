@@ -44,7 +44,12 @@ view: categories {
   dimension: explicit_acronym {
     label: "categories.explicit_acronym"
     type: string
-    sql: ${TABLE}.explicit_acronym ;;
+    sql:
+    CASE
+     WHEN (${TABLE}.explicit_acronym IS NULL OR ${TABLE}.explicit_acronym = "") THEN LEFT(${TABLE}.text, 1)
+     ELSE ${TABLE}.explicit_acronym
+    END
+    ;;
   }
 
   dimension: group_id {

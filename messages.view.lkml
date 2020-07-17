@@ -35,6 +35,7 @@ view: messages {
   }
 
   measure: count_chat {
+    label: "message_type_chat"
     type: count_distinct
     sql: ${TABLE}.type_id ;;
     filters: {
@@ -45,6 +46,7 @@ view: messages {
   }
 
   measure: count_communication {
+    label: "message_type_comm"
     type: count_distinct
     sql: ${TABLE}.type_id ;;
     filters: {
@@ -119,6 +121,7 @@ view: messages {
   }
 
   dimension_group: message_date {
+    label: "datetime"
     type: time
     sql: ${TABLE}.message_date ;;
   }
