@@ -9,11 +9,14 @@ view: messages {
       a.id as account_id,
       m.created_at as message_date,
       m.message_type as urgent,
-      m.id as parent_id
+      m.id as parent_id,
+      cm.read_at as read_at,
+      TIMESTAMPDIFF(MINUTE, m.created_at, cm.read_at) as read_delay
       FROM mess__messages m
       INNER JOIN mess__conversers c on c.id = m.converser_id
       INNER JOIN accounts a on a.id = c.account_id
-      WHERE m.message_type IN (0,1) and CONVERT_TZ(m.created_at ,'UTC','America/New_York') >= '2019-10-22 00:00:00' /* m.created_at >= '2019-10-22' */
+      LEFT JOIN mess__converser_messages cm on m.id = cm.message_id
+      WHERE m.message_type IN (0,1) and CONVERT_TZ(m.created_at ,'UTC','America/New_York') >= '2019-10-22 00:00:00'/* m.created_at >= '2019-10-22' */
       UNION
       SELECT
       CONCAT("COMM", "-", CAST(c.id as CHAR)) as messages_key,
@@ -22,10 +25,13 @@ view: messages {
       a.id as account_id,
       c.created_at as message_date,
       d.urgent as urgent,
+      p.last_read_at as read_at,
+      0 as read_delay,
       d.id as parent_id
       FROM comments c
       INNER JOIN accounts a on a.id = c.account_id
       INNER JOIN (select * from discussions d where d.topic_type IS NULL and YEAR(d.created_at) >= 2019) d ON d.id = c.discussion_id
+      INNER JOIN participants p on p.account_id = a.id AND d.id = p.discussion_id
        ;;
   }
 
@@ -137,11 +143,35 @@ view: messages {
     sql: ${TABLE}.parent_id ;;
   }
 
+  dimension: read_delay {
+    type: number
+    sql: ${TABLE}.read_delay ;;
+  }
+
   dimension: pre_new_messaging {
     type: yesno
     sql: ${TABLE}.message_date < '2019-10-22' ;;
   }
 
+  dimension_group: read {
+    label: "read_date"
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.read_at ;;
+  }
+
+  measure: avg_read_delay {
+    type: average
+    sql: ${read_delay} ;;
+  }
 
   set: detail {
     fields: [

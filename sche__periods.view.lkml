@@ -71,6 +71,7 @@ view: sche__periods {
   }
 
   dimension_group: end {
+    label: "end_date"
     type: time
     timeframes: [
       raw,
@@ -182,6 +183,7 @@ view: sche__periods {
   }
 
   dimension_group: start {
+    label: "start_date"
     type: time
     timeframes: [
       raw,

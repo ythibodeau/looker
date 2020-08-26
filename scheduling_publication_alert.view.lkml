@@ -37,7 +37,7 @@ view: scheduling_publication_alert {
   dimension: average_publication_delay {
     label: "average_publication_delay"
     type: number
-    sql: ${TABLE}.average_publication_delay ;;
+    sql: ABS(${TABLE}.average_publication_delay) ;;
   }
 
   dimension: next_period_start_date {
@@ -63,6 +63,12 @@ view: scheduling_publication_alert {
   dimension: must_be_contacted {
     type: number
     sql: ${TABLE}.must_be_contacted ;;
+  }
+
+  dimension: days_before_period_starts {
+    label: "days_before_period_starts"
+    type: number
+    sql:DATEDIFF(${TABLE}.next_period_start_date, now())  ;;
   }
 
   set: detail {

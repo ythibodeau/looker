@@ -243,6 +243,9 @@
   "sche__tasks.count": "Number of shifts",
   "date": "Date",
   "datetime": "Date and time",
+  "start_date": "Start date",
+  "end_date": "End date",
+  "read_date": "Read date",
   "dau": "Daily Active Users",
   "wau": "Weekly Active Users",
   "mau": "Monthly Active Users",
@@ -257,5 +260,6 @@
   "task_morning_category_acronym": "AM - Shift",
   "task_afternoon_category_acronym": "PM - Shift",
   "task_evening_category_acronym": "Evening - Shift",
-  "task_night_category_acronym": "Night - Shift"
+  "task_night_category_acronym": "Night - Shift",
+  "days_before_period_starts": "Days before period starts"
 }

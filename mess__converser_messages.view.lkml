@@ -70,6 +70,11 @@ view: mess__converser_messages {
     sql: ${TABLE}.updated_at ;;
   }
 
+  dimension: read_delay {
+    type: number
+    sql: TIMEDIFF(${messages.created_at}, ${TABLE}.read_at) ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [id]

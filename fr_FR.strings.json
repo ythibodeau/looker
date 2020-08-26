@@ -242,6 +242,9 @@
   "sche__tasks.count": "Nombre de tâches",
   "date": "Date",
   "datetime": "Date et heure",
+  "start_date": "Date de début",
+  "end_date": "Date de fin",
+  "read_date": "Date de lecture",
   "dau": "Utilisateurs Journaliers",
   "wau": "Utilisateurs Hebdomadaires",
   "mau": "Utilisateurs Mensuels",
@@ -256,5 +259,6 @@
   "task_morning_category_acronym": "AM - Tâche",
   "task_afternoon_category_acronym": "PM - Tâche",
   "task_evening_category_acronym": "SOIR - Tâche",
-  "task_night_category_acronym": "NUIT - Tâche"
+  "task_night_category_acronym": "NUIT - Tâche",
+  "days_before_period_starts": "Jours avant le début de la période"
 }

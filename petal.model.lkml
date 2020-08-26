@@ -509,6 +509,20 @@ explore: health_clusters {
 
 }
 
+explore: accounts_with_one_membership {
+  join: accounts {
+    type: inner
+    sql_on: ${accounts_with_one_membership.account_id} = ${accounts.id} ;;
+    relationship: one_to_one
+  }
+
+  join: memberships {
+    type: inner
+    sql_on: ${accounts.id} = ${memberships.account_id} ;;
+    relationship: one_to_many
+  }
+}
+
 explore: specialties {
   join: accounts {
     type: left_outer
