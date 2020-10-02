@@ -260,6 +260,11 @@ view: groups {
     sql: ${TABLE}.is_trial ;;
   }
 
+  dimension: booking_hub_managed {
+    type: yesno
+    sql: ${TABLE}.booking_hub_managed ;;
+  }
+
   dimension: key_customer {
     type: yesno
     sql: ${TABLE}.key_customer ;;
@@ -672,6 +677,11 @@ view: groups {
     label: "group_pricing_plans"
     type: list
     list_field: pricing_plan
+  }
+
+  dimension: is_in_console {
+    type: yesno
+    sql: ${id} IN (SELECT id from ${groups_in_console.SQL_TABLE_NAME}) ;;
   }
 
   measure: count {

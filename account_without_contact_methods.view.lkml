@@ -1,12 +1,9 @@
 view: account_without_contact_methods {
   derived_table: {
     sql_trigger_value: SELECT CURDATE() ;;
-    sql: select a.* from accounts a
-      left join ${account_contact_methods.SQL_TABLE_NAME} cm on cm.contactable_id = a.id
-      WHERE
-      (a.kind_id = 1 and cm.contactable_id is null)
-      OR
-      (a.kind_id = 1 and cm.console_enabled = false);
+    sql: SELECT DISTINCT A.* FROM accounts A
+LEFT JOIN contact_methods CM ON CM.`contactable_id` = A.id AND CM.contactable_type = 'Account'
+WHERE A.kind_id = 1 AND (CM.contactable_id IS NULL OR (CM.console_enabled = false AND NOT EXISTS (SELECT id FROM contact_methods CM WHERE CM.contactable_type = 'Account' AND CM.contactable_id = A.id AND CM.console_enabled = 1)))
        ;;
   }
 

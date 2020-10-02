@@ -146,9 +146,37 @@ view: pati__availabilities {
     sql: ${TABLE}.state ;;
   }
 
+  dimension: clean_state {
+    type: string
+    sql:
+      CASE
+        WHEN  ${TABLE}.state = 0 THEN "Web"
+        WHEN  ${TABLE}.state = 1 THEN "Opened"
+        WHEN  ${TABLE}.state = 1 THEN "Closed"
+      END
+
+    ;;
+
+  }
+
   dimension: synched {
     type: yesno
     sql: ${TABLE}.synched ;;
+  }
+
+  dimension: is_am {
+    type: yesno
+    sql: HOUR(CONVERT_TZ(${TABLE}.start_time ,'UTC','America/New_York')) > 6 AND HOUR(CONVERT_TZ(${TABLE}.start_time ,'UTC','America/New_York')) < 12 ;;
+  }
+
+  dimension: is_pm {
+    type: yesno
+    sql: HOUR(CONVERT_TZ(${TABLE}.start_time ,'UTC','America/New_York')) > 11 AND HOUR(CONVERT_TZ(${TABLE}.start_time ,'UTC','America/New_York')) < 17 ;;
+  }
+
+  dimension: is_night {
+    type: yesno
+    sql: HOUR(CONVERT_TZ(${TABLE}.start_time ,'UTC','America/New_York')) > 16 AND HOUR(CONVERT_TZ(${TABLE}.start_time ,'UTC','America/New_York')) < 23 ;;
   }
 
   dimension_group: updated {
@@ -195,6 +223,90 @@ view: pati__availabilities {
       field: visibility
       value: "0"
     }
+  }
+
+  measure: count_web {
+    type: count_distinct
+    sql: ${id} ;;
+    filters: {
+      field: state
+      value: "0"
+    }
+    filters: [
+      visibility: "0"
+    ]
+    drill_fields: [detail*]
+  }
+
+  measure: count_opened {
+    type: count_distinct
+    sql: ${id} ;;
+    filters: {
+      field: state
+      value: "1"
+    }
+    filters: [
+      visibility: "0"
+    ]
+    drill_fields: [detail*]
+  }
+
+  measure: count_web_am {
+    type: count_distinct
+    sql: ${id} ;;
+    filters: {
+      field: state
+      value: "1"
+    }
+    filters: [
+      visibility: "0"
+    ]
+    filters: [
+      is_am: "Yes"
+    ]
+  }
+
+  measure: count_web_pm {
+    type: count_distinct
+    sql: ${id} ;;
+    filters: {
+      field: state
+      value: "1"
+    }
+    filters: [
+      visibility: "0"
+    ]
+    filters: [
+      is_pm: "Yes"
+    ]
+  }
+
+  measure: count_web_night {
+    type: count_distinct
+    sql: ${id} ;;
+    filters: {
+      field: state
+      value: "1"
+    }
+    filters: [
+      visibility: "0"
+    ]
+    filters: [
+      is_night: "Yes"
+    ]
+  }
+
+  set: detail {
+    fields: [
+      id,
+      pati__providers.adapterable_type,
+      groups.name,
+      accounts.full_name,
+      pati__offerings.description_fr_ca,
+      pati__reasons.description_fr_ca,
+      start_time,
+      end_time
+    ]
   }
 
 }

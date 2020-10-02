@@ -710,6 +710,13 @@ explore: accounts {
     relationship: one_to_one
   }
 
+  join: group_specialties {
+    from: specialties
+    type: left_outer
+    sql_on: ${groups.specialty_id} = ${group_specialties.id} ;;
+    relationship: many_to_one
+  }
+
   join: membership_changes {
     type: left_outer
     sql_on: ${accounts.id} = ${membership_changes.account_id} ;;
@@ -775,6 +782,19 @@ explore: accounts {
     type: left_outer
     sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
     relationship: many_to_one
+  }
+
+  join: console_content_groups {
+    type: left_outer
+    sql_on: ${groups.id} = ${console_content_groups.content_group_id} ;;
+    relationship: one_to_many
+  }
+
+  join: console {
+    from: groups
+    type: left_outer
+    sql_on: ${groups.id} = ${console_content_groups.content_group_id} ;;
+    relationship: one_to_many
   }
 
   join: console_access_groups {
@@ -5264,6 +5284,12 @@ explore: pati__availabilities {
       type: inner
       sql_on: ${pati__reasons.group_id} = ${groups.id} ;;
       relationship: many_to_one
+    }
+
+    join: pati__providers {
+      type: left_outer
+      sql_on: ${groups.id} = ${pati__providers.group_id} ;;
+      relationship: one_to_one
     }
 
     join: accounts {
