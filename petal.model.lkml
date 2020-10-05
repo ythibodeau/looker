@@ -3356,6 +3356,12 @@ explore: assignments_for_contact_mehods {
     relationship: many_to_one
   }
 
+  join: account_kinds {
+    type: left_outer
+    sql_on: ${accounts.kind_id} = ${account_kinds.id} ;;
+    relationship: many_to_one
+  }
+
   join: specialties {
     type: left_outer
     sql_on: ${account_without_contact_methods.specialty_id} = ${specialties.id} ;;

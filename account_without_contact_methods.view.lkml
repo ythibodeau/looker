@@ -3,7 +3,7 @@ view: account_without_contact_methods {
     sql_trigger_value: SELECT CURDATE() ;;
     sql: SELECT DISTINCT A.* FROM accounts A
 LEFT JOIN contact_methods CM ON CM.`contactable_id` = A.id AND CM.contactable_type = 'Account'
-WHERE A.kind_id = 1 AND (CM.contactable_id IS NULL OR (CM.console_enabled = false AND NOT EXISTS (SELECT id FROM contact_methods CM WHERE CM.contactable_type = 'Account' AND CM.contactable_id = A.id AND CM.console_enabled = 1)))
+WHERE A.kind_id IN (1,26) AND (CM.contactable_id IS NULL OR (CM.console_enabled = false AND NOT EXISTS (SELECT id FROM contact_methods CM WHERE CM.contactable_type = 'Account' AND CM.contactable_id = A.id AND CM.console_enabled = 1)))
        ;;
   }
 
