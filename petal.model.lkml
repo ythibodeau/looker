@@ -452,6 +452,18 @@ explore: health_clusters {
     relationship: one_to_many
   }
 
+  join: product_audiences {
+    type: left_outer
+    sql_on: ${groups.id} = ${product_audiences.productable_id} AND ${product_audiences.productable_type} = "Group" ;;
+    relationship: one_to_many
+  }
+
+  join: restricted_products {
+    from: products
+    type: left_outer
+    sql_on: ${product_audiences.product_id} = ${restricted_products.id} and ${restricted_products.state} = "restricted" ;;
+  }
+
   join: specialties {
     type: left_outer
     sql_on: ${groups.specialty_id} = ${specialties.id} ;;
@@ -1344,6 +1356,18 @@ explore: groups {
     type: inner
     sql_on: ${pricing_plans.suite_id} =  ${pricing_suites.id};;
     relationship: many_to_one
+  }
+
+  join: product_audiences {
+    type: left_outer
+    sql_on: ${groups.id} = ${product_audiences.productable_id} AND ${product_audiences.productable_type} = "Group" ;;
+    relationship: one_to_many
+  }
+
+  join: restricted_products {
+    from: products
+    type: left_outer
+    sql_on: ${product_audiences.product_id} = ${restricted_products.id} and ${restricted_products.state} = "restricted" ;;
   }
 
   join: memberships {
