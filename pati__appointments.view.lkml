@@ -66,6 +66,25 @@ view: pati__appointments {
     sql: ${TABLE}.created_by_type ;;
   }
 
+  dimension: created_by_type_clean {
+    type: string
+    sql:
+    CASE
+      WHEN ${TABLE}.created_by_type = "Account" THEN "Staff"
+      WHEN ${TABLE}.created_by_type = "Patient::Patient" THEN "Patient"
+    END;;
+  }
+
+  dimension: delay_in_minutes {
+    type: number
+    sql: TIMESTAMPDIFF(MINUTE,${created_time},${pati__availabilities.start_time}) ;;
+  }
+
+  measure: average_delay  {
+    type: average_distinct
+    sql:  ${delay_in_minutes};;
+  }
+
   dimension: created_in_emr {
     type: yesno
     sql: ${TABLE}.created_in_emr ;;
