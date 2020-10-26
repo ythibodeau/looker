@@ -673,6 +673,17 @@ view: groups {
     END ;;
   }
 
+  ### HUB DIMENSIONS ###
+  dimension: is_hub_created {
+    type: yesno
+    sql: ${booking_hub_managed} = 1 AND ${kind_id} = 4 AND ${implementation} = 1 ;;
+  }
+
+  dimension: is_hub_ready {
+    type: yesno
+    sql: ${booking_hub_managed} = 1 AND ${kind_id} = 4 AND ${implementation} = 0 ;;
+  }
+
   measure: pricing_plans {
     label: "group_pricing_plans"
     type: list
