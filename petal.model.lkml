@@ -1276,6 +1276,12 @@ explore: groups {
     user_attribute: institution_name
   }
 
+  access_filter: {
+    field: health_clusters.name
+    user_attribute: cluster_name
+  }
+
+
   cancel_grouping_fields: [accounts.highest_paying_plan, groups.is_scheduling, groups.pricing_plan_test]
 
   join: group_kinds {
