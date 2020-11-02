@@ -5137,16 +5137,16 @@ explore: pati__appointments {
     relationship: many_to_one
     sql_on: ${pati__reasons.offering_id} = ${pati__offerings.id};;
   }
-  join: groups {
+  join: group_clinics {
+    from: groups
     type: inner
     relationship: many_to_one
-    sql_on: ${pati__reasons.group_id} = ${groups.id};;
+    sql_on: ${pati__reasons.group_id} = ${group_clinics.id};;
   }
-
 
   join: locations {
     type: left_outer
-    sql_on: ${groups.location_id} = ${locations.id} ;;
+    sql_on: ${group_clinics.location_id} = ${locations.id} ;;
     relationship: many_to_one
   }
 
@@ -5159,7 +5159,7 @@ explore: pati__appointments {
   join: pati__providers {
     type: inner
     relationship: one_to_one
-    sql_on: ${groups.id} = ${pati__providers.group_id} ;;
+    sql_on: ${group_clinics.id} = ${pati__providers.group_id} ;;
   }
   join: noti__notifications {
     type: left_outer

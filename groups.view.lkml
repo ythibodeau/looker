@@ -684,6 +684,23 @@ view: groups {
     sql: ${booking_hub_managed} = 1 AND ${kind_id} = 4 AND ${implementation} = 0 ;;
   }
 
+  dimension: is_emr_connected {
+    type: yesno
+    sql: ${pati__providers.group_id} IS NOT NULL ;;
+  }
+
+  dimension: has_members {
+    type: yesno
+    sql: ${memberships.group_id} IS NOT NULL ;;
+  }
+
+  dimension: has_offerings {
+    type: yesno
+    sql: ${pati__offerings.group_id} IS NOT NULL ;;
+  }
+
+   ### HUB DIMENSIONS ###
+
   measure: pricing_plans {
     label: "group_pricing_plans"
     type: list
@@ -699,6 +716,11 @@ view: groups {
     type: count
     sql: ${groups.id} ;;
     drill_fields: [detail*]
+  }
+
+  measure: count_members {
+    type: count_distinct
+    sql: ${memberships.id} ;;
   }
 
   measure: count_scheduling {

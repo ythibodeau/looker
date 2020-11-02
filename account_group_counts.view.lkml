@@ -5,28 +5,28 @@ view: account_group_counts {
     sql: SELECT A.id as account_id, IFNULL(dept_count, 0) as dept_count, IFNULL(hosp_count, 0) as hosp_count, IFNULL(clin_count, 0) as clinic_count, IFNULL(asso_count, 0) as asso_count FROM accounts A
       LEFT JOIN (
           SELECT account_id, COUNT(M.id) as dept_count  FROM memberships M
-          INNER JOIN groups G ON G.id = M.group_id
+          INNER JOIN `groups` G ON G.id = M.group_id
           INNER JOIN group_kinds GK ON GK.id = G.kind_id
           WHERE GK.mnemonic IN ('department')
           GROUP BY account_id
       ) ACC_DEPT ON ACC_DEPT.account_id = A.id
       LEFT JOIN (
           SELECT account_id, COUNT(M.id) as hosp_count  FROM memberships M
-          INNER JOIN groups G ON G.id = M.group_id
+          INNER JOIN `groups` G ON G.id = M.group_id
           INNER JOIN group_kinds GK ON GK.id = G.kind_id
           WHERE GK.mnemonic IN ('hospital')
           GROUP BY account_id
       ) ACC_HOSP ON ACC_HOSP.account_id = A.id
       LEFT JOIN (
           SELECT account_id, COUNT(M.id) as clin_count  FROM memberships M
-          INNER JOIN groups G ON G.id = M.group_id
+          INNER JOIN `groups` G ON G.id = M.group_id
           INNER JOIN group_kinds GK ON GK.id = G.kind_id
           WHERE GK.mnemonic IN ('clinic')
           GROUP BY account_id
       ) ACC_CLIN ON ACC_CLIN.account_id = A.id
       LEFT JOIN (
           SELECT account_id, COUNT(M.id) as asso_count  FROM memberships M
-          INNER JOIN groups G ON G.id = M.group_id
+          INNER JOIN `groups` G ON G.id = M.group_id
           INNER JOIN group_kinds GK ON GK.id = G.kind_id
           WHERE GK.mnemonic IN ('association')
           GROUP BY account_id

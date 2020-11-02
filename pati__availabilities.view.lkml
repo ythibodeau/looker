@@ -156,7 +156,6 @@ view: pati__availabilities {
       END
 
     ;;
-
   }
 
   dimension: synched {
@@ -196,6 +195,18 @@ view: pati__availabilities {
   dimension: visibility {
     type: number
     sql: ${TABLE}.visibility ;;
+  }
+
+  dimension: clean_visibility {
+    type: string
+    sql:
+      CASE
+       WHEN ${TABLE}.visibility = 0  THEN "created"
+       WHEN ${TABLE}.visibility = 1  THEN "disabled"
+       WHEN ${TABLE}.visibility = 2  THEN "deleted"
+       WHEN ${TABLE}.visibility = 3  THEN "reserved"
+      END
+      ;;
   }
 
   measure: count {
