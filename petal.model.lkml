@@ -1282,14 +1282,15 @@ explore: group_export_datas {
   }
 }
 
-explore: groups {
+explore: x_groups {
+  from: groups
   group_label: "Global"
   access_filter: {
     field: health_institutions.short_name
     user_attribute: institution_name
   }
 
-  cancel_grouping_fields: [accounts.highest_paying_plan, groups.is_scheduling, groups.pricing_plan_test]
+  cancel_grouping_fields: [accounts.highest_paying_plan, x_groups.is_scheduling, x_groups.pricing_plan_test]
 
   join: group_kinds {
     type: inner
