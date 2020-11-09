@@ -295,7 +295,7 @@ WHERE A.kind_id IN (1,26) AND (CM.contactable_id IS NULL OR (CM.console_enabled 
 
   dimension: group_acronym {
     type: string
-    sql: ${groups.acronym} ;;
+    sql: ${x_groups.acronym} ;;
   }
 
   measure: groups_acronym {

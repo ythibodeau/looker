@@ -260,5 +260,9 @@
   "task_afternoon_category_acronym": "PM - Tâche",
   "task_evening_category_acronym": "SOIR - Tâche",
   "task_night_category_acronym": "NUIT - Tâche",
-  "days_before_period_starts": "Jours avant le début de la période"
+  "days_before_period_starts": "Jours avant le début de la période",
+  "patient_visible_free_count": "Plages de rendez-vous disponibles",
+  "patient_visible_not_free_count": "Rendez-vous",
+  "average_delay_minutes_appointment": "Délai d'obtention d'un rendez-vous (minutes)",
+  "average_delay_day_appointment": "Délai d'obtention d'un rendez-vous (jours)"
 }

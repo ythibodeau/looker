@@ -209,13 +209,18 @@ view: pati__availabilities {
       ;;
   }
 
+  dimension: is_free {
+    type: yesno
+    sql: ${pati__appointments.availability_id} is null  ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [id]
   }
 
   measure: count_patient_visible_availabilities {
-    label: "Patient Visible Count"
+    label: "patient_visible_count"
     type: count
     filters: {
       field: visibility
@@ -226,6 +231,35 @@ view: pati__availabilities {
       value: "0"
     }
   }
+
+  measure: count_patient_visible_free_availabilities {
+    label: "patient_visible_free_count"
+    type: count
+    filters: {
+      field: visibility
+      value: "0"
+    }
+    filters: {
+      field: state
+      value: "0"
+    }
+    filters: [is_free: "Yes"]
+  }
+
+  measure: count_patient_visible_not_free_availabilities {
+    label: "patient_visible_not_free_count"
+    type: count
+    filters: {
+      field: visibility
+      value: "0"
+    }
+    filters: {
+      field: state
+      value: "0"
+    }
+    filters: [is_free: "No"]
+  }
+
 
   measure: count_all_availabilities {
     label: "Total Visible Count"

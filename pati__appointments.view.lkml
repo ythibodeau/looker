@@ -80,9 +80,21 @@ view: pati__appointments {
     sql: TIMESTAMPDIFF(MINUTE,${created_time},${pati__availabilities.start_time}) ;;
   }
 
+  dimension: delay_in_days {
+    type: number
+    sql: TIMESTAMPDIFF(DAY,${created_time},${pati__availabilities.start_time}) ;;
+  }
+
   measure: average_delay  {
+    label: "average_delay_minutes_appointment"
     type: average_distinct
     sql:  ${delay_in_minutes};;
+  }
+
+  measure: average_delay_day  {
+    label: "average_delay_day_appointment"
+    type: average_distinct
+    sql:  ${delay_in_days};;
   }
 
   dimension: created_in_emr {
@@ -189,6 +201,20 @@ view: pati__appointments {
     filters: {
       field: created_by_type
       value: "Patient::Patient"
+    }
+  }
+
+  ## À Modifier pour "pris dans le EMR"
+  measure: staff_count {
+    label: "All Appointments Staff Count"
+    type: count
+    filters: {
+      field: cancelled
+      value: "0"
+    }
+    filters: {
+      field: created_by_type
+      value: "Account"
     }
   }
 

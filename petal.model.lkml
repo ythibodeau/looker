@@ -5354,6 +5354,13 @@ explore: pati__appointment_check_ins {
 explore: pati__availabilities {
   label: "Availabilities"
   group_label: "Petal Patient"
+
+  join: pati__appointments {
+    type: left_outer
+    sql_on: ${pati__availabilities.id} = ${pati__appointments.availability_id} ;;
+    relationship: one_to_one
+  }
+
   join: pati__account_tasks {
     type: inner
     sql_on: ${pati__availabilities.account_task_id} = ${pati__account_tasks.id} ;;
@@ -5379,6 +5386,31 @@ explore: pati__availabilities {
     from: groups
     type: inner
     sql_on: ${pati__reasons.group_id} = ${x_groups.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${x_groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: institution_locations {
+    from: locations
+    type: left_outer
+    sql_on: ${health_institutions.location_id} = ${institution_locations.id} ;;
+    relationship: one_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+    relationship: many_to_one
+  }
+
+  join: economic_regions {
+    type: left_outer
+    sql_on: ${health_institutions.region_id} = ${economic_regions.id} ;;
     relationship: many_to_one
   }
 

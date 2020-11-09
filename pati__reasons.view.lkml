@@ -122,6 +122,20 @@ view: pati__reasons {
     sql: ${TABLE}.offering_id ;;
   }
 
+  dimension: hub_service_type {
+    type: string
+    sql:
+
+    CASE
+      WHEN ${TABLE}.code LIKE "%WALK_IN%" THEN "Urgence Mineure"
+      WHEN ${TABLE}.code LIKE "%URG%" THEN "Consultation Prioritaire"
+      WHEN ${TABLE}.code LIKE "%15%" THEN "Suivi périodique ou préventif"
+      WHEN ${TABLE}.code LIKE "%PREG%" THEN "Suivi de grossesse"
+      WHEN ${TABLE}.code = "WALK_IN%" THEN "Suivi d'un enfant de 0 à 5 ans"
+      ELSE "Suivi régulier"
+    END;;
+  }
+
   dimension: patient_filter_id {
     type: number
     sql: ${TABLE}.patient_filter_id ;;

@@ -261,5 +261,9 @@
   "task_afternoon_category_acronym": "PM - Shift",
   "task_evening_category_acronym": "Evening - Shift",
   "task_night_category_acronym": "Night - Shift",
-  "days_before_period_starts": "Days before period starts"
+  "days_before_period_starts": "Days before period starts",
+  "patient_visible_free_count": "Availabilities",
+  "patient_visible_not_free_count": "Appointments taken",
+  "average_delay_minutes_appointment": "Appointment delay (minutes)",
+  "average_delay_day_appointment": "Appointment delay (days)"
 }
