@@ -214,6 +214,11 @@ view: pati__availabilities {
     sql: ${pati__appointments.availability_id} is null  ;;
   }
 
+  dimension: appointment_creator {
+    type: string
+    sql: ${pati__appointments.created_by_type_clean} ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [id]
@@ -258,6 +263,20 @@ view: pati__availabilities {
       value: "0"
     }
     filters: [is_free: "No"]
+  }
+
+  # Created for Manitoba
+  measure: count_patient_visible_not_free_staff {
+    label: "count_patient_visible_not_free_staff"
+    type: count
+    filters: [is_free: "No", appointment_creator: "Staff"]
+  }
+
+  # Created for Manitoba
+  measure: count_patient_visible_not_free_patient {
+    label: "count_patient_visible_not_free_patient"
+    type: count
+    filters: [is_free: "No", appointment_creator: "Patient"]
   }
 
 
