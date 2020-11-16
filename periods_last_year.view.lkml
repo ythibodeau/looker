@@ -2,15 +2,15 @@ view: periods_last_year {
   derived_table: {
     datagroup_trigger: scheduling_publication_alerting
     sql: SELECT
-        groups.id  AS `groups.id`,
+        x_groups.id  AS `groups.id`,
         sche__periods.id  AS `sche__periods.id`,
         DATE(CONVERT_TZ(sche__periods.published_at ,'UTC','America/New_York')) AS `sche__periods.published_date`,
         DATE(sche__periods.start_date ) AS `sche__periods.start_date`,
         DATEDIFF(sche__periods.published_at, sche__periods.start_date) as delay_in_days
       FROM petalmd.sche__periods  AS sche__periods
-      INNER JOIN petalmd.groups  AS groups ON sche__periods.group_id = groups.id
-      LEFT JOIN petalmd.health_institutions  AS health_institutions ON groups.health_institution_id = health_institutions.id
-      INNER JOIN petalmd.groups_pricing_plans  AS groups_pricing_plans ON groups_pricing_plans.group_id = groups.id
+      INNER JOIN petalmd.groups  AS x_groups ON sche__periods.group_id = x_groups.id
+      LEFT JOIN petalmd.health_institutions  AS health_institutions ON x_groups.health_institution_id = health_institutions.id
+      INNER JOIN petalmd.groups_pricing_plans  AS groups_pricing_plans ON groups_pricing_plans.group_id = x_groups.id
       INNER JOIN petalmd.pricing_plans  AS pricing_plans ON groups_pricing_plans.plan_id = pricing_plans.id
       INNER JOIN petalmd.pricing_suites  AS pricing_suites ON pricing_plans.suite_id =  pricing_suites.id
 

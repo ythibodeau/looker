@@ -3,7 +3,7 @@ explore: groups_without_institution {}
 view: groups_without_institution {
   derived_table: {
     sql_trigger_value: SELECT CURDATE() ;;
-    sql: select g.* from groups g left join health_institutions i on i.id = g.health_institution_id where i.id is null;
+    sql: select g.* from `groups` g left join health_institutions i on i.id = g.health_institution_id where i.id is null;
       ;;
   }
 
