@@ -1282,7 +1282,7 @@ explore: group_export_datas {
   }
 }
 
-explore: groups {
+explore: x_groups {
   from: groups
   group_label: "Global"
   access_filter: {
@@ -1290,29 +1290,29 @@ explore: groups {
     user_attribute: institution_name
   }
 
-  cancel_grouping_fields: [accounts.highest_paying_plan, groups.is_scheduling, groups.pricing_plan_test]
+  cancel_grouping_fields: [accounts.highest_paying_plan, x_groups.is_scheduling, x_groups.pricing_plan_test]
 
   join: group_kinds {
     type: inner
-    sql_on: ${groups.kind_id} = ${group_kinds.id} ;;
+    sql_on: ${x_groups.kind_id} = ${group_kinds.id} ;;
     relationship: many_to_one
   }
 
   join: groups_not_in_console {
     type: left_outer
-    sql_on: ${groups.id} = ${groups_not_in_console.content_group_id} ;;
+    sql_on: ${x_groups.id} = ${groups_not_in_console.content_group_id} ;;
     relationship: many_to_one
   }
 
   join: centres {
     type: left_outer
-    sql_on: ${groups.centre_id} = ${centres.id} ;;
+    sql_on: ${x_groups.centre_id} = ${centres.id} ;;
     relationship: many_to_one
   }
 
   join: group_last_published_period {
     type: left_outer
-    sql_on: ${groups.id} = ${group_last_published_period.group_id};;
+    sql_on: ${x_groups.id} = ${group_last_published_period.group_id};;
     relationship: one_to_one
   }
 
@@ -1327,7 +1327,7 @@ explore: groups {
 
   join: locations {
     type: left_outer
-    sql_on: ${groups.location_id} = ${locations.id} ;;
+    sql_on: ${x_groups.location_id} = ${locations.id} ;;
     relationship: many_to_one
   }
 
@@ -1339,19 +1339,19 @@ explore: groups {
 
   join: timezones {
     type: left_outer
-    sql_on: ${groups.timezone_id} = ${timezones.id} ;;
+    sql_on: ${x_groups.timezone_id} = ${timezones.id} ;;
     relationship: many_to_one
   }
 
   join: specialties {
     type: left_outer
-    sql_on: ${groups.specialty_id} = ${specialties.id} ;;
+    sql_on: ${x_groups.specialty_id} = ${specialties.id} ;;
     relationship: one_to_one
   }
 
   join: groups_pricing_plans {
     type: inner
-    sql_on: ${groups_pricing_plans.group_id} = ${groups.id} AND
+    sql_on: ${groups_pricing_plans.group_id} = ${x_groups.id} AND
             ((${groups_pricing_plans.start_date} IS NULL AND ${groups_pricing_plans.end_date} IS NULL) OR
             (${groups_pricing_plans.start_date} IS NULL AND ${groups_pricing_plans.end_date} >= now()) OR
             (${groups_pricing_plans.start_date} <= now() AND ${groups_pricing_plans.end_date} IS NULL) OR
@@ -1360,11 +1360,26 @@ explore: groups {
     relationship: one_to_many
   }
 
+  join: past_group_pricing_plans {
+    from: groups_pricing_plans
+    type: inner
+    sql_on:  ${past_group_pricing_plans.group_id} = ${x_groups.id} AND
+             ${past_group_pricing_plans.end_date} <= now() ;;
+  }
+
   join: pricing_plans {
     type: inner
     sql_on: ${groups_pricing_plans.plan_id} = ${pricing_plans.id} ;;
     relationship: many_to_one
   }
+
+  join: past_pricing_plans {
+    from: pricing_plans
+    type: inner
+    sql_on: ${past_group_pricing_plans.plan_id} = ${past_pricing_plans.id} ;;
+    relationship: many_to_one
+  }
+
 
   join: pricing_suites {
     type: inner
@@ -1374,7 +1389,7 @@ explore: groups {
 
   join: product_audiences {
     type: left_outer
-    sql_on: ${groups.id} = ${product_audiences.productable_id} AND ${product_audiences.productable_type} = "Group" ;;
+    sql_on: ${x_groups.id} = ${product_audiences.productable_id} AND ${product_audiences.productable_type} = "Group" ;;
     relationship: one_to_many
   }
 
@@ -1386,7 +1401,7 @@ explore: groups {
 
   join: memberships {
     type: left_outer
-    sql_on: ${memberships.group_id} = ${groups.id} ;;
+    sql_on: ${memberships.group_id} = ${x_groups.id} ;;
     relationship: many_to_one
   }
 
@@ -1423,21 +1438,21 @@ explore: groups {
   join: sche__change_requests {
     view_label: "Change Requests"
     type: left_outer
-    sql_on: ${sche__change_requests.group_id} = ${groups.id} ;;
+    sql_on: ${sche__change_requests.group_id} = ${x_groups.id} ;;
     relationship: many_to_one
   }
 
   join: pati__providers {
     view_label: "EMR"
     type: left_outer
-    sql_on: ${pati__providers.group_id} = ${groups.id};;
+    sql_on: ${pati__providers.group_id} = ${x_groups.id};;
     relationship: many_to_one
   }
 
   join: pati__reasons {
     view_label: "Appointment Reason"
     type: inner
-    sql_on: ${pati__reasons.group_id} = ${groups.id} ;;
+    sql_on: ${pati__reasons.group_id} = ${x_groups.id} ;;
     relationship: many_to_one
   }
 
@@ -1512,13 +1527,13 @@ explore: groups {
 
   join: holidays {
     type: left_outer
-    sql_on: ${holidays.group_id} = ${groups.id} ;;
+    sql_on: ${holidays.group_id} = ${x_groups.id} ;;
     relationship: one_to_many
   }
 
   join: health_institutions {
     type: left_outer
-    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    sql_on: ${x_groups.health_institution_id} = ${health_institutions.id} ;;
     relationship: many_to_one
   }
 
@@ -1531,13 +1546,13 @@ explore: groups {
   # Scheduling Part
   join: sche__task_kinds {
     type: left_outer
-    sql_on: ${groups.id} = ${sche__task_kinds.id} ;;
+    sql_on: ${x_groups.id} = ${sche__task_kinds.id} ;;
     relationship: one_to_many
   }
 
   join: group_billing_profiles {
     type: left_outer
-    sql_on: ${groups.id} = ${group_billing_profiles.group_id} ;;
+    sql_on: ${x_groups.id} = ${group_billing_profiles.group_id} ;;
     relationship: one_to_one
   }
 
@@ -5350,6 +5365,8 @@ explore: pati__appointment_check_ins {
     relationship: many_to_one
   }
 }
+
+explore: pati__tasks {}
 
 explore: pati__availabilities {
   label: "Availabilities"

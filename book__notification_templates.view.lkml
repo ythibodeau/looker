@@ -31,6 +31,19 @@ view: book__notification_templates {
     sql: ${TABLE}.media ;;
   }
 
+  dimension: clean_media {
+    type: string
+    sql:
+
+    CASE
+      WHEN ${TABLE}.media = 0 THEN "Email"
+      WHEN ${TABLE}.media = 1 THEN "SMS"
+      WHEN ${TABLE}.media = 2 THEN "Phone"
+    END
+    ;;
+  }
+
+
   dimension: template_group_id {
     type: number
     sql: ${TABLE}.template_group_id ;;

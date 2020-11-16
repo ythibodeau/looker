@@ -269,14 +269,26 @@ view: pati__availabilities {
   measure: count_patient_visible_not_free_staff {
     label: "count_patient_visible_not_free_staff"
     type: count
-    filters: [is_free: "No", appointment_creator: "Staff"]
+    filters: [visibility: "0", state: "0", is_free: "No", appointment_creator: "Staff"]
   }
 
   # Created for Manitoba
   measure: count_patient_visible_not_free_patient {
     label: "count_patient_visible_not_free_patient"
     type: count
-    filters: [is_free: "No", appointment_creator: "Patient"]
+    filters: [visibility: "0", state: "0", is_free: "No", appointment_creator: "Patient"]
+  }
+
+  measure: count_availabilities {
+    label: "Manitoba Availabilities Count"
+    type: count
+    filters: [is_free: "Yes"]
+  }
+
+  measure: count_appointments {
+    label: "Manitoba Appointments Count"
+    type: count
+    filters: [is_free: "No"]
   }
 
 
