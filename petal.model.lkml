@@ -1364,7 +1364,7 @@ explore: x_groups {
     from: groups_pricing_plans
     type: inner
     sql_on:  ${past_group_pricing_plans.group_id} = ${x_groups.id} AND
-             ${past_group_pricing_plans.end_date} <= now() ;;
+      ${past_group_pricing_plans.end_date} <= now() ;;
   }
 
   join: pricing_plans {
@@ -1557,6 +1557,10 @@ explore: x_groups {
   }
 
 }
+
+
+
+
 
 explore: groups_pricing_plans {
   group_label: "Global"
@@ -6150,8 +6154,44 @@ explore: book__notifications {
   }
 }
 
+# Booking Hub
+explore: hub_clinics {
+
+ join: locations {
+  type: left_outer
+  sql_on: ${hub_clinics.location_id} = ${locations.id} ;;
+  relationship: many_to_one
+}
+
+join: location_geometries {
+  type: left_outer
+  sql_on: ${locations.id} = ${location_geometries.location_id} ;;
+  relationship: one_to_one
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${hub_clinics.institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+    relationship: many_to_one
+  }
+
+  join: economic_regions {
+    type: left_outer
+    sql_on: ${health_institutions.region_id} = ${economic_regions.id} ;;
+  }
+
+
+}
+
+
 #####################################################################
-# Petal Hub
+# Petal Console
 #####################################################################
 
 explore: sche__console_layouts {

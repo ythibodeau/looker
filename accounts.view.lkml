@@ -849,7 +849,7 @@ view: accounts {
 
   dimension: group_acronym {
     type: string
-    sql: ${groups.acronym} ;;
+    sql: ${x_groups.acronym} ;;
   }
 
   measure: groups_acronym {

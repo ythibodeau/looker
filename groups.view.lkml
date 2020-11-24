@@ -714,7 +714,7 @@ view: groups {
 
   measure: count {
     type: count
-    sql: ${groups.id} ;;
+    sql: ${x_groups.id} ;;
     drill_fields: [detail*]
   }
 
@@ -726,7 +726,7 @@ view: groups {
   measure: count_scheduling {
     label: "count_scheduling"
     type: count_distinct
-    sql: ${groups.id} ;;
+    sql: ${x_groups.id} ;;
     drill_fields: [detail*]
     filters: [kind_id: "1"]
   }
@@ -734,7 +734,7 @@ view: groups {
   measure: count_console_groups {
     label: "count_console_groups"
     type: count_distinct
-    sql: ${groups.id} ;;
+    sql: ${x_groups.id} ;;
     drill_fields: [detail*]
     filters: [console_enabled: "yes"]
   }
@@ -742,7 +742,7 @@ view: groups {
   measure: count_communication_groups {
     label: "count_communication_groups"
     type: count_distinct
-    sql: ${groups.id} ;;
+    sql: ${x_groups.id} ;;
     drill_fields: [detail*]
     filters: [kind_id: "5"]
   }
@@ -750,7 +750,7 @@ view: groups {
   measure: count_implementation {
     label: "count_implementation_groups"
     type: count_distinct
-    sql: ${groups.id} ;;
+    sql: ${x_groups.id} ;;
     drill_fields: [detail*]
     filters: [implementation: "yes"]
   }
