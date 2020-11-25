@@ -1559,9 +1559,6 @@ explore: x_groups {
 }
 
 
-
-
-
 explore: groups_pricing_plans {
   group_label: "Global"
   join: x_groups {

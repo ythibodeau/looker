@@ -24,7 +24,7 @@ view: account_tenth_comment {
       WHERE COM.created_at > COM.confirmed_at
       GROUP BY C.account_id
       ) LAST_COM ON LAST_COM.comment_id = C.id
-      INNER JOIN accounts A on A.id = C.account_id;
+      INNER JOIN accounts A on A.id = C.account_id
        ;;
   }
 

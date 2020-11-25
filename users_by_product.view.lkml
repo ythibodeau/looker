@@ -13,9 +13,9 @@ view: users_by_product {
     X.code,
     X.date_serie FROM
           (
-          SELECT DISTINCT ACTIVE_ACCOUNTS_GROUPS.account_id as account_id, GROUP_PLANS.code as code, ACTIVE_ACCOUNTS_GROUPS.date_serie FROM groups G
+          SELECT DISTINCT ACTIVE_ACCOUNTS_GROUPS.account_id as account_id, GROUP_PLANS.code as code, ACTIVE_ACCOUNTS_GROUPS.date_serie FROM petalmd.groups G
           INNER JOIN (
-              SELECT DISTINCT G.id, CASE PS.code WHEN 'hospital' THEN 'md_schedule' ELSE PS.code END as code, start_time as date_serie FROM groups G
+              SELECT DISTINCT G.id, CASE PS.code WHEN 'hospital' THEN 'md_schedule' ELSE PS.code END as code, start_time as date_serie FROM petalmd.groups G
               INNER JOIN groups_pricing_plans GPP ON GPP.group_id = G.id
               INNER JOIN pricing_plans PP ON PP.id = GPP.plan_id
               INNER JOIN pricing_suites PS ON PS.id = PP.suite_id

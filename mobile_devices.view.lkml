@@ -36,18 +36,10 @@ view: mobile_devices {
     type: string
     sql:
     CASE
-      WHEN SUBSTRING_INDEX(${TABLE}.device_token, '-', 1) = "android" THEN "Android"
-      WHEN SUBSTRING_INDEX(${TABLE}.device_token, '-', 1) = "iphone" THEN "iOS"
-      ELSE ${TABLE}.device_token
-    END
+       WHEN LENGTH(${TABLE}.device_token) >= 100 THEN "Android"
+       ELSE "iOS"
+      END
     ;;
-#     html:
-#
-#     {% if value == "Android" %}
-# <img src="//logo.clearbit.com/spotify.com">
-# {% else %}
-#      <img src="//logo.clearbit.com/spotify.com">
-# {% endif %} ;;
   }
 
   dimension: endpoint_arn {

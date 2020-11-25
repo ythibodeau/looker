@@ -2,9 +2,9 @@ view: users_products {
   derived_table: {
     sql_trigger_value: select CURDATE() ;;
     sql: SELECT code, date_serie, COUNT(account_id) as total FROM (
-    SELECT DISTINCT ACTIVE_ACCOUNTS_GROUPS.account_id as account_id, GROUP_PLANS.code as code, ACTIVE_ACCOUNTS_GROUPS.date_serie FROM groups G
+    SELECT DISTINCT ACTIVE_ACCOUNTS_GROUPS.account_id as account_id, GROUP_PLANS.code as code, ACTIVE_ACCOUNTS_GROUPS.date_serie FROM petalmd.groups G
     INNER JOIN (
-        SELECT DISTINCT G.id, CASE PS.code WHEN 'hospital' THEN 'md_schedule' ELSE PS.code END as code, quarter_start_date as date_serie FROM groups G
+        SELECT DISTINCT G.id, CASE PS.code WHEN 'hospital' THEN 'md_schedule' ELSE PS.code END as code, quarter_start_date as date_serie FROM petalmd.groups G
         INNER JOIN groups_pricing_plans GPP ON GPP.group_id = G.id
         INNER JOIN pricing_plans PP ON PP.id = GPP.plan_id
         INNER JOIN pricing_suites PS ON PS.id = PP.suite_id

@@ -8,7 +8,7 @@ view: account_first_message_read {
        TIMESTAMPDIFF(DAY, MA.signup, MIN(MA.action_date)) as first_usage_delay
     FROM ${hlth_messaging_actions.SQL_TABLE_NAME} MA
     WHERE MA.action in ("read_comm", "read_chat")
-    GROUP BY account_id;
+    GROUP BY account_id
  ;;
   }
 
