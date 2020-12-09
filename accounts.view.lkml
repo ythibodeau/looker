@@ -898,7 +898,7 @@ view: accounts {
     type: count
     filters: {
       field: simplified_kind
-      value: "Doctor"
+      value:  "Docteur"
     }
   }
 
@@ -918,7 +918,7 @@ view: accounts {
     type: count
     filters: {
       field: simplified_kind
-      value: "Resident"
+      value:"Resident"
     }
   }
 

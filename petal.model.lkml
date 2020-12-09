@@ -38,6 +38,8 @@ map_layer: economic_regions_layer {
   property_key: "ERNAME"
 }
 
+explore: b_hub__log_ramq_family_doctors {}
+
 #####################################################################
 # KPIs
 #####################################################################
@@ -788,6 +790,12 @@ explore: accounts {
   join: health_institutions {
     type: left_outer
     sql_on: ${x_groups.health_institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: economic_regions {
+    type: left_outer
+    sql_on: ${health_institutions.region_id} = ${economic_regions.id}  ;;
     relationship: many_to_one
   }
 
@@ -3917,6 +3925,12 @@ explore: sche__assignments {
     relationship: many_to_one
   }
 
+  join: economic_regions {
+    type: left_outer
+    sql_on: ${health_institutions.region_id} = ${economic_regions.id} ;;
+    relationship: many_to_one
+  }
+
   join: territories {
     type: left_outer
     sql_on: ${health_institutions.territory_id} = ${territories.id} ;;
@@ -6114,6 +6128,14 @@ explore: pati__waiting_rooms {
   join: timezones {
     type: left_outer
     sql_on: ${x_groups.timezone_id} = ${timezones.id} ;;
+    relationship: many_to_one
+  }
+}
+
+explore: book__notification_templates {
+  join: book__notification_template_groups {
+    type: left_outer
+    sql_on: ${book__notification_templates.template_group_id} = ${book__notification_template_groups.id} ;;
     relationship: many_to_one
   }
 }

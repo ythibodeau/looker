@@ -17,8 +17,8 @@ view: account_kinds {
     sql:
 
     CASE
-      WHEN ${TABLE}.mnemonic IN ("doctor", "retired", "fellow") THEN "Doctor"
-      WHEN ${TABLE}.mnemonic IN ("resident1", "resident2", "resident3", "resident4", "resident5", "resident6", "resident7") THEN "Resident"
+      WHEN ${TABLE}.mnemonic IN ("doctor", "retired", "fellow") THEN  "{{ _localization['doctor'] }}"
+      WHEN ${TABLE}.mnemonic IN ("resident1", "resident2", "resident3", "resident4", "resident5", "resident6", "resident7") THEN  "{{ _localization['resident'] }}"
       WHEN ${TABLE}.mnemonic = "other_health_professional" THEN "HCP"
       WHEN ${TABLE}.mnemonic IN ("assistant" , "administrator") THEN "Assistant/Admin"
       WHEN ${TABLE}.mnemonic = "maccs" THEN "MACCS"
