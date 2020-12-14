@@ -182,7 +182,7 @@ view: pati__appointments {
 
   measure: count {
     type: count
-    drill_fields: [details*]
+    drill_fields: [details_hub*]
   }
 
   measure: unique_patients_count {
@@ -288,5 +288,23 @@ view: pati__appointments {
 
   set: details {
     fields: [id,created_date,pati__reasons.description_en,groups.name]
+  }
+
+  set: details_hub {
+    fields: [
+      id,
+      created_time,
+      group_clinics.acronym,
+      group_clinics.name,
+      groups.acronym,
+      pati__providers.adapterable_type,
+      pati__offerings.emr_service_code,
+      pati__offerings.emr_service_name,
+      pati__offerings.description_fr_ca,
+      pati__offerings.clean_category,
+      pati__offerings.offer_kind,
+      pati__availabilities.start_time,
+      pati__availabilities.id
+      ]
   }
 }

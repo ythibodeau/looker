@@ -21,6 +21,11 @@ view: groups {
     sql: ${TABLE}.absences_due_date ;;
   }
 
+  dimension: ramq_external_id {
+    type: number
+    sql: ${TABLE}.ramq_external_id ;;
+  }
+
   dimension: absences_include_holidays {
     type: yesno
     sql: ${TABLE}.absences_include_holidays ;;

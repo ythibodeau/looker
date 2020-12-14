@@ -1485,6 +1485,14 @@ explore: x_groups {
     relationship: many_to_one
   }
 
+  join: availability_accounts {
+    from: accounts
+    type: inner
+    sql_on: ${pati__account_tasks.account_id} = ${accounts.id} AND
+            ${pati__availabilities.account_task_id} = ${pati__account_tasks.id} ;;
+    relationship: one_to_many
+  }
+
   join: pati__availabilities {
     view_label: "Availabilities"
     type: inner
@@ -1497,6 +1505,34 @@ explore: x_groups {
     type: inner
     sql_on: ${pati__appointments.availability_id} = ${pati__availabilities.id} ;;
     relationship: one_to_one
+  }
+
+  join: b_hub__offering_service_types {
+    type: left_outer
+    sql_on: ${pati__offerings.id} = ${b_hub__offering_service_types.offering_id} ;;
+    relationship: one_to_many
+  }
+
+  join: b_hub__service_types {
+    type: left_outer
+    sql_on: ${b_hub__offering_service_types.service_type_id} = ${b_hub__service_types.id}  ;;
+    relationship: many_to_many
+  }
+
+  join: visibility_blocks_reason {
+    from: pati__visibility_blocks
+    type: left_outer
+    sql_on: ${visibility_blocks_reason.context_type} = "Patient::Appointment::Reason"
+      AND visibility_blocks_reason.context_id = ${pati__reasons.id};;
+    relationship: one_to_many
+  }
+
+  join: visibility_blocks_account_task {
+    from: pati__visibility_blocks
+    type: left_outer
+    sql_on: ${visibility_blocks_account_task.context_type} = "Patient::Appointment::AccountTask"
+      AND ${visibility_blocks_reason.context_id} = ${pati__account_tasks.id};;
+    relationship: one_to_many
   }
 
   join: availabilities_walkins {
@@ -5237,6 +5273,12 @@ explore: pati__appointments {
     sql_on: ${pati__reasons.group_id} = ${group_clinics.id};;
   }
 
+  join: pati__providers {
+    type: left_outer
+    sql_on: ${group_clinics.id} = ${pati__providers.group_id} ;;
+    relationship: one_to_one
+  }
+
   join: locations {
     type: left_outer
     sql_on: ${group_clinics.location_id} = ${locations.id} ;;
@@ -5249,11 +5291,6 @@ explore: pati__appointments {
     relationship: one_to_one
   }
 
-  join: pati__providers {
-    type: inner
-    relationship: one_to_one
-    sql_on: ${group_clinics.id} = ${pati__providers.group_id} ;;
-  }
   join: noti__notifications {
     type: left_outer
     relationship: one_to_many
@@ -5703,6 +5740,12 @@ explore: pati__patients {
     from: groups
     type: inner
     sql_on: ${pati__subscriptions.group_id} = ${x_groups.id} ;;
+    relationship: many_to_one
+  }
+
+  join: pati__providers {
+    type: left_outer
+    sql_on: ${x_groups.id} = ${pati__providers.group_id} ;;
     relationship: many_to_one
   }
 
@@ -6176,6 +6219,18 @@ explore: book__notifications {
 # Booking Hub
 explore: hub_clinics {
 
+  join: memberships {
+    type: left_outer
+    sql_on: ${hub_clinics.id} = ${memberships.group_id} ;;
+    relationship: many_to_one
+  }
+
+  join: accounts {
+    type: left_outer
+    sql_on: ${memberships.account_id} = ${accounts.id} ;;
+    relationship: many_to_one
+  }
+
  join: locations {
   type: left_outer
   sql_on: ${hub_clinics.location_id} = ${locations.id} ;;
@@ -6205,6 +6260,69 @@ join: location_geometries {
     sql_on: ${health_institutions.region_id} = ${economic_regions.id} ;;
   }
 
+  join: pati__offerings {
+    type: left_outer
+    sql_on: ${hub_clinics.id} = ${pati__offerings.group_id} ;;
+    relationship: one_to_many
+  }
+
+  join: b_hub__offering_service_types {
+    type: left_outer
+    sql_on: ${pati__offerings.id} = ${b_hub__offering_service_types.offering_id} ;;
+    relationship: one_to_many
+  }
+
+  join: b_hub__service_types {
+    type: left_outer
+    sql_on: ${b_hub__offering_service_types.service_type_id} = ${b_hub__service_types.id}  ;;
+    relationship: many_to_many
+  }
+
+  join: pati__reasons {
+    type: left_outer
+    sql_on: ${pati__offerings.id} = ${pati__reasons.offering_id} ;;
+    relationship: one_to_many
+  }
+
+  join: pati__tasks {
+    type: left_outer
+    sql_on: ${pati__reasons.offering_id} = ${pati__tasks.reason_id} ;;
+    relationship: one_to_many
+  }
+
+  join: pati__account_tasks {
+    type: left_outer
+    sql_on: ${pati__tasks.id} = ${pati__account_tasks.task_id} ;;
+    relationship: one_to_many
+  }
+
+  join: visibility_blocks_reason {
+    from: pati__visibility_blocks
+    type: left_outer
+    sql_on: ${visibility_blocks_reason.context_type} = "Patient::Appointment::Reason"
+         AND visibility_blocks_reason.context_id = ${pati__reasons.id};;
+    relationship: one_to_many
+  }
+
+  join: visibility_blocks_account_task {
+    from: pati__visibility_blocks
+    type: left_outer
+    sql_on: ${visibility_blocks_account_task.context_type} = "Patient::Appointment::AccountTask"
+     AND ${visibility_blocks_reason.context_id} = ${pati__account_tasks.id};;
+    relationship: one_to_many
+  }
+
+  join: pati__availabilities {
+    type: left_outer
+    sql_on: ${pati__account_tasks.id = ${pati__availabilities.account_task_id} ;;
+    relationship: one_to_many
+  }
+
+  join: pati__appointments {
+    type: left_outer
+    sql_on: ${pati__availabilities.id} = ${pati__appointments.availability_id} ;;
+    relationship: one_to_one
+  }
 
 }
 

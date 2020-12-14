@@ -31,7 +31,8 @@ view: hub_clinics {
        EXISTS(SELECT group_id FROM web1 WHERE web1.group_id = g.id) OR
        EXISTS(SELECT group_id FROM web2 WHERE web2.group_id = g.id)
 
-          as has_services_configured
+          as has_services_configured,
+          wizard_completed
 from `groups` g
 left join  health_institutions i on i.id = g.health_institution_id
 left join  locations l           on l.id = g.location_id
@@ -96,6 +97,11 @@ AND g.booking_hub_managed = 1
   dimension: institution_id {
     type: number
     sql: ${TABLE}.institution_id ;;
+  }
+
+  dimension: wizard_completed {
+    type: yesno
+    sql: ${TABLE}.wizard_completed ;;
   }
 
   dimension: has_emr_connected {

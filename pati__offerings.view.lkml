@@ -17,6 +17,23 @@ view: pati__offerings {
     sql: ${TABLE}.code ;;
   }
 
+  dimension: is_configured {
+    type: yesno
+    sql: ${description_fr_ca} IS NOT NULL AND
+         ${description_en} IS NOT NULL AND
+         ${category} IS NOT NULL;;
+  }
+
+  dimension: service_type {
+    type: string
+    sql: ${b_hub__services_types.description_fr_ca} ;;
+  }
+
+  measure: all_service_types {
+    type: list
+    list_field: service_type
+  }
+
   dimension_group: created {
     type: time
     timeframes: [
@@ -72,6 +89,16 @@ view: pati__offerings {
     sql: ${TABLE}.message_fr_ca ;;
   }
 
+  dimension: emr_service_code {
+    type: string
+    sql: ${TABLE}.emr_service_code ;;
+  }
+
+  dimension: emr_service_name {
+    type: string
+    sql: ${TABLE}.emr_service_name ;;
+  }
+
   dimension_group: updated {
     type: time
     timeframes: [
@@ -99,6 +126,33 @@ view: pati__offerings {
       WHEN ${TABLE}.code LIKE "WALK%" THEN "Walk-in"
       WHEN ${TABLE}.code LIKE "FAMILY%" THEN "Family Doctor"
       ELSE "Other Services"
+    END;;
+  }
+
+  dimension: category {
+    type: number
+    sql: ${TABLE}.category ;;
+  }
+
+  dimension: clean_category {
+    type: string
+    sql:
+    CASE
+      WHEN ${TABLE}.category = 0 THEN "Présentiel"
+      WHEN ${TABLE}.category = 1 THEN "Téléphonique"
+      WHEN ${TABLE}.category = 2 THEN "Virtuel"
+      WHEN ${TABLE}.category = 3 THEN "À domicile"
+    END;;
+  }
+
+  dimension: offer_kind {
+    type: string
+    sql:
+    CASE
+      WHEN ${TABLE}.family_doctor_mandatory = 1 AND  ${TABLE}.allow_multiple_appointments = 0 THEN "MD GMF Only"
+      WHEN ${TABLE}.family_doctor_mandatory = 0 AND  ${TABLE}.allow_multiple_appointments = 1 THEN "In GMF Only"
+      WHEN ${TABLE}.family_doctor_mandatory = 1 AND  ${TABLE}.allow_multiple_appointments = 1 THEN "MD & In GMF"
+      WHEN ${TABLE}.family_doctor_mandatory = 0 AND  ${TABLE}.allow_multiple_appointments = 0 THEN "Populationnel"
     END;;
   }
 

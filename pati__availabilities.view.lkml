@@ -132,6 +132,7 @@ view: pati__availabilities {
     timeframes: [
       raw,
       time,
+      time_of_day,
       date,
       week,
       month,
@@ -144,6 +145,11 @@ view: pati__availabilities {
   dimension: state {
     type: number
     sql: ${TABLE}.state ;;
+  }
+
+  dimension: is_hub_availability {
+    type: yesno
+    sql: ${TABLE}.start_time  >= CONVERT_TZ(TIMESTAMP('2020-12-11 00:00'),'America/New_York','UTC') ;;
   }
 
   dimension: clean_state {
@@ -221,7 +227,7 @@ view: pati__availabilities {
 
   measure: count {
     type: count
-    drill_fields: [id]
+    drill_fields: [detail*]
   }
 
   measure: count_patient_visible_availabilities {
@@ -375,13 +381,13 @@ view: pati__availabilities {
   set: detail {
     fields: [
       id,
+      x_groups.acronym,
       pati__providers.adapterable_type,
-      groups.name,
-      accounts.full_name,
+      pati__offerings.emr_service_code,
       pati__offerings.description_fr_ca,
-      pati__reasons.description_fr_ca,
-      start_time,
-      end_time
+      pati__offerings.clean_category,
+      pati__offerings.offer_kind,
+      start_time
     ]
   }
 
