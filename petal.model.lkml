@@ -5214,6 +5214,18 @@ explore: pati__appointments {
     sql_on: ${pati__patients.id} = ${pati__subscriptions.patient_id} ;;
   }
 
+  join: pati__profiles {
+    type: left_outer
+    sql_on: ${pati__subscriptions.profile_id} = ${pati__profiles.id} ;;
+    relationship: one_to_one
+  }
+
+  join: contact_methods {
+    type: left_outer
+    sql_on: ${contact_methods.contactable_id} = ${pati__profiles.id} AND
+     ${contact_methods.contactable_type} = "Patient::Profile";;
+  }
+
   join: pati__availabilities {
     view_label: "Availabilities"
     type: inner

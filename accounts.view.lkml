@@ -51,6 +51,11 @@ view: accounts {
     sql: ${TABLE}.activation_code ;;
   }
 
+  dimension: hub_unique_key {
+    type: string
+    sql: CONCAT(${first_name}, ${last_name}) ;;
+  }
+
   dimension: activation_email_bounce_description {
     type: string
     sql: ${TABLE}.activation_email_bounce_description ;;

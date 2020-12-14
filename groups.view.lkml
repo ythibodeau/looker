@@ -22,7 +22,7 @@ view: groups {
   }
 
   dimension: ramq_external_id {
-    type: number
+    type: string
     sql: ${TABLE}.ramq_external_id ;;
   }
 

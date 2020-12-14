@@ -115,6 +115,16 @@ view: pati__profiles {
     sql: ${TABLE}.updated_at ;;
   }
 
+  dimension: numbers {
+    type: string
+    sql: ${contact_methods.kind_number} ;;
+  }
+
+  measure: all_numbers {
+    type: list
+    list_field: numbers
+  }
+
   measure: count {
     type: count
     drill_fields: [id, subdivisions.name, subdivisions.id]

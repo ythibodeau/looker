@@ -61,6 +61,22 @@ view: contact_methods {
     sql: ${TABLE}.kind ;;
   }
 
+  dimension: clean_kind {
+    type: string
+    sql:
+    CASE
+      WHEN ${TABLE}.kind = 1 THEN "Work"
+      WHEN ${TABLE}.kind = 2 THEN "Mobile"
+      WHEN ${TABLE}.kind = 3 THEN "Pager"
+      WHEN ${TABLE}.kind = 4 THEN "Home"
+      WHEN ${TABLE}.kind = 5 THEN "Code Pager"
+      WHEN ${TABLE}.kind = 6 THEN "Fax"
+      WHEN ${TABLE}.kind = 7 THEN "Pharmacy"
+      WHEN ${TABLE}.kind = 8 THEN "Other"
+      WHEN ${TABLE}.kind = 9 THEN "Speed Dial"
+    END;;
+  }
+
   dimension: managed_by_admin {
     type: yesno
     sql: ${TABLE}.managed_by_admin ;;
@@ -84,6 +100,11 @@ view: contact_methods {
   dimension: visibility {
     type: number
     sql: ${TABLE}.visibility ;;
+  }
+
+  dimension: kind_number {
+    type: string
+    sql: CONCAT("(", ${clean_kind},") ", ${number}) ;;
   }
 
   dimension_group: updated {
