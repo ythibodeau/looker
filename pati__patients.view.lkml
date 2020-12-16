@@ -84,8 +84,9 @@ view: pati__patients {
     type: string
     sql:
     CASE
-       WHEN ${TABLE}.gender = 0 THEN "Male"
-       WHEN ${TABLE}.gender = 1 THEN "Female"
+       WHEN ${TABLE}.gender = 0 THEN "M"
+       WHEN ${TABLE}.gender = 1 THEN "F"
+       WHEN ${TABLE}.gender = 2 THEN "UN"
     END;;
   }
 

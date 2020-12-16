@@ -6195,6 +6195,14 @@ explore: book__notification_templates {
   }
 }
 
+explore: book__queued_notifications {
+  join: book__notifications {
+    type: left_outer
+    sql_on: ${book__queued_notifications.id} = ${book__notifications.queued_notification_id} ;;
+    relationship: one_to_one
+  }
+}
+
 explore: book__notifications {
   join: book__notification_deliveries {
     type: left_outer
@@ -6206,6 +6214,12 @@ explore: book__notifications {
     type: left_outer
     sql_on: ${book__notifications.template_id} = ${book__notification_templates.id} ;;
     relationship: many_to_one
+  }
+
+  join: book__notification_template_contents {
+    type: left_outer
+    sql_on: ${book__notification_templates.id} = ${book__notification_template_contents.template_id} ;;
+    relationship: one_to_many
   }
 
   join: book__notification_template_groups {

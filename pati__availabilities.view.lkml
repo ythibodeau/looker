@@ -152,6 +152,11 @@ view: pati__availabilities {
     sql: ${TABLE}.start_time  >= CONVERT_TZ(TIMESTAMP('2020-12-11 00:00'),'America/New_York','UTC') ;;
   }
 
+  dimension: is_hub_valid {
+    type: yesno
+    sql: (${start_date} < now() AND ${visibility} = 2) OR (${start_date} >= now() AND ${visibility} <> 2) ;;
+  }
+
   dimension: clean_state {
     type: string
     sql:
@@ -387,7 +392,10 @@ view: pati__availabilities {
       pati__offerings.description_fr_ca,
       pati__offerings.clean_category,
       pati__offerings.offer_kind,
-      start_time
+      start_time,
+      is_hub_valid,
+      clean_state,
+      clean_visibility
     ]
   }
 

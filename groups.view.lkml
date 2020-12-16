@@ -719,7 +719,6 @@ view: groups {
 
   measure: count {
     type: count
-    sql: ${x_groups.id} ;;
     drill_fields: [detail*]
   }
 

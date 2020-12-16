@@ -541,6 +541,12 @@ view: accounts {
     label: "accounts"
   }
 
+  measure: count_unique_hub {
+    label: "count_unique_hub"
+    type: count_distinct
+    sql: ${accounts.hub_unique_key} ;;
+  }
+
   measure: count_unique_console_accounts {
     type: count_distinct
     sql: ${accounts.id} ;;
