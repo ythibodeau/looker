@@ -5678,6 +5678,18 @@ explore: pati__offerings {
     sql_on: ${x_groups.timezone_id} = ${timezones.id} ;;
     relationship: many_to_one
   }
+
+  join: b_hub__offering_service_types {
+    type: left_outer
+    sql_on: ${pati__offerings.id} = ${b_hub__offering_service_types.offering_id} ;;
+    relationship: one_to_many
+  }
+
+  join: b_hub__service_types {
+    type: left_outer
+    sql_on: ${b_hub__offering_service_types.service_type_id} = ${b_hub__service_types.id} ;;
+    relationship: many_to_one
+  }
 }
 
 explore: pati__patient_statuses {

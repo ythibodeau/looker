@@ -24,14 +24,14 @@ view: pati__offerings {
          ${category} IS NOT NULL;;
   }
 
-  dimension: service_type {
+  dimension: service_types {
     type: string
-    sql: ${b_hub__services_types.description_fr_ca} ;;
+    sql: ${b_hub__service_types.description_fr_ca} ;;
   }
 
   measure: all_service_types {
     type: list
-    list_field: service_type
+    list_field: service_types
   }
 
   dimension_group: created {
