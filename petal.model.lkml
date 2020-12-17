@@ -39,6 +39,7 @@ map_layer: economic_regions_layer {
 }
 
 explore: b_hub__log_ramq_family_doctors {}
+explore: pati__visibility_blocks {}
 
 #####################################################################
 # KPIs
@@ -1462,6 +1463,12 @@ explore: x_groups {
     type: inner
     sql_on: ${pati__reasons.group_id} = ${x_groups.id} ;;
     relationship: many_to_one
+  }
+
+  join: pati__visibility_blocks {
+    type: left_outer
+    sql_on: ${pati__reasons.id} = ${pati__visibility_blocks.context_id} AND ${pati__visibility_blocks.context_type} = "Patient::Appointment::Reason" ;;
+    relationship: one_to_many
   }
 
   join: pati__offerings {
@@ -5273,6 +5280,13 @@ explore: pati__appointments {
     relationship: many_to_one
     sql_on: ${pati__tasks.reason_id} = ${pati__reasons.id};;
   }
+
+  join: pati__visibility_blocks {
+    type: left_outer
+    sql_on: ${pati__reasons.id} = ${pati__visibility_blocks.context_id} AND ${pati__visibility_blocks.context_type} = "Patient::Appointment::Reason" ;;
+    relationship: one_to_many
+  }
+
   join: pati__offerings {
     type: inner
     relationship: many_to_one
@@ -5910,6 +5924,12 @@ explore: pati__reasons {
     sql_on: ${x_groups.timezone_id} = ${timezones.id} ;;
     relationship: many_to_one
   }
+
+  join: pati__visibility_blocks {
+    type: left_outer
+    sql_on: ${pati__reasons.id} = ${pati__visibility_blocks.context_id} AND ${pati__visibility_blocks.context_type} = "Patient::Appointment::Reason" ;;
+    relationship: one_to_many
+  }
 }
 
 explore: pati__recall_list_accounts {
@@ -6224,14 +6244,14 @@ explore: book__notifications {
 
   join: book__notification_template_groups {
     type: left_outer
-    sql_on: ${book__notification_templates.template_group_id} = ${book__notification_template_groups.created_by_id} ;;
+    sql_on: ${book__notification_templates.template_group_id} = ${book__notification_template_groups.id} ;;
     relationship: many_to_one
   }
 
   join: x_groups {
     from: groups
-    type: inner
-    sql_on: ${book__notification_template_groups.group_id} = ${x_groups.id} ;;
+    type: left_outer
+    sql_on: ${book__queued_notifications.group_id} = ${x_groups.id} ;;
     relationship: many_to_one
   }
 

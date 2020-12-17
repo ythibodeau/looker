@@ -149,9 +149,9 @@ view: pati__offerings {
     type: string
     sql:
     CASE
-      WHEN ${TABLE}.family_doctor_mandatory = 1 AND  ${TABLE}.allow_multiple_appointments = 0 THEN "MD GMF Only"
-      WHEN ${TABLE}.family_doctor_mandatory = 0 AND  ${TABLE}.allow_multiple_appointments = 1 THEN "In GMF Only"
-      WHEN ${TABLE}.family_doctor_mandatory = 1 AND  ${TABLE}.allow_multiple_appointments = 1 THEN "MD & In GMF"
+      WHEN ${TABLE}.family_doctor_mandatory = 1 AND  ${TABLE}.allow_multiple_appointments = 0 THEN "MD Famille"
+      WHEN ${TABLE}.family_doctor_mandatory = 0 AND  ${TABLE}.allow_multiple_appointments = 1 THEN "GMF"
+      WHEN ${TABLE}.family_doctor_mandatory = 1 AND  ${TABLE}.allow_multiple_appointments = 1 THEN "MDF & GMF"
       WHEN ${TABLE}.family_doctor_mandatory = 0 AND  ${TABLE}.allow_multiple_appointments = 0 THEN "Populationnel"
     END;;
   }

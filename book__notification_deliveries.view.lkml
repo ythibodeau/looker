@@ -85,6 +85,16 @@ view: book__notification_deliveries {
     sql: ${TABLE}.status ;;
   }
 
+  dimension: clean_status {
+    type: string
+    sql:
+    CASE
+      WHEN ${TABLE}.status = 0 THEN "Pending"
+      WHEN ${TABLE}.status = 1 THEN "Success"
+      WHEN ${TABLE}.status = 2 THEN "Failure"
+    END;;
+  }
+
   dimension_group: updated {
     type: time
     timeframes: [

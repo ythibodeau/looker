@@ -230,6 +230,26 @@ view: pati__availabilities {
     sql: ${pati__appointments.created_by_type_clean} ;;
   }
 
+  dimension: available_at {
+    description: "When is this availability being offered on patient portals. Note: for now, doesn't support specific by MD"
+    type: date_time
+    sql: DATE_ADD(${TABLE}.start_time, INTERVAL ${pati__reasons.offset_in_hours} HOUR) ;;
+  }
+
+  dimension_group: real_availability_start_time {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(${pati__visibility_blocks.interval},'/',-2),'/',1) AS TIME)  ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [detail*]
