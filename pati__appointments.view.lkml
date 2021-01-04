@@ -41,6 +41,15 @@ view: pati__appointments {
     sql: ${TABLE}.cancelled_by_type ;;
   }
 
+  dimension: cancelled_by_type_clean {
+    type: string
+    sql:
+    CASE
+      WHEN ${TABLE}.cancelled_by_type = "Account" THEN "Staff"
+      WHEN ${TABLE}.cancelled_by_type = "Patient::Patient" THEN "Patient"
+    END;;
+  }
+
   dimension: cancelled_on_behalf_of_patient {
     type: yesno
     sql: ${TABLE}.cancelled_on_behalf_of_patient ;;
@@ -304,6 +313,7 @@ view: pati__appointments {
       pati__offerings.clean_category,
       pati__offerings.offer_kind,
       pati__availabilities.start_time,
+      cancelled,
       pati__availabilities.id
       ]
   }

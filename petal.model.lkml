@@ -5292,6 +5292,19 @@ explore: pati__appointments {
     relationship: many_to_one
     sql_on: ${pati__reasons.offering_id} = ${pati__offerings.id};;
   }
+
+  join: b_hub__offering_service_types {
+    type: left_outer
+    sql_on: ${pati__offerings.id} = ${b_hub__offering_service_types.offering_id} ;;
+    relationship: one_to_many
+  }
+
+  join: b_hub__service_types {
+    type: left_outer
+    sql_on: ${b_hub__offering_service_types.service_type_id} = ${b_hub__service_types.id} ;;
+    relationship: many_to_one
+  }
+
   join: group_clinics {
     from: groups
     type: inner
