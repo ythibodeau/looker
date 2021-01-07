@@ -5335,6 +5335,18 @@ explore: pati__appointments {
     relationship: one_to_many
     sql_on: ${pati__appointments.id} = ${noti__notifications.context_id} ;;
   }
+
+  join: pati__appointment_patient_statuses {
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${pati__appointments.id} = ${pati__appointment_patient_statuses.appointment_id} ;;
+  }
+
+  join: pati__patient_statuses {
+    type: inner
+    relationship: many_to_one
+    sql_on: ${pati__appointment_patient_statuses.patient_status_id} = ${pati__patient_statuses.id} ;;
+  }
 }
 
 explore: appointment_reminders {
