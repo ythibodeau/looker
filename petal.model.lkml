@@ -5347,6 +5347,19 @@ explore: pati__appointments {
     relationship: many_to_one
     sql_on: ${pati__appointment_patient_statuses.patient_status_id} = ${pati__patient_statuses.id} ;;
   }
+
+  join: appointment_last_status {
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${pati__appointments.id} = ${appointment_last_status.appointment_id} ;;
+  }
+
+  join: last_patient_status {
+    from: pati__patient_statuses
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${appointment_last_status.patient_status_id} = ${last_patient_status.id} ;;
+  }
 }
 
 explore: appointment_reminders {
