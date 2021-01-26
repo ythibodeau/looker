@@ -84,6 +84,17 @@ view: pati__appointments {
     END;;
   }
 
+  dimension: hub_source {
+    type: string
+    sql:
+    CASE
+      WHEN ${TABLE}.created_by_type = "BookingHub::Partner::Partner" THEN "Patient"
+      WHEN ${TABLE}.created_by_type IS NULL AND ${pati__availabilities.is_hub_availability} THEN "Staff - Hub Available"
+      ELSE "Staff Only"
+    END
+    ;;
+  }
+
   dimension: delay_in_minutes {
     type: number
     sql: TIMESTAMPDIFF(MINUTE,${created_time},${pati__availabilities.start_time}) ;;

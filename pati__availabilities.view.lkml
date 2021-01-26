@@ -154,7 +154,7 @@ view: pati__availabilities {
 
   dimension: is_hub_valid {
     type: yesno
-    sql: (${start_date} < now() AND ${visibility} = 2) OR (${start_date} >= now() AND ${visibility} <> 2) ;;
+    sql:  ${visibility} <> 2 ;;
   }
 
   dimension: clean_state {
@@ -220,9 +220,19 @@ view: pati__availabilities {
       ;;
   }
 
+  dimension: is_taken {
+    type: yesno
+    sql: EXISTS(SELECT ${pati__appointments.id} FROM pati__appointments a WHERE a.availability_id = ${id} AND a.cancelled = 0) ;;
+  }
+
+  measure: count_is_taken  {
+    type: count
+    filters: [is_taken: "Yes"]
+  }
+
   dimension: is_free {
     type: yesno
-    sql: ${pati__appointments.availability_id} is null  ;;
+    sql: NOT EXISTS(SELECT ${pati__appointments.id} FROM pati__appointments a WHERE a.availability_id = ${id}) ;;
   }
 
   dimension: appointment_creator {
@@ -252,6 +262,12 @@ view: pati__availabilities {
 
   measure: count {
     type: count
+    drill_fields: [detail*]
+  }
+
+  measure: count_not_cancelled {
+    type: count
+    filters: [visibility: "0", state: "0"]
     drill_fields: [detail*]
   }
 
@@ -296,18 +312,25 @@ view: pati__availabilities {
     filters: [is_free: "No"]
   }
 
-  # Created for Manitoba
+  # Created for Manitoba - Tests
   measure: count_patient_visible_not_free_staff {
     label: "count_patient_visible_not_free_staff"
     type: count
     filters: [visibility: "0", state: "0", is_free: "No", appointment_creator: "Staff"]
   }
 
-  # Created for Manitoba
+  # Created for Manitoba - Tests
   measure: count_patient_visible_not_free_patient {
     label: "count_patient_visible_not_free_patient"
     type: count
     filters: [visibility: "0", state: "0", is_free: "No", appointment_creator: "Patient"]
+  }
+
+  # Created for Manitoba - Vaccine
+  measure: count_manitoba {
+    label: "count_manitoba"
+    type: count
+    filters: [is_free: "No"]
   }
 
   measure: count_availabilities {
