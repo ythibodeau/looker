@@ -39,6 +39,7 @@ map_layer: economic_regions_layer {
 }
 
 explore: b_hub__log_ramq_family_doctors {}
+explore: b_hub__accesses {}
 explore: pati__visibility_blocks {}
 
 #####################################################################
@@ -6277,6 +6278,19 @@ explore: book__notifications {
   join: book__notification_deliveries {
     type: left_outer
     sql_on: ${book__notifications.id} = ${book__notification_deliveries.notification_id} ;;
+    relationship: one_to_one
+  }
+
+  join: last_delivery {
+    type: left_outer
+    sql_on: ${book__notifications.id} = ${last_delivery.notification_id} ;;
+    relationship: one_to_one
+  }
+
+  join: last_notification_delivery {
+    from: book__notification_deliveries
+    type: left_outer
+    sql_on: ${last_delivery.delivery_id} = ${last_notification_delivery.id} ;;
     relationship: one_to_one
   }
 

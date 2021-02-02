@@ -111,6 +111,16 @@ view: book__notification_deliveries {
 
   measure: count {
     type: count
-    drill_fields: [id, notifications.id]
+    drill_fields:
+    [
+    id,
+    notifications.id,
+    book__notifications.created_time,
+    book__notification_templates.clean_media,
+    book__queued_notifications.acknowledged_by_third_party,
+    sent_time,
+    book__queued_notifications.petal_status,
+    book__queued_notifications.logibec_response_code
+      ]
   }
 }

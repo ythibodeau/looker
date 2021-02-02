@@ -260,6 +260,18 @@ view: pati__availabilities {
     sql: CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(${pati__visibility_blocks.interval},'/',-2),'/',1) AS TIME)  ;;
   }
 
+  dimension: hub_status  {
+    type: string
+    sql:
+    CASE
+      WHEN ${pati__appointments.cancelled} = 0 AND ${pati__appointments.created_by_emr} = 1 THEN "Staff"
+      WHEN ${pati__appointments.cancelled} = 0 AND ${pati__appointments.created_by_type} = "BookingHub::Partner::Partner" THEN "Patient"
+      ELSE "Free"
+    END
+
+    ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [detail*]
@@ -296,6 +308,8 @@ view: pati__availabilities {
       value: "0"
     }
     filters: [is_free: "Yes"]
+
+    drill_fields: [detail*]
   }
 
   measure: count_patient_visible_not_free_availabilities {
@@ -310,6 +324,8 @@ view: pati__availabilities {
       value: "0"
     }
     filters: [is_free: "No"]
+
+    drill_fields: [detail*]
   }
 
   # Created for Manitoba - Tests
@@ -438,7 +454,9 @@ view: pati__availabilities {
       start_time,
       is_hub_valid,
       clean_state,
-      clean_visibility
+      clean_visibility,
+      pati__appointments.id,
+      hub_status
     ]
   }
 

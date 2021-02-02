@@ -100,10 +100,23 @@ view: pati__appointments {
     sql: TIMESTAMPDIFF(MINUTE,${created_time},${pati__availabilities.start_time}) ;;
   }
 
+  dimension: delay_in_hours {
+    type: number
+    sql: TIMESTAMPDIFF(HOUR,${created_time},${pati__availabilities.start_time}) ;;
+  }
+
+  measure: count_36h {
+    type: count_distinct
+    sql: ${id} ;;
+    filters: [delay_in_hours: "<= 36"]
+    drill_fields: [details_hub*]
+  }
+
   dimension: delay_in_days {
     type: number
     sql: TIMESTAMPDIFF(DAY,${created_time},${pati__availabilities.start_time}) ;;
   }
+
 
   measure: average_delay  {
     label: "average_delay_minutes_appointment"
@@ -116,6 +129,8 @@ view: pati__appointments {
     type: average_distinct
     sql:  ${delay_in_days};;
   }
+
+
 
   dimension: created_in_emr {
     type: yesno
@@ -202,6 +217,7 @@ view: pati__appointments {
 
   measure: count {
     type: count
+    sql: ISNULL(id, 0 ) ;;
     drill_fields: [details_hub*]
   }
 
@@ -325,7 +341,8 @@ view: pati__appointments {
       pati__offerings.offer_kind,
       pati__availabilities.start_time,
       cancelled,
-      pati__availabilities.id
+      pati__availabilities.id,
+      delay_in_hours
       ]
   }
 }

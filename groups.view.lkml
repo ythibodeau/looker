@@ -177,6 +177,20 @@ view: groups {
     sql: ${TABLE}.created_at ;;
   }
 
+  dimension_group: go_live {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.go_live_date ;;
+  }
+
   dimension: description {
     type: string
     sql: ${TABLE}.description ;;
