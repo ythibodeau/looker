@@ -10,7 +10,7 @@ view: scheduling_publication_alert {
         ROUND((0.67 * publication_average_delay.`periods_last_year.average_delay`)) as alert_trigger,
         DATE_SUB(DATE(CONVERT_TZ(min_next_released_period.period_start_date ,'UTC','America/New_York')), INTERVAL ABS((0.67 * publication_average_delay.`periods_last_year.average_delay`)) DAY) as trigger_date,
         CASE
-          WHEN (DATEDIFF(now(), min_next_released_period.period_start_date) > (0.67 * publication_average_delay.`periods_last_year.average_delay`) OR DATEDIFF(now(), min_next_released_period.period_start_date) >= 0) THEN true
+          WHEN (DATEDIFF(now(), min_next_released_period.period_start_date) <= (0.67 * publication_average_delay.`periods_last_year.average_delay`) OR DATEDIFF(now(), min_next_released_period.period_start_date) >= 0) THEN true
           ELSE false
         END AS must_be_contacted
       FROM
