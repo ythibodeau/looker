@@ -381,6 +381,55 @@ explore: economic_regions {
     relationship: many_to_one
   }
 
+  join: pati__account_tasks {
+    type: left_outer
+    sql_on: ${accounts.id} = ${pati__account_tasks.account_id} ;;
+    relationship: one_to_many
+  }
+
+  join: pati__offerings {
+    type: left_outer
+    sql_on: ${x_groups.id} = ${pati__offerings.group_id} ;;
+    relationship: one_to_many
+  }
+
+  join: b_hub__offering_service_types {
+    type: left_outer
+    sql_on: ${pati__offerings.id} = ${b_hub__offering_service_types.offering_id} ;;
+    relationship: one_to_many
+  }
+
+  join: b_hub__service_types {
+    type: left_outer
+    sql_on: ${b_hub__offering_service_types.service_type_id} = ${b_hub__service_types.id} ;;
+    relationship: many_to_one
+  }
+
+  join: pati__reasons {
+    type: left_outer
+    sql_on: ${pati__offerings.id} = ${pati__reasons.offering_id} ;;
+    relationship: one_to_many
+  }
+
+  join: pati__tasks {
+    type: left_outer
+    sql_on: ${pati__reasons.id} = ${pati__tasks.reason_id} ;;
+    relationship: one_to_many
+  }
+
+  join: pati__availabilities {
+    type: left_outer
+    sql_on: ${pati__account_tasks.id} = ${pati__availabilities.account_task_id} ;;
+    relationship: one_to_many
+  }
+
+  join: pati__appointments {
+    type: left_outer
+    sql_on: ${pati__availabilities.id} = ${pati__appointments.availability_id};;
+    relationship: one_to_many
+    # Because there could be cancelled appointments on availabilities
+  }
+
 }
 
 explore: account_with_one_group {
@@ -5335,6 +5384,18 @@ explore: pati__appointments {
     type: left_outer
     relationship: many_to_one
     sql_on: ${group_clinics.health_institution_id} = ${health_institutions.id} ;;
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+    relationship: many_to_one
+  }
+
+  join: economic_regions {
+    type: left_outer
+    sql_on: ${health_institutions.region_id} = ${economic_regions.id} ;;
+    relationship: many_to_one
   }
 
   join: pati__providers {

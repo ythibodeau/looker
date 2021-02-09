@@ -753,6 +753,12 @@ view: groups {
     drill_fields: [detail*]
   }
 
+  measure: hub_count {
+    description: "Ignores pricing plans for lists"
+    type: count
+    drill_fields: [hub*]
+  }
+
   measure: count_members {
     type: count_distinct
     sql: ${memberships.id} ;;
@@ -803,6 +809,14 @@ view: groups {
       health_institutions.short_name,
       pricing_plans,
       memberships.count
+    ]
+  }
+
+  set: hub {
+    fields: [
+      id,
+      name,
+      health_institutions.short_name
     ]
   }
 }

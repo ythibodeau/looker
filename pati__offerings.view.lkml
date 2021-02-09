@@ -156,6 +156,23 @@ view: pati__offerings {
     END;;
   }
 
+  dimension: hub_account_filter {
+    type: number
+    sql: ${TABLE}.hub_account_filter  ;;
+  }
+
+  dimension: hub_account_filter_clean {
+    type: number
+    sql:
+    CASE
+      WHEN ${TABLE}.hub_account_filter = 0 THEN "MD Famille"
+      WHEN ${TABLE}.hub_account_filter = 1 THEN "GMF"
+      WHEN ${TABLE}.hub_account_filter = 2 THEN "Populationnel"
+    END
+
+    ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [id, groups.name, groups.parent_group_id]
