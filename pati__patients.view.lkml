@@ -80,6 +80,16 @@ view: pati__patients {
     sql: ${TABLE}.gender ;;
   }
 
+  dimension: gender_clean {
+    type: string
+    sql:
+    CASE
+       WHEN ${TABLE}.gender = 0 THEN "M"
+       WHEN ${TABLE}.gender = 1 THEN "F"
+       WHEN ${TABLE}.gender = 2 THEN "UN"
+    END;;
+  }
+
   dimension: hin {
     type: string
     sql: ${TABLE}.hin ;;

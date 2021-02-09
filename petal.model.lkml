@@ -38,6 +38,16 @@ map_layer: economic_regions_layer {
   property_key: "ERNAME"
 }
 
+explore: b_hub__log_ramq_family_doctors {
+  join: pati__patients {
+    type: left_outer
+    sql_on: ${b_hub__log_ramq_family_doctors.patient_id} ;;
+    relationship: many_to_one
+  }
+}
+explore: b_hub__accesses {}
+explore: pati__visibility_blocks {}
+
 #####################################################################
 # KPIs
 #####################################################################
@@ -791,6 +801,12 @@ explore: accounts {
     relationship: many_to_one
   }
 
+  join: economic_regions {
+    type: left_outer
+    sql_on: ${health_institutions.region_id} = ${economic_regions.id}  ;;
+    relationship: many_to_one
+  }
+
   join: territories {
     type: left_outer
     sql_on: ${health_institutions.territory_id} = ${territories.id} ;;
@@ -922,6 +938,12 @@ explore: accounts {
     type: left_outer
     sql_on: ${accounts.id} = ${accounts_paying_scheduling.account_id} ;;
     relationship: one_to_one
+  }
+
+  join: licenses {
+    type: left_outer
+    sql_on: ${accounts.id} = ${licenses.account_id} ;;
+    relationship: one_to_many
   }
 
 }
@@ -1282,7 +1304,7 @@ explore: group_export_datas {
   }
 }
 
-explore: groups {
+explore: x_groups {
   from: groups
   group_label: "Global"
   access_filter: {
@@ -1290,29 +1312,29 @@ explore: groups {
     user_attribute: institution_name
   }
 
-  cancel_grouping_fields: [accounts.highest_paying_plan, groups.is_scheduling, groups.pricing_plan_test]
+  cancel_grouping_fields: [accounts.highest_paying_plan, x_groups.is_scheduling, x_groups.pricing_plan_test]
 
   join: group_kinds {
     type: inner
-    sql_on: ${groups.kind_id} = ${group_kinds.id} ;;
+    sql_on: ${x_groups.kind_id} = ${group_kinds.id} ;;
     relationship: many_to_one
   }
 
   join: groups_not_in_console {
     type: left_outer
-    sql_on: ${groups.id} = ${groups_not_in_console.content_group_id} ;;
+    sql_on: ${x_groups.id} = ${groups_not_in_console.content_group_id} ;;
     relationship: many_to_one
   }
 
   join: centres {
     type: left_outer
-    sql_on: ${groups.centre_id} = ${centres.id} ;;
+    sql_on: ${x_groups.centre_id} = ${centres.id} ;;
     relationship: many_to_one
   }
 
   join: group_last_published_period {
     type: left_outer
-    sql_on: ${groups.id} = ${group_last_published_period.group_id};;
+    sql_on: ${x_groups.id} = ${group_last_published_period.group_id};;
     relationship: one_to_one
   }
 
@@ -1327,7 +1349,7 @@ explore: groups {
 
   join: locations {
     type: left_outer
-    sql_on: ${groups.location_id} = ${locations.id} ;;
+    sql_on: ${x_groups.location_id} = ${locations.id} ;;
     relationship: many_to_one
   }
 
@@ -1339,19 +1361,19 @@ explore: groups {
 
   join: timezones {
     type: left_outer
-    sql_on: ${groups.timezone_id} = ${timezones.id} ;;
+    sql_on: ${x_groups.timezone_id} = ${timezones.id} ;;
     relationship: many_to_one
   }
 
   join: specialties {
     type: left_outer
-    sql_on: ${groups.specialty_id} = ${specialties.id} ;;
+    sql_on: ${x_groups.specialty_id} = ${specialties.id} ;;
     relationship: one_to_one
   }
 
   join: groups_pricing_plans {
     type: inner
-    sql_on: ${groups_pricing_plans.group_id} = ${groups.id} AND
+    sql_on: ${groups_pricing_plans.group_id} = ${x_groups.id} AND
             ((${groups_pricing_plans.start_date} IS NULL AND ${groups_pricing_plans.end_date} IS NULL) OR
             (${groups_pricing_plans.start_date} IS NULL AND ${groups_pricing_plans.end_date} >= now()) OR
             (${groups_pricing_plans.start_date} <= now() AND ${groups_pricing_plans.end_date} IS NULL) OR
@@ -1360,11 +1382,26 @@ explore: groups {
     relationship: one_to_many
   }
 
+  join: past_group_pricing_plans {
+    from: groups_pricing_plans
+    type: inner
+    sql_on:  ${past_group_pricing_plans.group_id} = ${x_groups.id} AND
+      ${past_group_pricing_plans.end_date} <= now() ;;
+  }
+
   join: pricing_plans {
     type: inner
     sql_on: ${groups_pricing_plans.plan_id} = ${pricing_plans.id} ;;
     relationship: many_to_one
   }
+
+  join: past_pricing_plans {
+    from: pricing_plans
+    type: inner
+    sql_on: ${past_group_pricing_plans.plan_id} = ${past_pricing_plans.id} ;;
+    relationship: many_to_one
+  }
+
 
   join: pricing_suites {
     type: inner
@@ -1374,7 +1411,7 @@ explore: groups {
 
   join: product_audiences {
     type: left_outer
-    sql_on: ${groups.id} = ${product_audiences.productable_id} AND ${product_audiences.productable_type} = "Group" ;;
+    sql_on: ${x_groups.id} = ${product_audiences.productable_id} AND ${product_audiences.productable_type} = "Group" ;;
     relationship: one_to_many
   }
 
@@ -1386,7 +1423,7 @@ explore: groups {
 
   join: memberships {
     type: left_outer
-    sql_on: ${memberships.group_id} = ${groups.id} ;;
+    sql_on: ${memberships.group_id} = ${x_groups.id} ;;
     relationship: many_to_one
   }
 
@@ -1423,22 +1460,28 @@ explore: groups {
   join: sche__change_requests {
     view_label: "Change Requests"
     type: left_outer
-    sql_on: ${sche__change_requests.group_id} = ${groups.id} ;;
+    sql_on: ${sche__change_requests.group_id} = ${x_groups.id} ;;
     relationship: many_to_one
   }
 
   join: pati__providers {
     view_label: "EMR"
     type: left_outer
-    sql_on: ${pati__providers.group_id} = ${groups.id};;
+    sql_on: ${pati__providers.group_id} = ${x_groups.id};;
     relationship: many_to_one
   }
 
   join: pati__reasons {
     view_label: "Appointment Reason"
     type: inner
-    sql_on: ${pati__reasons.group_id} = ${groups.id} ;;
+    sql_on: ${pati__reasons.group_id} = ${x_groups.id} ;;
     relationship: many_to_one
+  }
+
+  join: pati__visibility_blocks {
+    type: left_outer
+    sql_on: ${pati__reasons.id} = ${pati__visibility_blocks.context_id} AND ${pati__visibility_blocks.context_type} = "Patient::Appointment::Reason" ;;
+    relationship: one_to_many
   }
 
   join: pati__offerings {
@@ -1462,6 +1505,14 @@ explore: groups {
     relationship: many_to_one
   }
 
+  join: availability_accounts {
+    from: accounts
+    type: inner
+    sql_on: ${pati__account_tasks.account_id} = ${accounts.id} AND
+            ${pati__availabilities.account_task_id} = ${pati__account_tasks.id} ;;
+    relationship: one_to_many
+  }
+
   join: pati__availabilities {
     view_label: "Availabilities"
     type: inner
@@ -1474,6 +1525,34 @@ explore: groups {
     type: inner
     sql_on: ${pati__appointments.availability_id} = ${pati__availabilities.id} ;;
     relationship: one_to_one
+  }
+
+  join: b_hub__offering_service_types {
+    type: left_outer
+    sql_on: ${pati__offerings.id} = ${b_hub__offering_service_types.offering_id} ;;
+    relationship: one_to_many
+  }
+
+  join: b_hub__service_types {
+    type: left_outer
+    sql_on: ${b_hub__offering_service_types.service_type_id} = ${b_hub__service_types.id}  ;;
+    relationship: many_to_many
+  }
+
+  join: visibility_blocks_reason {
+    from: pati__visibility_blocks
+    type: left_outer
+    sql_on: ${visibility_blocks_reason.context_type} = "Patient::Appointment::Reason"
+      AND visibility_blocks_reason.context_id = ${pati__reasons.id};;
+    relationship: one_to_many
+  }
+
+  join: visibility_blocks_account_task {
+    from: pati__visibility_blocks
+    type: left_outer
+    sql_on: ${visibility_blocks_account_task.context_type} = "Patient::Appointment::AccountTask"
+      AND ${visibility_blocks_reason.context_id} = ${pati__account_tasks.id};;
+    relationship: one_to_many
   }
 
   join: availabilities_walkins {
@@ -1512,13 +1591,13 @@ explore: groups {
 
   join: holidays {
     type: left_outer
-    sql_on: ${holidays.group_id} = ${groups.id} ;;
+    sql_on: ${holidays.group_id} = ${x_groups.id} ;;
     relationship: one_to_many
   }
 
   join: health_institutions {
     type: left_outer
-    sql_on: ${groups.health_institution_id} = ${health_institutions.id} ;;
+    sql_on: ${x_groups.health_institution_id} = ${health_institutions.id} ;;
     relationship: many_to_one
   }
 
@@ -1531,17 +1610,18 @@ explore: groups {
   # Scheduling Part
   join: sche__task_kinds {
     type: left_outer
-    sql_on: ${groups.id} = ${sche__task_kinds.id} ;;
+    sql_on: ${x_groups.id} = ${sche__task_kinds.id} ;;
     relationship: one_to_many
   }
 
   join: group_billing_profiles {
     type: left_outer
-    sql_on: ${groups.id} = ${group_billing_profiles.group_id} ;;
+    sql_on: ${x_groups.id} = ${group_billing_profiles.group_id} ;;
     relationship: one_to_one
   }
 
 }
+
 
 explore: groups_pricing_plans {
   group_label: "Global"
@@ -3901,6 +3981,12 @@ explore: sche__assignments {
     relationship: many_to_one
   }
 
+  join: economic_regions {
+    type: left_outer
+    sql_on: ${health_institutions.region_id} = ${economic_regions.id} ;;
+    relationship: many_to_one
+  }
+
   join: territories {
     type: left_outer
     sql_on: ${health_institutions.territory_id} = ${territories.id} ;;
@@ -5148,6 +5234,18 @@ explore: pati__appointments {
     sql_on: ${pati__patients.id} = ${pati__subscriptions.patient_id} ;;
   }
 
+  join: pati__profiles {
+    type: left_outer
+    sql_on: ${pati__subscriptions.profile_id} = ${pati__profiles.id} ;;
+    relationship: one_to_one
+  }
+
+  join: contact_methods {
+    type: left_outer
+    sql_on: ${contact_methods.contactable_id} = ${pati__profiles.id} AND
+     ${contact_methods.contactable_type} = "Patient::Profile";;
+  }
+
   join: pati__availabilities {
     view_label: "Availabilities"
     type: inner
@@ -5165,6 +5263,12 @@ explore: pati__appointments {
     type: inner
     relationship: many_to_one
     sql_on: ${pati__account_tasks.account_id} = ${accounts.id} ;;
+  }
+
+  join: account_kinds {
+    type: inner
+    sql_on: ${accounts.kind_id} = ${account_kinds.id} ;;
+    relationship: many_to_one
   }
 
   join: account_first_comment {
@@ -5195,16 +5299,48 @@ explore: pati__appointments {
     relationship: many_to_one
     sql_on: ${pati__tasks.reason_id} = ${pati__reasons.id};;
   }
+
+  join: pati__visibility_blocks {
+    type: left_outer
+    sql_on: ${pati__reasons.id} = ${pati__visibility_blocks.context_id} AND ${pati__visibility_blocks.context_type} = "Patient::Appointment::Reason" ;;
+    relationship: one_to_many
+  }
+
   join: pati__offerings {
     type: inner
     relationship: many_to_one
     sql_on: ${pati__reasons.offering_id} = ${pati__offerings.id};;
   }
+
+  join: b_hub__offering_service_types {
+    type: left_outer
+    sql_on: ${pati__offerings.id} = ${b_hub__offering_service_types.offering_id} ;;
+    relationship: one_to_many
+  }
+
+  join: b_hub__service_types {
+    type: left_outer
+    sql_on: ${b_hub__offering_service_types.service_type_id} = ${b_hub__service_types.id} ;;
+    relationship: many_to_one
+  }
+
   join: group_clinics {
     from: groups
     type: inner
     relationship: many_to_one
     sql_on: ${pati__reasons.group_id} = ${group_clinics.id};;
+  }
+
+  join: health_institutions {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${group_clinics.health_institution_id} = ${health_institutions.id} ;;
+  }
+
+  join: pati__providers {
+    type: left_outer
+    sql_on: ${group_clinics.id} = ${pati__providers.group_id} ;;
+    relationship: one_to_one
   }
 
   join: locations {
@@ -5219,15 +5355,35 @@ explore: pati__appointments {
     relationship: one_to_one
   }
 
-  join: pati__providers {
-    type: inner
-    relationship: one_to_one
-    sql_on: ${group_clinics.id} = ${pati__providers.group_id} ;;
-  }
   join: noti__notifications {
     type: left_outer
     relationship: one_to_many
     sql_on: ${pati__appointments.id} = ${noti__notifications.context_id} ;;
+  }
+
+  join: pati__appointment_patient_statuses {
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${pati__appointments.id} = ${pati__appointment_patient_statuses.appointment_id} ;;
+  }
+
+  join: pati__patient_statuses {
+    type: inner
+    relationship: many_to_one
+    sql_on: ${pati__appointment_patient_statuses.patient_status_id} = ${pati__patient_statuses.id} ;;
+  }
+
+  join: appointment_last_status {
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${pati__appointments.id} = ${appointment_last_status.appointment_id} ;;
+  }
+
+  join: last_patient_status {
+    from: pati__patient_statuses
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${appointment_last_status.patient_status_id} = ${last_patient_status.id} ;;
   }
 }
 
@@ -5351,6 +5507,8 @@ explore: pati__appointment_check_ins {
   }
 }
 
+explore: pati__tasks {}
+
 explore: pati__availabilities {
   label: "Availabilities"
   group_label: "Petal Patient"
@@ -5381,6 +5539,19 @@ explore: pati__availabilities {
     sql_on: ${pati__reasons.offering_id} = ${pati__offerings.id};;
     relationship: many_to_one
   }
+
+  join: b_hub__offering_service_types {
+    type: left_outer
+    sql_on: ${pati__offerings.id} = ${b_hub__offering_service_types.offering_id} ;;
+    relationship: one_to_many
+  }
+
+  join: b_hub__service_types {
+    type: left_outer
+    sql_on: ${b_hub__offering_service_types.service_type_id} = ${b_hub__service_types.id} ;;
+    relationship: many_to_one
+  }
+
 
   join: x_groups {
     from: groups
@@ -5423,6 +5594,12 @@ explore: pati__availabilities {
   join: accounts {
     type: inner
     sql_on: ${pati__account_tasks.account_id} = ${accounts.id} ;;
+    relationship: many_to_one
+  }
+
+  join: account_kinds {
+    type: inner
+    sql_on: ${accounts.kind_id} = ${account_kinds.id} ;;
     relationship: many_to_one
   }
 
@@ -5583,6 +5760,18 @@ explore: pati__offerings {
     sql_on: ${x_groups.timezone_id} = ${timezones.id} ;;
     relationship: many_to_one
   }
+
+  join: b_hub__offering_service_types {
+    type: left_outer
+    sql_on: ${pati__offerings.id} = ${b_hub__offering_service_types.offering_id} ;;
+    relationship: one_to_many
+  }
+
+  join: b_hub__service_types {
+    type: left_outer
+    sql_on: ${b_hub__offering_service_types.service_type_id} = ${b_hub__service_types.id} ;;
+    relationship: many_to_one
+  }
 }
 
 explore: pati__patient_statuses {
@@ -5624,11 +5813,22 @@ explore: pati__patients {
     relationship: many_to_one
   }
 
+  join: b_hub__log_ramq_family_doctors {
+    type: left_outer
+    sql_on: ${pati__patients.id} = ${b_hub__log_ramq_family_doctors.patient_id}  ;;
+    relationship: one_to_many
+  }
+
+  join: b_hub__accesses {
+    type: inner
+    sql_on: ${pati__patients.hin} = ${b_hub__accesses.hin} ;;
+    relationship: one_to_many
+  }
+
   join: patient_users {
     type: left_outer
     sql_on: ${pati__patients.id} = ${patient_users.id} ;;
     relationship: one_to_one
-
   }
 
   join: profiles {
@@ -5671,6 +5871,12 @@ explore: pati__patients {
     from: groups
     type: inner
     sql_on: ${pati__subscriptions.group_id} = ${x_groups.id} ;;
+    relationship: many_to_one
+  }
+
+  join: pati__providers {
+    type: left_outer
+    sql_on: ${x_groups.id} = ${pati__providers.group_id} ;;
     relationship: many_to_one
   }
 
@@ -5822,6 +6028,12 @@ explore: pati__reasons {
     type: left_outer
     sql_on: ${x_groups.timezone_id} = ${timezones.id} ;;
     relationship: many_to_one
+  }
+
+  join: pati__visibility_blocks {
+    type: left_outer
+    sql_on: ${pati__reasons.id} = ${pati__visibility_blocks.context_id} AND ${pati__visibility_blocks.context_type} = "Patient::Appointment::Reason" ;;
+    relationship: one_to_many
   }
 }
 
@@ -6100,10 +6312,39 @@ explore: pati__waiting_rooms {
   }
 }
 
+explore: book__notification_templates {
+  join: book__notification_template_groups {
+    type: left_outer
+    sql_on: ${book__notification_templates.template_group_id} = ${book__notification_template_groups.id} ;;
+    relationship: many_to_one
+  }
+}
+
+explore: book__queued_notifications {
+  join: book__notifications {
+    type: left_outer
+    sql_on: ${book__queued_notifications.id} = ${book__notifications.queued_notification_id} ;;
+    relationship: one_to_one
+  }
+}
+
 explore: book__notifications {
   join: book__notification_deliveries {
     type: left_outer
     sql_on: ${book__notifications.id} = ${book__notification_deliveries.notification_id} ;;
+    relationship: one_to_one
+  }
+
+  join: last_delivery {
+    type: left_outer
+    sql_on: ${book__notifications.id} = ${last_delivery.notification_id} ;;
+    relationship: one_to_one
+  }
+
+  join: last_notification_delivery {
+    from: book__notification_deliveries
+    type: left_outer
+    sql_on: ${last_delivery.delivery_id} = ${last_notification_delivery.id} ;;
     relationship: one_to_one
   }
 
@@ -6113,16 +6354,22 @@ explore: book__notifications {
     relationship: many_to_one
   }
 
+  join: book__notification_template_contents {
+    type: left_outer
+    sql_on: ${book__notification_templates.id} = ${book__notification_template_contents.template_id} ;;
+    relationship: one_to_many
+  }
+
   join: book__notification_template_groups {
     type: left_outer
-    sql_on: ${book__notification_templates.template_group_id} = ${book__notification_template_groups.created_by_id} ;;
+    sql_on: ${book__notification_templates.template_group_id} = ${book__notification_template_groups.id} ;;
     relationship: many_to_one
   }
 
   join: x_groups {
     from: groups
-    type: inner
-    sql_on: ${book__notification_template_groups.group_id} = ${x_groups.id} ;;
+    type: left_outer
+    sql_on: ${book__queued_notifications.group_id} = ${x_groups.id} ;;
     relationship: many_to_one
   }
 
@@ -6133,8 +6380,119 @@ explore: book__notifications {
   }
 }
 
+# Booking Hub
+explore: hub_clinics {
+
+  join: memberships {
+    type: left_outer
+    sql_on: ${hub_clinics.id} = ${memberships.group_id} ;;
+    relationship: many_to_one
+  }
+
+  join: accounts {
+    type: left_outer
+    sql_on: ${memberships.account_id} = ${accounts.id} ;;
+    relationship: many_to_one
+  }
+
+ join: locations {
+  type: left_outer
+  sql_on: ${hub_clinics.location_id} = ${locations.id} ;;
+  relationship: many_to_one
+}
+
+join: location_geometries {
+  type: left_outer
+  sql_on: ${locations.id} = ${location_geometries.location_id} ;;
+  relationship: one_to_one
+  }
+
+  join: health_institutions {
+    type: left_outer
+    sql_on: ${hub_clinics.institution_id} = ${health_institutions.id} ;;
+    relationship: many_to_one
+  }
+
+  join: health_clusters {
+    type: left_outer
+    sql_on: ${health_institutions.health_cluster_id} = ${health_clusters.id} ;;
+    relationship: many_to_one
+  }
+
+  join: economic_regions {
+    type: left_outer
+    sql_on: ${health_institutions.region_id} = ${economic_regions.id} ;;
+  }
+
+  join: pati__offerings {
+    type: left_outer
+    sql_on: ${hub_clinics.id} = ${pati__offerings.group_id} ;;
+    relationship: one_to_many
+  }
+
+  join: b_hub__offering_service_types {
+    type: left_outer
+    sql_on: ${pati__offerings.id} = ${b_hub__offering_service_types.offering_id} ;;
+    relationship: one_to_many
+  }
+
+  join: b_hub__service_types {
+    type: left_outer
+    sql_on: ${b_hub__offering_service_types.service_type_id} = ${b_hub__service_types.id}  ;;
+    relationship: many_to_many
+  }
+
+  join: pati__reasons {
+    type: left_outer
+    sql_on: ${pati__offerings.id} = ${pati__reasons.offering_id} ;;
+    relationship: one_to_many
+  }
+
+  join: pati__tasks {
+    type: left_outer
+    sql_on: ${pati__reasons.offering_id} = ${pati__tasks.reason_id} ;;
+    relationship: one_to_many
+  }
+
+  join: pati__account_tasks {
+    type: left_outer
+    sql_on: ${pati__tasks.id} = ${pati__account_tasks.task_id} ;;
+    relationship: one_to_many
+  }
+
+  join: visibility_blocks_reason {
+    from: pati__visibility_blocks
+    type: left_outer
+    sql_on: ${visibility_blocks_reason.context_type} = "Patient::Appointment::Reason"
+         AND visibility_blocks_reason.context_id = ${pati__reasons.id};;
+    relationship: one_to_many
+  }
+
+  join: visibility_blocks_account_task {
+    from: pati__visibility_blocks
+    type: left_outer
+    sql_on: ${visibility_blocks_account_task.context_type} = "Patient::Appointment::AccountTask"
+     AND ${visibility_blocks_reason.context_id} = ${pati__account_tasks.id};;
+    relationship: one_to_many
+  }
+
+  join: pati__availabilities {
+    type: left_outer
+    sql_on: ${pati__account_tasks.id = ${pati__availabilities.account_task_id} ;;
+    relationship: one_to_many
+  }
+
+  join: pati__appointments {
+    type: left_outer
+    sql_on: ${pati__availabilities.id} = ${pati__appointments.availability_id} ;;
+    relationship: one_to_one
+  }
+
+}
+
+
 #####################################################################
-# Petal Hub
+# Petal Console
 #####################################################################
 
 explore: sche__console_layouts {

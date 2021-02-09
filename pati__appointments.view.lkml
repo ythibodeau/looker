@@ -41,6 +41,15 @@ view: pati__appointments {
     sql: ${TABLE}.cancelled_by_type ;;
   }
 
+  dimension: cancelled_by_type_clean {
+    type: string
+    sql:
+    CASE
+      WHEN ${TABLE}.cancelled_by_type = "Account" THEN "Staff"
+      WHEN ${TABLE}.cancelled_by_type = "Patient::Patient" THEN "Patient"
+    END;;
+  }
+
   dimension: cancelled_on_behalf_of_patient {
     type: yesno
     sql: ${TABLE}.cancelled_on_behalf_of_patient ;;
@@ -75,15 +84,39 @@ view: pati__appointments {
     END;;
   }
 
+  dimension: hub_source {
+    type: string
+    sql:
+    CASE
+      WHEN ${TABLE}.created_by_type = "BookingHub::Partner::Partner" THEN "Patient"
+      WHEN ${TABLE}.created_by_type IS NULL AND ${pati__availabilities.is_hub_availability} THEN "Staff - Hub Available"
+      ELSE "Staff Only"
+    END
+    ;;
+  }
+
   dimension: delay_in_minutes {
     type: number
     sql: TIMESTAMPDIFF(MINUTE,${created_time},${pati__availabilities.start_time}) ;;
+  }
+
+  dimension: delay_in_hours {
+    type: number
+    sql: TIMESTAMPDIFF(HOUR,${created_time},${pati__availabilities.start_time}) ;;
+  }
+
+  measure: count_36h {
+    type: count_distinct
+    sql: ${id} ;;
+    filters: [delay_in_hours: "<= 36"]
+    drill_fields: [details_hub*]
   }
 
   dimension: delay_in_days {
     type: number
     sql: TIMESTAMPDIFF(DAY,${created_time},${pati__availabilities.start_time}) ;;
   }
+
 
   measure: average_delay  {
     label: "average_delay_minutes_appointment"
@@ -96,6 +129,8 @@ view: pati__appointments {
     type: average_distinct
     sql:  ${delay_in_days};;
   }
+
+
 
   dimension: created_in_emr {
     type: yesno
@@ -182,7 +217,8 @@ view: pati__appointments {
 
   measure: count {
     type: count
-    drill_fields: [details*]
+    sql: ISNULL(id, 0 ) ;;
+    drill_fields: [details_hub*]
   }
 
   measure: unique_patients_count {
@@ -288,5 +324,25 @@ view: pati__appointments {
 
   set: details {
     fields: [id,created_date,pati__reasons.description_en,groups.name]
+  }
+
+  set: details_hub {
+    fields: [
+      id,
+      created_time,
+      group_clinics.acronym,
+      group_clinics.name,
+      groups.acronym,
+      pati__providers.adapterable_type,
+      pati__offerings.emr_service_code,
+      pati__offerings.emr_service_name,
+      pati__offerings.description_fr_ca,
+      pati__offerings.clean_category,
+      pati__offerings.offer_kind,
+      pati__availabilities.start_time,
+      cancelled,
+      pati__availabilities.id,
+      delay_in_hours
+      ]
   }
 }

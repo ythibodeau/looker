@@ -5,7 +5,7 @@ view: group_last_published_period {
       sql:
       SELECT g.id as group_id,
              MAX(p.id) as period_id
-      FROM groups g
+      FROM `groups` g
       LEFT JOIN sche__periods p
       ON g.id = p.group_id
       WHERE p.state = 'confirmed'

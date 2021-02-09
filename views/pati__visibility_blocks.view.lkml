@@ -1,5 +1,6 @@
-view: licenses {
-  sql_table_name: petalmd.licenses ;;
+view: pati__visibility_blocks {
+  sql_table_name: petalmd.pati__visibility_blocks ;;
+  drill_fields: [id]
 
   dimension: id {
     primary_key: yes
@@ -7,10 +8,14 @@ view: licenses {
     sql: ${TABLE}.id ;;
   }
 
-  dimension: account_id {
+  dimension: context_id {
     type: number
-    # hidden: yes
-    sql: ${TABLE}.account_id ;;
+    sql: ${TABLE}.context_id ;;
+  }
+
+  dimension: context_type {
+    type: string
+    sql: ${TABLE}.context_type ;;
   }
 
   dimension_group: created {
@@ -27,19 +32,24 @@ view: licenses {
     sql: ${TABLE}.created_at ;;
   }
 
-  dimension: license {
+  dimension: duration {
     type: string
-    sql: ${TABLE}.license ;;
+    sql: ${TABLE}.duration ;;
   }
 
-  dimension: hub_license {
+  dimension: interval {
     type: string
-    sql: SUBSTRING_INDEX(${TABLE}.license,"-", -1);;
+    sql: ${TABLE}.`interval` ;;
   }
 
-  dimension: territory_id {
+  dimension: order {
     type: number
-    sql: ${TABLE}.territory_id ;;
+    sql: ${TABLE}.`order` ;;
+  }
+
+  dimension: unlock_offset {
+    type: string
+    sql: ${TABLE}.unlock_offset ;;
   }
 
   dimension_group: updated {
@@ -58,18 +68,6 @@ view: licenses {
 
   measure: count {
     type: count
-    drill_fields: [detail*]
-  }
-
-  # ----- Sets of fields for drilling ------
-  set: detail {
-    fields: [
-      id,
-      accounts.id,
-      accounts.username,
-      accounts.first_name,
-      accounts.middle_name,
-      accounts.last_name
-    ]
+    drill_fields: [id]
   }
 }

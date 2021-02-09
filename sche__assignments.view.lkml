@@ -127,4 +127,9 @@ view: sche__assignments {
       value: "Yes"
     }
   }
+
+  measure: unique_days_count {
+    type: count_distinct
+    sql: ${sche__blocks.event_start_date} ;;
+  }
 }

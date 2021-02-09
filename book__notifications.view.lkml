@@ -187,7 +187,11 @@ view: book__notifications {
       patient_last_name,
       contact_first_name,
       contact_last_name,
-      resource_name
+      resource_name,
+      book__notification_templates.clean_media,
+      book__queued_notifications.status,
+      book__queued_notification_deliveries.error_data
+
     ]
   }
 }

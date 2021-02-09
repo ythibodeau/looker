@@ -21,6 +21,11 @@ view: groups {
     sql: ${TABLE}.absences_due_date ;;
   }
 
+  dimension: ramq_external_id {
+    type: string
+    sql: ${TABLE}.ramq_external_id ;;
+  }
+
   dimension: absences_include_holidays {
     type: yesno
     sql: ${TABLE}.absences_include_holidays ;;
@@ -170,6 +175,20 @@ view: groups {
       year
     ]
     sql: ${TABLE}.created_at ;;
+  }
+
+  dimension_group: go_live {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.go_live_date ;;
   }
 
   dimension: description {
@@ -699,6 +718,23 @@ view: groups {
     sql: ${pati__offerings.group_id} IS NOT NULL ;;
   }
 
+  dimension: clinic_kind {
+    type: string
+    sql:
+      CASE
+        WHEN ${name} LIKE '%GMFU%' OR ${name} LIKE '%GMF-U%' OR ${health_institutions.short_name} LIKE '%GMFU%'
+              OR ${health_institutions.short_name} LIKE '%GMF-U%' THEN "GMF-U"
+       WHEN ${name} LIKE '%GMFR%' OR ${name} LIKE '%GMF-R%' OR ${health_institutions.short_name} LIKE '%GMFR%'
+              OR ${health_institutions.short_name} LIKE '%GMF-R%' THEN "GMF-R"
+              WHEN ${name} LIKE '%GMF%' OR ${name} LIKE '%GMF%' OR ${health_institutions.short_name} LIKE '%GMF%'
+              OR ${health_institutions.short_name} LIKE '%GMF%' THEN "GMF"
+        WHEN ${name} LIKE '%CLSC%' OR ${health_institutions.short_name} LIKE '%CLSC%' THEN "CLSC"
+       ELSE "Hors-GMF"
+      END
+
+    ;;
+  }
+
    ### HUB DIMENSIONS ###
 
   measure: pricing_plans {
@@ -714,7 +750,6 @@ view: groups {
 
   measure: count {
     type: count
-    sql: ${groups.id} ;;
     drill_fields: [detail*]
   }
 
@@ -726,7 +761,7 @@ view: groups {
   measure: count_scheduling {
     label: "count_scheduling"
     type: count_distinct
-    sql: ${groups.id} ;;
+    sql: ${x_groups.id} ;;
     drill_fields: [detail*]
     filters: [kind_id: "1"]
   }
@@ -734,7 +769,7 @@ view: groups {
   measure: count_console_groups {
     label: "count_console_groups"
     type: count_distinct
-    sql: ${groups.id} ;;
+    sql: ${x_groups.id} ;;
     drill_fields: [detail*]
     filters: [console_enabled: "yes"]
   }
@@ -742,7 +777,7 @@ view: groups {
   measure: count_communication_groups {
     label: "count_communication_groups"
     type: count_distinct
-    sql: ${groups.id} ;;
+    sql: ${x_groups.id} ;;
     drill_fields: [detail*]
     filters: [kind_id: "5"]
   }
@@ -750,7 +785,7 @@ view: groups {
   measure: count_implementation {
     label: "count_implementation_groups"
     type: count_distinct
-    sql: ${groups.id} ;;
+    sql: ${x_groups.id} ;;
     drill_fields: [detail*]
     filters: [implementation: "yes"]
   }

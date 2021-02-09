@@ -1,5 +1,6 @@
-view: book__notification_templates {
-  sql_table_name: petalmd.book__notification_templates ;;
+view: b_hub__offering_service_types {
+  sql_table_name: petalmd.b_hub__offering_service_types ;;
+  drill_fields: [id]
 
   dimension: id {
     primary_key: yes
@@ -21,37 +22,14 @@ view: book__notification_templates {
     sql: ${TABLE}.created_at ;;
   }
 
-  dimension: locale {
-    type: string
-    sql: ${TABLE}.locale ;;
-  }
-
-  dimension: media {
+  dimension: offering_id {
     type: number
-    sql: ${TABLE}.media ;;
+    sql: ${TABLE}.offering_id ;;
   }
 
-  dimension: clean_media {
-    type: string
-    sql:
-
-    CASE
-      WHEN ${TABLE}.media = 0 THEN "Email"
-      WHEN ${TABLE}.media = 1 THEN "SMS"
-      WHEN ${TABLE}.media = 2 THEN "Phone"
-    END
-    ;;
-  }
-
-
-  dimension: template_group_id {
+  dimension: service_type_id {
     type: number
-    sql: ${TABLE}.template_group_id ;;
-  }
-
-  dimension: title {
-    type: string
-    sql: ${TABLE}.title ;;
+    sql: ${TABLE}.service_type_id ;;
   }
 
   dimension_group: updated {

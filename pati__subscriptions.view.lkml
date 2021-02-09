@@ -177,6 +177,26 @@ view: pati__subscriptions {
     sql: max(${created_date}) ;;
   }
 
+  dimension: numbers {
+    type: string
+    sql: ${contact_methods.kind_number} ;;
+  }
+
+  measure: all_numbers {
+    type: list
+    list_field: numbers
+  }
+
+  dimension: emails {
+    type: string
+    sql: ${pati__profiles.email} ;;
+  }
+
+  measure: all_email {
+    type: list
+    list_field: emails
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [

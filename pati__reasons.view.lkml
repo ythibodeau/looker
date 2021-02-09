@@ -136,6 +136,16 @@ view: pati__reasons {
     END;;
   }
 
+  dimension: offset_in_hours {
+    type: number
+    sql: ${pati__visibility_blocks.offset_in_hours} ;;
+  }
+
+  dimension: real_availability_start_time {
+    type: number
+    sql: ${pati__visibility_blocks.real_availability_start_time_at} ;;
+  }
+
   dimension: patient_filter_id {
     type: number
     sql: ${TABLE}.patient_filter_id ;;

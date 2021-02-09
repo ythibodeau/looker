@@ -132,6 +132,7 @@ view: pati__availabilities {
     timeframes: [
       raw,
       time,
+      time_of_day,
       date,
       week,
       month,
@@ -144,6 +145,16 @@ view: pati__availabilities {
   dimension: state {
     type: number
     sql: ${TABLE}.state ;;
+  }
+
+  dimension: is_hub_availability {
+    type: yesno
+    sql: ${TABLE}.start_time  >= CONVERT_TZ(TIMESTAMP('2020-12-11 00:00'),'America/New_York','UTC') ;;
+  }
+
+  dimension: is_hub_valid {
+    type: yesno
+    sql:  ${visibility} <> 2 ;;
   }
 
   dimension: clean_state {
@@ -209,9 +220,19 @@ view: pati__availabilities {
       ;;
   }
 
+  dimension: is_taken {
+    type: yesno
+    sql: EXISTS(SELECT ${pati__appointments.id} FROM pati__appointments a WHERE a.availability_id = ${id} AND a.cancelled = 0) ;;
+  }
+
+  measure: count_is_taken  {
+    type: count
+    filters: [is_taken: "Yes"]
+  }
+
   dimension: is_free {
     type: yesno
-    sql: ${pati__appointments.availability_id} is null  ;;
+    sql: NOT EXISTS(SELECT ${pati__appointments.id} FROM pati__appointments a WHERE a.availability_id = ${id}) ;;
   }
 
   dimension: appointment_creator {
@@ -219,9 +240,47 @@ view: pati__availabilities {
     sql: ${pati__appointments.created_by_type_clean} ;;
   }
 
+  dimension: available_at {
+    description: "When is this availability being offered on patient portals. Note: for now, doesn't support specific by MD"
+    type: date_time
+    sql: DATE_ADD(${TABLE}.start_time, INTERVAL ${pati__reasons.offset_in_hours} HOUR) ;;
+  }
+
+  dimension_group: real_availability_start_time {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(${pati__visibility_blocks.interval},'/',-2),'/',1) AS TIME)  ;;
+  }
+
+  dimension: hub_status  {
+    type: string
+    sql:
+    CASE
+      WHEN ${pati__appointments.cancelled} = 0 AND ${pati__appointments.created_by_emr} = 1 THEN "Staff"
+      WHEN ${pati__appointments.cancelled} = 0 AND ${pati__appointments.created_by_type} = "BookingHub::Partner::Partner" THEN "Patient"
+      ELSE "Free"
+    END
+
+    ;;
+  }
+
   measure: count {
     type: count
-    drill_fields: [id]
+    drill_fields: [detail*]
+  }
+
+  measure: count_not_cancelled {
+    type: count
+    filters: [visibility: "0", state: "0"]
+    drill_fields: [detail*]
   }
 
   measure: count_patient_visible_availabilities {
@@ -249,6 +308,8 @@ view: pati__availabilities {
       value: "0"
     }
     filters: [is_free: "Yes"]
+
+    drill_fields: [detail*]
   }
 
   measure: count_patient_visible_not_free_availabilities {
@@ -263,20 +324,41 @@ view: pati__availabilities {
       value: "0"
     }
     filters: [is_free: "No"]
+
+    drill_fields: [detail*]
   }
 
-  # Created for Manitoba
+  # Created for Manitoba - Tests
   measure: count_patient_visible_not_free_staff {
     label: "count_patient_visible_not_free_staff"
     type: count
-    filters: [is_free: "No", appointment_creator: "Staff"]
+    filters: [visibility: "0", state: "0", is_free: "No", appointment_creator: "Staff"]
   }
 
-  # Created for Manitoba
+  # Created for Manitoba - Tests
   measure: count_patient_visible_not_free_patient {
     label: "count_patient_visible_not_free_patient"
     type: count
-    filters: [is_free: "No", appointment_creator: "Patient"]
+    filters: [visibility: "0", state: "0", is_free: "No", appointment_creator: "Patient"]
+  }
+
+  # Created for Manitoba - Vaccine
+  measure: count_manitoba {
+    label: "count_manitoba"
+    type: count
+    filters: [is_free: "No"]
+  }
+
+  measure: count_availabilities {
+    label: "Manitoba Availabilities Count"
+    type: count
+    filters: [is_free: "Yes"]
+  }
+
+  measure: count_appointments {
+    label: "Manitoba Appointments Count"
+    type: count
+    filters: [is_free: "No"]
   }
 
 
@@ -363,13 +445,18 @@ view: pati__availabilities {
   set: detail {
     fields: [
       id,
+      x_groups.acronym,
       pati__providers.adapterable_type,
-      groups.name,
-      accounts.full_name,
+      pati__offerings.emr_service_code,
       pati__offerings.description_fr_ca,
-      pati__reasons.description_fr_ca,
+      pati__offerings.clean_category,
+      pati__offerings.offer_kind,
       start_time,
-      end_time
+      is_hub_valid,
+      clean_state,
+      clean_visibility,
+      pati__appointments.id,
+      hub_status
     ]
   }
 

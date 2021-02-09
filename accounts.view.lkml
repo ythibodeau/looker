@@ -51,6 +51,11 @@ view: accounts {
     sql: ${TABLE}.activation_code ;;
   }
 
+  dimension: hub_unique_key {
+    type: string
+    sql: CONCAT(${first_name}, ${last_name}) ;;
+  }
+
   dimension: activation_email_bounce_description {
     type: string
     sql: ${TABLE}.activation_email_bounce_description ;;
@@ -536,6 +541,12 @@ view: accounts {
     label: "accounts"
   }
 
+  measure: count_unique_hub {
+    label: "count_unique_hub"
+    type: count_distinct
+    sql: ${accounts.hub_unique_key} ;;
+  }
+
   measure: count_unique_console_accounts {
     type: count_distinct
     sql: ${accounts.id} ;;
@@ -849,7 +860,7 @@ view: accounts {
 
   dimension: group_acronym {
     type: string
-    sql: ${groups.acronym} ;;
+    sql: ${x_groups.acronym} ;;
   }
 
   measure: groups_acronym {
@@ -898,7 +909,7 @@ view: accounts {
     type: count
     filters: {
       field: simplified_kind
-      value: "Doctor"
+      value:  "Docteur"
     }
   }
 
@@ -918,7 +929,7 @@ view: accounts {
     type: count
     filters: {
       field: simplified_kind
-      value: "Resident"
+      value:"Resident"
     }
   }
 

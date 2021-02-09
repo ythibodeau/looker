@@ -4,7 +4,7 @@ view: accounts_paying_scheduling {
     sql: SELECT A.id as account_id, ACCOUNT_GROUPS.all_group_ids, ACCOUNT_PAYING_GROUPS.paying_group_id as paying_group_id, ACCOUNT_PAYING_GROUPS.recurring_billing_type, ACCOUNT_PAYING_GROUPS.princing_plan_id as pricing_plan_id FROM (
       SELECT A.id, GROUP_CONCAT(G.id ORDER BY 1) as all_group_ids FROM accounts A
       INNER JOIN memberships M ON A.id = M.account_id
-      INNER JOIN groups G ON G.id = M.group_id
+      INNER JOIN `groups` G ON G.id = M.group_id
       INNER JOIN groups_pricing_plans GPP ON GPP.group_id = G.id
       WHERE G.is_trial = 0 AND G.inactive = 0 AND GPP.plan_id IN (127,128,129) AND (GPP.end_date IS NULL OR GPP.end_date >= NOW())
       GROUP BY A.id
@@ -14,7 +14,7 @@ view: accounts_paying_scheduling {
         LEFT JOIN account_billing_subscriptions ABS ON ABS.`account_id` = A.id
         LEFT JOIN group_billing_subscriptions GBS ON ABS.`group_billing_subscription_id` = GBS.id
         LEFT JOIN group_billing_profiles GBP ON GBP.id = GBS.group_billing_profile_id
-        LEFT JOIN groups G ON G.id = GBP.group_id
+        LEFT JOIN `groups` G ON G.id = GBP.group_id
         LEFT JOIN groups_pricing_plans GPP ON GPP.group_id = G.id
         WHERE (GPP.plan_id IS NULL OR GPP.plan_id IN (127,128,129)) AND (GPP.end_date IS NULL OR GPP.end_date >= NOW())
       ) ACCOUNT_PAYING_GROUPS ON ACCOUNT_PAYING_GROUPS.id = ACCOUNT_GROUPS.id

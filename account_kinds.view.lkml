@@ -17,13 +17,28 @@ view: account_kinds {
     sql:
 
     CASE
-      WHEN ${TABLE}.mnemonic IN ("doctor", "retired", "fellow") THEN "Doctor"
-      WHEN ${TABLE}.mnemonic IN ("resident1", "resident2", "resident3", "resident4", "resident5", "resident6", "resident7") THEN "Resident"
+      WHEN ${TABLE}.mnemonic IN ("doctor", "retired", "fellow") THEN  "{{ _localization['doctor'] }}"
+      WHEN ${TABLE}.mnemonic IN ("resident1", "resident2", "resident3", "resident4", "resident5", "resident6", "resident7") THEN  "{{ _localization['resident'] }}"
       WHEN ${TABLE}.mnemonic = "other_health_professional" THEN "HCP"
       WHEN ${TABLE}.mnemonic IN ("assistant" , "administrator") THEN "Assistant/Admin"
       WHEN ${TABLE}.mnemonic = "maccs" THEN "MACCS"
       ELSE "Other"
     END;;
+  }
+
+  dimension: hub_mnemonic {
+    type: string
+    sql:
+    CASE
+       WHEN ${TABLE}.mnemonic IN ("doctor", "retired", "fellow") THEN  "{{ _localization['doctor'] }}"
+       WHEN ${TABLE}.mnemonic IN ("resident1", "resident2", "resident3", "resident4", "resident5", "resident6", "resident7") THEN  "{{ _localization['resident'] }}"
+       WHEN ${TABLE}.mnemonic = "generic_doctor" THEN "MD Générique"
+       WHEN ${TABLE}.mnemonic = "nurse_practitioner" THEN "IPS"
+       WHEN ${TABLE}.mnemonic = "social_worker" THEN "Travailleur social"
+       ELSE "Autre"
+    END
+
+    ;;
   }
 
   # Account Kind Mixin values
