@@ -32,6 +32,11 @@ view: licenses {
     sql: ${TABLE}.license ;;
   }
 
+  dimension: hub_license {
+    type: string
+    sql: SUBSTRING_INDEX(${TABLE}.license,"-", -1);;
+  }
+
   dimension: territory_id {
     type: number
     sql: ${TABLE}.territory_id ;;

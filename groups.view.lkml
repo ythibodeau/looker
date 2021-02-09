@@ -718,6 +718,23 @@ view: groups {
     sql: ${pati__offerings.group_id} IS NOT NULL ;;
   }
 
+  dimension: clinic_kind {
+    type: string
+    sql:
+      CASE
+        WHEN ${name} LIKE '%GMFU%' OR ${name} LIKE '%GMF-U%' OR ${health_institutions.short_name} LIKE '%GMFU%'
+              OR ${health_institutions.short_name} LIKE '%GMF-U%' THEN "GMF-U"
+       WHEN ${name} LIKE '%GMFR%' OR ${name} LIKE '%GMF-R%' OR ${health_institutions.short_name} LIKE '%GMFR%'
+              OR ${health_institutions.short_name} LIKE '%GMF-R%' THEN "GMF-R"
+              WHEN ${name} LIKE '%GMF%' OR ${name} LIKE '%GMF%' OR ${health_institutions.short_name} LIKE '%GMF%'
+              OR ${health_institutions.short_name} LIKE '%GMF%' THEN "GMF"
+        WHEN ${name} LIKE '%CLSC%' OR ${health_institutions.short_name} LIKE '%CLSC%' THEN "CLSC"
+       ELSE "Hors-GMF"
+      END
+
+    ;;
+  }
+
    ### HUB DIMENSIONS ###
 
   measure: pricing_plans {

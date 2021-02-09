@@ -38,7 +38,13 @@ map_layer: economic_regions_layer {
   property_key: "ERNAME"
 }
 
-explore: b_hub__log_ramq_family_doctors {}
+explore: b_hub__log_ramq_family_doctors {
+  join: pati__patients {
+    type: left_outer
+    sql_on: ${b_hub__log_ramq_family_doctors.patient_id} ;;
+    relationship: many_to_one
+  }
+}
 explore: b_hub__accesses {}
 explore: pati__visibility_blocks {}
 
@@ -932,6 +938,12 @@ explore: accounts {
     type: left_outer
     sql_on: ${accounts.id} = ${accounts_paying_scheduling.account_id} ;;
     relationship: one_to_one
+  }
+
+  join: licenses {
+    type: left_outer
+    sql_on: ${accounts.id} = ${licenses.account_id} ;;
+    relationship: one_to_many
   }
 
 }
@@ -5253,6 +5265,12 @@ explore: pati__appointments {
     sql_on: ${pati__account_tasks.account_id} = ${accounts.id} ;;
   }
 
+  join: account_kinds {
+    type: inner
+    sql_on: ${accounts.kind_id} = ${account_kinds.id} ;;
+    relationship: many_to_one
+  }
+
   join: account_first_comment {
     type: left_outer
     sql_on: ${accounts.id} = ${account_first_comment.account_id} ;;
@@ -5311,6 +5329,12 @@ explore: pati__appointments {
     type: inner
     relationship: many_to_one
     sql_on: ${pati__reasons.group_id} = ${group_clinics.id};;
+  }
+
+  join: health_institutions {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${group_clinics.health_institution_id} = ${health_institutions.id} ;;
   }
 
   join: pati__providers {
@@ -5516,6 +5540,19 @@ explore: pati__availabilities {
     relationship: many_to_one
   }
 
+  join: b_hub__offering_service_types {
+    type: left_outer
+    sql_on: ${pati__offerings.id} = ${b_hub__offering_service_types.offering_id} ;;
+    relationship: one_to_many
+  }
+
+  join: b_hub__service_types {
+    type: left_outer
+    sql_on: ${b_hub__offering_service_types.service_type_id} = ${b_hub__service_types.id} ;;
+    relationship: many_to_one
+  }
+
+
   join: x_groups {
     from: groups
     type: inner
@@ -5557,6 +5594,12 @@ explore: pati__availabilities {
   join: accounts {
     type: inner
     sql_on: ${pati__account_tasks.account_id} = ${accounts.id} ;;
+    relationship: many_to_one
+  }
+
+  join: account_kinds {
+    type: inner
+    sql_on: ${accounts.kind_id} = ${account_kinds.id} ;;
     relationship: many_to_one
   }
 
@@ -5770,11 +5813,22 @@ explore: pati__patients {
     relationship: many_to_one
   }
 
+  join: b_hub__log_ramq_family_doctors {
+    type: left_outer
+    sql_on: ${pati__patients.id} = ${b_hub__log_ramq_family_doctors.patient_id}  ;;
+    relationship: one_to_many
+  }
+
+  join: b_hub__accesses {
+    type: inner
+    sql_on: ${pati__patients.hin} = ${b_hub__accesses.hin} ;;
+    relationship: one_to_many
+  }
+
   join: patient_users {
     type: left_outer
     sql_on: ${pati__patients.id} = ${patient_users.id} ;;
     relationship: one_to_one
-
   }
 
   join: profiles {
