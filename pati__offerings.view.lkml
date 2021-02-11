@@ -21,7 +21,8 @@ view: pati__offerings {
     type: yesno
     sql: ${description_fr_ca} IS NOT NULL AND
          ${description_en} IS NOT NULL AND
-         ${category} IS NOT NULL;;
+         ${category} IS NOT NULL AND
+         ${hub_account_filter} IS NOT NULL;;
   }
 
   dimension: service_types {
@@ -162,7 +163,7 @@ view: pati__offerings {
   }
 
   dimension: hub_account_filter_clean {
-    type: number
+    type: string
     sql:
     CASE
       WHEN ${TABLE}.hub_account_filter = 0 THEN "MD Famille"

@@ -22,6 +22,12 @@ view: book__queued_notifications {
     sql: ${TABLE}.api_payload ;;
   }
 
+  dimension: logibec_appointment_id {
+    type: string
+    sql: substring_index(substring_index(${TABLE}.api_payload, 'id_appointment: ', -1),'id_lang:', 1) ;;
+  }
+
+
   dimension_group: created {
     type: time
     timeframes: [
