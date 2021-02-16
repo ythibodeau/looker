@@ -2392,6 +2392,12 @@ explore: distribution_lists {
 
 explore: messages {
   group_label: "Petal Message"
+
+  access_filter: {
+    field: health_institutions.short_name
+    user_attribute: institution_name
+  }
+
   join: accounts {
     type: inner
     sql_on: ${messages.account_id} = ${accounts.id} ;;
@@ -4251,6 +4257,11 @@ explore: sche__change_requests {
   group_label: "Petal Agenda"
   label: "Change Requests"
 
+  access_filter: {
+    field: health_institutions.short_name
+    user_attribute: institution_name
+  }
+
   join: sche__change_request_flags {
     type: left_outer
     sql_on: ${sche__change_requests.id} = ${sche__change_request_flags.change_request_id} ;;
@@ -4689,8 +4700,14 @@ explore: absence_report_configs {
 }
 
 explore: absences {
-  fields: [ALL_FIELDS*, -groups.last_period_id]
+  fields: [ALL_FIELDS*]
   group_label: "Petal Agenda"
+
+  access_filter: {
+    field: health_institutions.short_name
+    user_attribute: institution_name
+  }
+
   join: accounts {
     type: left_outer
     sql_on: ${absences.account_id} = ${accounts.id} ;;
@@ -5617,7 +5634,7 @@ explore: pati__availabilities {
   join: x_groups {
     from: groups
     type: inner
-    sql_on: ${pati__reasons.group_id} = ${x_groups.id} ;;
+    sql_on: ${pati__offerings.group_id} = ${x_groups.id} ;;
     relationship: many_to_one
   }
 
@@ -7141,6 +7158,12 @@ explore: comments_retention_lifecycle {
 
 explore: active_users_scheduling {
   group_label: "Product Health"
+
+  access_filter: {
+    field: health_institutions.short_name
+    user_attribute: institution_name
+  }
+
   join: accounts {
     type: left_outer
     sql_on: ${active_users_scheduling.account_id} = ${accounts.id} ;;
