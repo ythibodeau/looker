@@ -335,11 +335,18 @@ view: pati__availabilities {
     filters: [visibility: "0", state: "0", is_free: "No", appointment_creator: "Staff"]
   }
 
-  # Created for Manitoba - Tests
+  # Created for Manitoba - Vaccination
   measure: count_patient_visible_not_free_patient {
     label: "count_patient_visible_not_free_patient"
     type: count
     filters: [visibility: "0", state: "0", is_free: "No", appointment_creator: "Patient"]
+    drill_fields: [details_manitoba*]
+  }
+
+  measure: count_patient_visible_not_free_patient_vaccination {
+    label: "count_patient_visible_not_free_patient"
+    type: count
+    filters: [visibility: "0", state: "0", is_free: "No", appointment_creator: "Patient", created_date: ">2021-02-19"]
     drill_fields: [details_manitoba*]
   }
 
@@ -464,7 +471,7 @@ view: pati__availabilities {
   set: details_manitoba {
     fields: [
       id,
-      created_time,
+      pati__appointments.created_time,
       group_clinics.acronym,
       group_clinics.name,
       groups.acronym,
@@ -473,9 +480,7 @@ view: pati__availabilities {
       accounts.full_name,
       pati_reasons.description_en,
       pati__availabilities.start_time,
-      cancelled,
       pati__availabilities.id,
-      delay_in_hours
     ]
   }
 
