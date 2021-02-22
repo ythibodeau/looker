@@ -264,9 +264,9 @@ view: pati__availabilities {
     type: string
     sql:
     CASE
-      WHEN ${pati__appointments.cancelled} = 0 AND ${pati__appointments.created_by_emr} = 1 THEN "Staff"
+      WHEN ${pati__appointments.cancelled} = 0 AND ${pati__appointments.created_by_emr} = 1 THEN "Clinique"
       WHEN ${pati__appointments.cancelled} = 0 AND ${pati__appointments.created_by_type} = "BookingHub::Partner::Partner" THEN "Patient"
-      ELSE "Free"
+      ELSE "Libre"
     END
 
     ;;

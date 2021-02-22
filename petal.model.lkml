@@ -1522,7 +1522,7 @@ explore: x_groups {
 
   join: pati__reasons {
     view_label: "Appointment Reason"
-    type: inner
+    type: left_outer
     sql_on: ${pati__reasons.group_id} = ${x_groups.id} ;;
     relationship: many_to_one
   }
@@ -1535,28 +1535,28 @@ explore: x_groups {
 
   join: pati__offerings {
     view_label: "Offering"
-    type: inner
+    type: left_outer
     sql_on: ${pati__reasons.offering_id} = ${pati__offerings.id} ;;
     relationship: many_to_one
   }
 
   join: pati__tasks {
     view_label: "Tasks"
-    type: inner
+    type: left_outer
     sql_on: ${pati__tasks.reason_id} = ${pati__reasons.id} ;;
     relationship: many_to_one
   }
 
   join: pati__account_tasks {
     view_label: "Account Tasks"
-    type: inner
+    type: left_outer
     sql_on: ${pati__account_tasks.task_id} = ${pati__tasks.id} ;;
     relationship: many_to_one
   }
 
   join: availability_accounts {
     from: accounts
-    type: inner
+    type: left_outer
     sql_on: ${pati__account_tasks.account_id} = ${accounts.id} AND
             ${pati__availabilities.account_task_id} = ${pati__account_tasks.id} ;;
     relationship: one_to_many
@@ -1564,14 +1564,14 @@ explore: x_groups {
 
   join: pati__availabilities {
     view_label: "Availabilities"
-    type: inner
+    type: left_outer
     sql_on: ${pati__availabilities.account_task_id} = ${pati__account_tasks.id} ;;
     relationship: many_to_one
   }
 
   join: pati__appointments {
     view_label: "Appointments"
-    type: inner
+    type: left_outer
     sql_on: ${pati__appointments.availability_id} = ${pati__availabilities.id} ;;
     relationship: one_to_one
   }
@@ -1606,14 +1606,14 @@ explore: x_groups {
 
   join: availabilities_walkins {
     view_label: "Walk-in Availabilities"
-    type: inner
+    type: left_outer
     sql_on: ${pati__appointments.availability_id} = ${availabilities_walkins.id} ;;
     relationship: one_to_one
   }
 
   join: appointment_walkins {
     view_label: "Walk-in Appointments"
-    type: inner
+    type: left_outer
     sql_on: ${pati__appointments.id} = ${appointment_walkins.id} ;;
     relationship: one_to_one
   }

@@ -303,6 +303,8 @@ view: pati__appointments {
       field: is_walkin
       value: "No"
     }
+
+    drill_fields: [details_manitoba*]
   }
 
   measure: patient_walk_in_count {
@@ -344,5 +346,27 @@ view: pati__appointments {
       pati__availabilities.id,
       delay_in_hours
       ]
+  }
+
+  set: details_manitoba {
+    fields: [
+      id,
+      created_time,
+      group_clinics.acronym,
+      group_clinics.name,
+      groups.acronym,
+      pati__patients.first_name,
+      pati__patients.last_name,
+      pati__providers.adapterable_type,
+      pati__offerings.emr_service_code,
+      pati__offerings.emr_service_name,
+      pati__offerings.description_fr_ca,
+      pati__offerings.clean_category,
+      pati__offerings.offer_kind,
+      pati__availabilities.start_time,
+      cancelled,
+      pati__availabilities.id,
+      delay_in_hours
+    ]
   }
 }
