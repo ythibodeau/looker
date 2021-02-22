@@ -340,6 +340,7 @@ view: pati__availabilities {
     label: "count_patient_visible_not_free_patient"
     type: count
     filters: [visibility: "0", state: "0", is_free: "No", appointment_creator: "Patient"]
+    drill_fields: [details_manitoba*]
   }
 
   # Created for Manitoba - Vaccine
@@ -457,6 +458,24 @@ view: pati__availabilities {
       clean_visibility,
       pati__appointments.id,
       hub_status
+    ]
+  }
+
+  set: details_manitoba {
+    fields: [
+      id,
+      created_time,
+      group_clinics.acronym,
+      group_clinics.name,
+      groups.acronym,
+      pati__patients.first_name,
+      pati__patients.last_name,
+      accounts.full_name,
+      pati_reasons.description_en,
+      pati__availabilities.start_time,
+      cancelled,
+      pati__availabilities.id,
+      delay_in_hours
     ]
   }
 
