@@ -269,6 +269,8 @@ view: pati__appointments {
       field: source
       value: "0"
     }
+
+    drill_fields: [details_manitoba*]
   }
 
   measure: patient_phone_count {
@@ -303,8 +305,6 @@ view: pati__appointments {
       field: is_walkin
       value: "No"
     }
-
-    drill_fields: [details_manitoba*]
   }
 
   measure: patient_walk_in_count {
