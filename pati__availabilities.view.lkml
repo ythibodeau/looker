@@ -272,6 +272,17 @@ view: pati__availabilities {
     ;;
   }
 
+  dimension: hub_visibility_level {
+    type: string
+    sql:
+      CASE
+        WHEN ${pati__offerings.is_configured} = 1 AND ${pati__offerings.web_offering} = 1 THEN "Patient"
+        ELSE "Clinique"
+      END
+
+    ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [detail*]
@@ -450,6 +461,34 @@ view: pati__availabilities {
     ]
   }
 
+  measure: hub_count_patients {
+    description: "Le nombre de disponibilités offertes aux patients"
+    type: count
+    filters: [hub_visibility_level: "Patient"]
+    drill_fields: [detail*]
+  }
+
+  measure: hub_count_clinique {
+    description: "Le nombre de disponibilités réservées aux cliniques"
+    type: count
+    filters: [hub_visibility_level: "Clinique"]
+    drill_fields: [detail*]
+  }
+
+  measure: hub_count_appointments_patients {
+    description: "Nombre de rendez-vous pris par les patients en ligne"
+    type: count
+    filters: [hub_status: "Patient"]
+    drill_fields: [detail*]
+  }
+
+  measure: hub_count_appointments_clinique {
+    description: "Nombre de rendez-vous pris par la clinique"
+    type: count
+    filters: [hub_status: "Clinique"]
+    drill_fields: [detail*]
+  }
+
   set: detail {
     fields: [
       id,
@@ -458,12 +497,9 @@ view: pati__availabilities {
       pati__offerings.emr_service_code,
       pati__offerings.description_fr_ca,
       pati__offerings.clean_category,
-      pati__offerings.offer_kind,
+      pati__offerings.hub_account_filter_clean,
       start_time,
-      is_hub_valid,
       clean_state,
-      clean_visibility,
-      pati__appointments.id,
       hub_status
     ]
   }

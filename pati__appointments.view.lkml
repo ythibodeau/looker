@@ -87,11 +87,10 @@ view: pati__appointments {
   dimension: hub_source {
     type: string
     sql:
-    CASE
-      WHEN ${TABLE}.created_by_type = "BookingHub::Partner::Partner" THEN "Patient"
-      WHEN ${TABLE}.created_by_type IS NULL AND ${pati__availabilities.is_hub_availability} THEN "Staff - Hub Available"
-      ELSE "Staff Only"
-    END
+         CASE
+        WHEN ${TABLE}.created_by_type = "BookingHub::Partner::Partner" THEN "RVSQ 2.0"
+        ELSE "Clinique"
+      END
     ;;
   }
 
