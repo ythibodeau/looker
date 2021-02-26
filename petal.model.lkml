@@ -38,6 +38,8 @@ map_layer: economic_regions_layer {
   property_key: "ERNAME"
 }
 
+explore: b_hub__partners {}
+
 explore: b_hub__log_ramq_family_doctors {
   join: pati__patients {
     type: left_outer
@@ -5943,6 +5945,24 @@ explore: pati__patients {
     type: inner
     sql_on: ${pati__subscriptions.patient_id} = ${pati__patients.id} ;;
     relationship: many_to_one
+  }
+
+  join: pati__profiles {
+    type: inner
+    sql_on: ${pati__subscriptions.profile_id} = ${pati__profiles.id} ;;
+    relationship: one_to_one
+  }
+
+  join: profile_updater {
+    from: accounts
+    type: left_outer
+    sql_on: ${pati__profiles.last_updated_by_id} = ${profile_updater.id} AND ${pati__profiles.last_updated_by_type} = "Account" ;;
+  }
+
+  join: contact_methods {
+    type: left_outer
+    sql_on: ${contact_methods.contactable_id} = ${pati__profiles.id} AND
+      ${contact_methods.contactable_type} = "Patient::Profile";;
   }
 
   join: x_groups {
