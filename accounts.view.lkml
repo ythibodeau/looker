@@ -860,7 +860,7 @@ view: accounts {
 
   dimension: group_acronym {
     type: string
-    sql: ${x_groups.acronym} ;;
+    sql: ${group_clinics.acronym} ;;
   }
 
   measure: groups_acronym {
