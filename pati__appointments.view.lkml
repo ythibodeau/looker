@@ -323,6 +323,16 @@ view: pati__appointments {
     }
   }
 
+  measure: hub_by_rvsq20_count {
+    type: count
+    filters: [hub_source: "RVSQ 2.0"]
+  }
+
+  measure: hub_by_clinics_count {
+    type: count
+    filters: [hub_source: "Clinique"]
+  }
+
   set: details {
     fields: [id,created_date,pati__reasons.description_en,groups.name]
   }

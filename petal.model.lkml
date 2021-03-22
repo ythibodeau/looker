@@ -5632,6 +5632,12 @@ explore: pati__availabilities {
     relationship: many_to_one
   }
 
+  join: reserver {
+    from: accounts
+    type: left_outer
+    sql_on: ${pati__availabilities.reserved_by_id} = ${reserver.id} ;;
+    relationship: many_to_one
+  }
 
   join: x_groups {
     from: groups

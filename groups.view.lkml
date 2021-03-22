@@ -801,6 +801,22 @@ view: groups {
     sql: accounts.last_active_30_days/(accounts.last_active_30_days + accounts.count_not_active_30_days) ;;
   }
 
+  dimension: is_hub_live {
+    type: yesno
+    sql: ${go_live_date} IS NOT NULL ;;
+  }
+
+  measure: hub_live_clinics_count {
+    type: count
+    sql: ${id} ;;
+    filters: [is_hub_live: "Yes"]
+  }
+
+  measure: hub_clinics_objective_march2021 {
+    type: number
+    sql: 100 ;;
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [

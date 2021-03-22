@@ -4,6 +4,10 @@ view: b_hub__accesses {
     sql: select rfd.id as id,
        CONVERT_TZ(TIMESTAMP(rfd.created_at),'America/New_York','UTC') as created_at,
        rfd.hin as hin,
+       rfd.patient_id as patient_id,
+       rfd.establishment_number as ramq_establishment_id,
+       rfd.start_time as start_date,
+       rfd.professional_number as professional_number,
        "not_redirected" as redirection,
        "orphan" as patient_status
 from ${b_hub__log_ramq_family_doctors.SQL_TABLE_NAME} rfd
@@ -12,6 +16,10 @@ UNION
 select rfd.id as id,
        CONVERT_TZ(TIMESTAMP(rfd.created_at),'America/New_York','UTC') as created_at,
        rfd.hin as hin,
+       rfd.patient_id as patient_id,
+       rfd.establishment_number as ramq_establishment_id,
+       rfd.start_time as start_date,
+       rfd.professional_number as professional_number,
        "not_redirected" as redirection,
        "gmf_hub_managed" as patient_status
 from ${b_hub__log_ramq_family_doctors.SQL_TABLE_NAME} rfd
@@ -21,6 +29,10 @@ UNION
 select rfd.id as id,
        CONVERT_TZ(TIMESTAMP(rfd.created_at),'America/New_York','UTC') as created_at,
        rfd.hin as hin,
+       rfd.patient_id as patient_id,
+      rfd.establishment_number as ramq_establishment_id,
+       rfd.start_time as start_date,
+       rfd.professional_number as professional_number,
        "redirected" as redirection,
        "gmf_not_hub_managed" as patient_status
  from ${b_hub__log_ramq_family_doctors.SQL_TABLE_NAME} rfd
@@ -35,18 +47,21 @@ select rfd.id as id,
   }
 
   measure: redirected_hin_count {
+    label: "Redirections"
     type: count_distinct
     sql: ${TABLE}.hin ;;
     filters: [redirection: "redirected"]
   }
 
   measure: not_redirected_hin_count {
+    label: "Accès RVSQ 2.0"
     type: count_distinct
     sql: ${TABLE}.hin ;;
     filters: [redirection: "not_redirected"]
   }
 
   measure: unique_hin_count {
+    label: "Accès totaux"
     type: count_distinct
     sql: ${TABLE}.hin ;;
   }
@@ -88,6 +103,36 @@ select rfd.id as id,
     sql: ${TABLE}.hin ;;
   }
 
+  dimension: patient_id {
+    type: number
+    sql: ${TABLE}.patient_id ;;
+  }
+
+  dimension: ramq_establishment_id {
+    type: number
+    sql: ${TABLE}.ramq_establishment_id ;;
+  }
+
+  dimension: professional_number {
+    type: string
+    sql: ${TABLE}.professional_number ;;
+  }
+
+  dimension_group: start_date {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.start_date ;;
+  }
+
+
   dimension: redirection {
     type: string
     sql: ${TABLE}.redirection ;;
@@ -97,6 +142,7 @@ select rfd.id as id,
     type: string
     sql: ${TABLE}.patient_status ;;
   }
+
 
 
   set: detail {
