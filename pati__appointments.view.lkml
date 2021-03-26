@@ -107,7 +107,7 @@ view: pati__appointments {
   measure: count_36h {
     type: count_distinct
     sql: ${id} ;;
-    filters: [delay_in_hours: "<= 36"]
+    filters: [delay_in_hours: "<= 36", created_by_type: "BookingHub::Partner::Partner"]
     drill_fields: [details_hub*]
   }
 
