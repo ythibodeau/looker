@@ -531,7 +531,7 @@ view: accounts {
 
   measure: count {
     type: count
-    drill_fields: [detail*]
+    drill_fields: [detail_billing*]
     label: "accounts"
   }
 
@@ -539,6 +539,7 @@ view: accounts {
     type: count_distinct
     sql: ${accounts.id} ;;
     label: "accounts"
+    drill_fields: [detail*]
   }
 
   measure: count_unique_hub {
@@ -860,7 +861,7 @@ view: accounts {
 
   dimension: group_acronym {
     type: string
-    sql: ${group_clinics.acronym} ;;
+    sql: ${x_groups.acronym} ;;
   }
 
   measure: groups_acronym {
@@ -1158,6 +1159,12 @@ view: accounts {
       confirmed_date,
       groups_acronym,
       institutions
+    ]
+  }
+
+  set: detail_billing {
+    fields: [
+      id
     ]
   }
 }
