@@ -323,6 +323,18 @@ view: pati__availabilities {
     drill_fields: [detail*]
   }
 
+  measure: count_patient_visible_free_availabilities_no_state {
+    label: "patient_visible_free_count_no_state"
+    type: count
+    filters: {
+      field: visibility
+      value: "0,3"
+    }
+    filters: [is_free: "Yes"]
+
+    drill_fields: [detail*]
+  }
+
   measure: count_patient_visible_not_free_availabilities {
     label: "patient_visible_not_free_count"
     type: count
@@ -339,6 +351,18 @@ view: pati__availabilities {
     drill_fields: [detail*]
   }
 
+  measure: count_patient_visible_not_free_availabilities_no_state {
+    label: "patient_visible_not_free_count_no_state"
+    type: count
+    filters: {
+      field: visibility
+      value: "0,3"
+    }
+    filters: [is_free: "No"]
+
+    drill_fields: [detail*]
+  }
+
   # Created for Manitoba - Tests
   measure: count_patient_visible_not_free_staff {
     label: "count_patient_visible_not_free_staff"
@@ -346,11 +370,26 @@ view: pati__availabilities {
     filters: [visibility: "0", state: "0", is_free: "No", appointment_creator: "Staff"]
   }
 
+# Created for Manitoba - Tests
+  measure: count_patient_visible_not_free_staff_no_state {
+    label: "count_patient_visible_not_free_staff_no_state"
+    type: count
+    filters: [visibility: "0,3", is_free: "No", appointment_creator: "Staff"]
+  }
+
   # Created for Manitoba - Vaccination
   measure: count_patient_visible_not_free_patient {
     label: "count_patient_visible_not_free_patient"
     type: count
     filters: [visibility: "0", state: "0", is_free: "No", appointment_creator: "Patient"]
+    drill_fields: [details_manitoba*]
+  }
+
+  # Created for Manitoba - Vaccination
+  measure: count_patient_visible_not_free_patient_no_state {
+    label: "count_patient_visible_not_free_patient_no_state"
+    type: count
+    filters: [visibility: "0,3", is_free: "No", appointment_creator: "Patient"]
     drill_fields: [details_manitoba*]
   }
 
